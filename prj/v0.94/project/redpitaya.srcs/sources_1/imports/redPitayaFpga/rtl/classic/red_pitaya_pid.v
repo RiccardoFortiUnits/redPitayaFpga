@@ -78,7 +78,7 @@ localparam  DSR = 10         ;
 wire [ 14-1: 0] pid_11_out   ;
 reg  [ 14-1: 0] set_11_sp    ;
 reg  [ 14-1: 0] set_11_kp    ;
-reg  [ 14-1: 0] set_11_ki    ;
+reg  [ 20-1: 0] set_11_ki    ;
 reg  [ 14-1: 0] set_11_kd    ;
 reg             set_11_irst  ;
 
@@ -107,7 +107,7 @@ red_pitaya_pid_block #(
 wire [ 14-1: 0] pid_21_out   ;
 reg  [ 14-1: 0] set_21_sp    ;
 reg  [ 14-1: 0] set_21_kp    ;
-reg  [ 14-1: 0] set_21_ki    ;
+reg  [ 20-1: 0] set_21_ki    ;
 reg  [ 14-1: 0] set_21_kd    ;
 reg             set_21_irst  ;
 
@@ -136,7 +136,7 @@ red_pitaya_pid_block #(
 wire [ 14-1: 0] pid_12_out   ;
 reg  [ 14-1: 0] set_12_sp    ;
 reg  [ 14-1: 0] set_12_kp    ;
-reg  [ 14-1: 0] set_12_ki    ;
+reg  [ 20-1: 0] set_12_ki    ;
 reg  [ 14-1: 0] set_12_kd    ;
 reg             set_12_irst  ;
 
@@ -165,7 +165,7 @@ red_pitaya_pid_block #(
 wire [ 14-1: 0] pid_22_out   ;
 reg  [ 14-1: 0] set_22_sp    ;
 reg  [ 14-1: 0] set_22_kp    ;
-reg  [ 14-1: 0] set_22_ki    ;
+reg  [ 20-1: 0] set_22_ki    ;
 reg  [ 14-1: 0] set_22_kd    ;
 reg             set_22_irst  ;
 
@@ -232,22 +232,22 @@ always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
       set_11_sp    <= 14'd0 ;
       set_11_kp    <= 14'd0 ;
-      set_11_ki    <= 14'd0 ;
+      set_11_ki    <= 20'd0 ;
       set_11_kd    <= 14'd0 ;
       set_11_irst  <=  1'b1 ;
       set_12_sp    <= 14'd0 ;
       set_12_kp    <= 14'd0 ;
-      set_12_ki    <= 14'd0 ;
+      set_12_ki    <= 20'd0 ;
       set_12_kd    <= 14'd0 ;
       set_12_irst  <=  1'b1 ;
       set_21_sp    <= 14'd0 ;
       set_21_kp    <= 14'd0 ;
-      set_21_ki    <= 14'd0 ;
+      set_21_ki    <= 20'd0 ;
       set_21_kd    <= 14'd0 ;
       set_21_irst  <=  1'b1 ;
       set_22_sp    <= 14'd0 ;
       set_22_kp    <= 14'd0 ;
-      set_22_ki    <= 14'd0 ;
+      set_22_ki    <= 20'd0 ;
       set_22_kd    <= 14'd0 ;
       set_22_irst  <=  1'b1 ;
 
@@ -258,19 +258,19 @@ always @(posedge clk_i) begin
 
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h14)    set_11_kp  <= sys_wdata[14-1:0] ;
-         if (sys_addr[19:0]==16'h18)    set_11_ki  <= sys_wdata[14-1:0] ;
+         if (sys_addr[19:0]==16'h18)    set_11_ki  <= sys_wdata[20-1:0] ;
          if (sys_addr[19:0]==16'h1C)    set_11_kd  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h20)    set_12_sp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h24)    set_12_kp  <= sys_wdata[14-1:0] ;
-         if (sys_addr[19:0]==16'h28)    set_12_ki  <= sys_wdata[14-1:0] ;
+         if (sys_addr[19:0]==16'h28)    set_12_ki  <= sys_wdata[20-1:0] ;
          if (sys_addr[19:0]==16'h2C)    set_12_kd  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h30)    set_21_sp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h34)    set_21_kp  <= sys_wdata[14-1:0] ;
-         if (sys_addr[19:0]==16'h38)    set_21_ki  <= sys_wdata[14-1:0] ;
+         if (sys_addr[19:0]==16'h38)    set_21_ki  <= sys_wdata[20-1:0] ;
          if (sys_addr[19:0]==16'h3C)    set_21_kd  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h40)    set_22_sp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h44)    set_22_kp  <= sys_wdata[14-1:0] ;
-         if (sys_addr[19:0]==16'h48)    set_22_ki  <= sys_wdata[14-1:0] ;
+         if (sys_addr[19:0]==16'h48)    set_22_ki  <= sys_wdata[20-1:0] ;
          if (sys_addr[19:0]==16'h4C)    set_22_kd  <= sys_wdata[14-1:0] ;
       end
    end
@@ -291,22 +291,22 @@ end else begin
 
       20'h10 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_sp}          ; end 
       20'h14 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_kp}          ; end 
-      20'h18 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_ki}          ; end 
+      20'h18 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_11_ki}          ; end 
       20'h1C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_kd}          ; end 
 
       20'h20 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_sp}          ; end 
       20'h24 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_kp}          ; end 
-      20'h28 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_ki}          ; end 
+      20'h28 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_12_ki}          ; end 
       20'h2C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_kd}          ; end 
 
       20'h30 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_21_sp}          ; end 
       20'h34 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_21_kp}          ; end 
-      20'h38 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_21_ki}          ; end 
+      20'h38 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_21_ki}          ; end 
       20'h3C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_21_kd}          ; end 
 
       20'h40 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_22_sp}          ; end 
       20'h44 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_22_kp}          ; end 
-      20'h48 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_22_ki}          ; end 
+      20'h48 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_22_ki}          ; end 
       20'h4C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_22_kd}          ; end 
 
      default : begin sys_ack <= sys_en;          sys_rdata <=  32'h0                              ; end

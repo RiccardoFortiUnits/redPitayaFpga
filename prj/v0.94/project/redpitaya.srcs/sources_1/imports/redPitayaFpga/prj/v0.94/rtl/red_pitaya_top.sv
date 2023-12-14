@@ -531,7 +531,7 @@ red_pitaya_pid i_pid (
    // signals
   .clk_i           (adc_clk   ),  // clock
   .rstn_i          (adc_rstn  ),  // reset - active low
-  .dat_a_i         (adc_dat[0]),  // in 1
+  .dat_a_i         (adc_dat[0] - pid_dat[0]),  // in 1
   .dat_b_i         (adc_dat[1]),  // in 2
   .dat_a_o         (pid_dat[0]),  // out 1
   .dat_b_o         (pid_dat[1]),  // out 2

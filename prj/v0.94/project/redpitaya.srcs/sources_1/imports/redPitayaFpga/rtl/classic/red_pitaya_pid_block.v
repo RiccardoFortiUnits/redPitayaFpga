@@ -61,7 +61,7 @@ module red_pitaya_pid_block #(
    // settings
    input      [ 14-1: 0] set_sp_i        ,  // set point
    input      [ 14-1: 0] set_kp_i        ,  // Kp
-   input      [ 14-1: 0] set_ki_i        ,  // Ki
+   input      [ 20-1: 0] set_ki_i        ,  // Ki
    input      [ 14-1: 0] set_kd_i        ,  // Kd
    input                 int_rst_i          // integrator reset
 );
@@ -79,7 +79,7 @@ always @(posedge clk_i) begin
       error <= 15'h0 ;
    end
    else begin
-      error <= $signed(set_sp_i) - $signed(dat_i) ;
+      error <= $signed(dat_i) - $signed(set_sp_i);
    end
 end
 
