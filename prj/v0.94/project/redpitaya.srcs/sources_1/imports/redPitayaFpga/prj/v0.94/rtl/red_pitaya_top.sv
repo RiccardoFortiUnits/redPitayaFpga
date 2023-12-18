@@ -374,11 +374,25 @@ logic [2-1:0] [14-1:0] adc_dat_raw;
 assign adc_dat_raw[0] = adc_dat_i[0][16-1:2];
 assign adc_dat_raw[1] = adc_dat_i[1][16-1:2];
 
+logic [1:0] [13:0] adc_toMovingAverage;
+
+ir_filter ma1(
+    .clk_i           (adc_clk   ),
+    .in(adc_toMovingAverage[0]),
+    .out(adc_dat[0])
+);
+ir_filter ma2(
+    .clk_i           (adc_clk   ),
+    .in(adc_toMovingAverage[1]),
+    .out(adc_dat[1])
+);
+
 // transform into 2's complement (negative slope)
 always @(posedge adc_clk) begin
-  adc_dat[0] <= digital_loop ? dac_a : {adc_dat_raw[0][14-1], ~adc_dat_raw[0][14-2:0]};
-  adc_dat[1] <= digital_loop ? dac_b : {adc_dat_raw[1][14-1], ~adc_dat_raw[1][14-2:0]};
+  adc_toMovingAverage[0] <= digital_loop ? dac_a : {adc_dat_raw[0][14-1], ~adc_dat_raw[0][14-2:0]};
+  adc_toMovingAverage[1] <= digital_loop ? dac_b : {adc_dat_raw[1][14-1], ~adc_dat_raw[1][14-2:0]};
 end
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // DAC IO
@@ -386,7 +400,7 @@ end
 
 // Sumation of ASG and PID signal perform saturation before sending to DAC 
 assign dac_a_sum = asg_dat[0] + pid_dat[0];
-assign dac_b_sum = asg_dat[1] + pid_dat[1];
+assign dac_b_sum = asg_dat[1] + adc_dat[0] - pid_dat[0];
 
 // saturation
 assign dac_a = (^dac_a_sum[15-1:15-2]) ? {dac_a_sum[15-1], {13{~dac_a_sum[15-1]}}} : dac_a_sum[14-1:0];
