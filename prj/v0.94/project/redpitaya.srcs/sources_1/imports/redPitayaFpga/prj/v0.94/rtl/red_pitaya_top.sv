@@ -371,8 +371,16 @@ logic [2-1:0] [14-1:0] adc_dat_raw;
 // IO block registers should be used here
 // lowest 2 bits reserved for 16bit ADC
 
-assign adc_dat_raw[0] = adc_dat_i[0][16-1:2];
-assign adc_dat_raw[1] = adc_dat_i[1][16-1:2];
+delay_simulator #(300) delay1(
+    .in(adc_dat_i[0][16-1:2]),
+    .out(adc_dat_raw[0]),
+    .clk(adc_clk)
+    );
+delay_simulator #(300) delay2(
+    .in(adc_dat_i[1][16-1:2]),
+    .out(adc_dat_raw[1]),
+    .clk(adc_clk)
+    );
 
 logic [1:0] [13:0] adc_toMovingAverage;
 
