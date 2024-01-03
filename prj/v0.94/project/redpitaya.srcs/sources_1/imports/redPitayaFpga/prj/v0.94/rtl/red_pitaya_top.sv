@@ -313,49 +313,14 @@ sys_bus_interconnect #(
   .bus_s (sys)
 );
 
+
+
 // silence unused busses
 generate
 for (genvar i=6; i<8; i++) begin: for_sys
   sys_bus_stub sys_bus_stub_5_7 (sys[i]);
 end: for_sys
 endgenerate
-
-////////////////////////////////////////////////////////////////////////////////
-// Analog mixed signals (PDM analog outputs)
-////////////////////////////////////////////////////////////////////////////////
-
-logic [4-1:0] [8-1:0] pdm_cfg;
-
-red_pitaya_ams i_ams (
-  // power test
-  .clk_i           (adc_clk ),  // clock
-  .rstn_i          (adc_rstn),  // reset - active low
-  // PWM configuration
-  .dac_a_o         (pdm_cfg[0]),
-  .dac_b_o         (pdm_cfg[1]),
-  .dac_c_o         (pdm_cfg[2]),
-  .dac_d_o         (pdm_cfg[3]),
-  // System bus
-  .sys_addr        (sys[4].addr ),
-  .sys_wdata       (sys[4].wdata),
-  .sys_wen         (sys[4].wen  ),
-  .sys_ren         (sys[4].ren  ),
-  .sys_rdata       (sys[4].rdata),
-  .sys_err         (sys[4].err  ),
-  .sys_ack         (sys[4].ack  )
-);
-
-red_pitaya_pdm pdm (
-  // system signals
-  .clk   (adc_clk ),
-  .rstn  (adc_rstn),
-  // configuration
-  .cfg   (pdm_cfg),
-  .ena      (1'b1),
-  .rng      (8'd255),
-  // PWM outputs
-  .pdm (dac_pwm_o)
-);
 
 ////////////////////////////////////////////////////////////////////////////////
 // ADC IO
@@ -371,36 +336,32 @@ logic [2-1:0] [14-1:0] adc_dat_raw;
 // IO block registers should be used here
 // lowest 2 bits reserved for 16bit ADC
 
-delay_simulator #(300) delay1(
-    .in(adc_dat_i[0][16-1:2]),
-    .out(adc_dat_raw[0]),
-    .clk(adc_clk)
-    );
-delay_simulator #(300) delay2(
-    .in(adc_dat_i[1][16-1:2]),
-    .out(adc_dat_raw[1]),
-    .clk(adc_clk)
-    );
+assign adc_dat_raw[0] = adc_dat_i[0][16-1:2];
+assign adc_dat_raw[1] = adc_dat_i[1][16-1:2];
+//*/
 
 logic [1:0] [13:0] adc_toMovingAverage;
 
+reg [13:0] adc_delay;
+reg [13:0] adc_filtered;
+
+delay_simulator #(300) delay1(
+    .in(adc_dat[0] - pid_dat[0]),
+    .out(adc_delay),
+    .clk(adc_clk)
+    );
+    
 ir_filter ma1(
     .clk_i           (adc_clk   ),
-    .in(adc_toMovingAverage[0]),
-    .out(adc_dat[0])
+    .in(adc_delay),
+    .out(adc_filtered)
 );
-ir_filter ma2(
-    .clk_i           (adc_clk   ),
-    .in(adc_toMovingAverage[1]),
-    .out(adc_dat[1])
-);
-
 // transform into 2's complement (negative slope)
 always @(posedge adc_clk) begin
-  adc_toMovingAverage[0] <= digital_loop ? dac_a : {adc_dat_raw[0][14-1], ~adc_dat_raw[0][14-2:0]};
-  adc_toMovingAverage[1] <= digital_loop ? dac_b : {adc_dat_raw[1][14-1], ~adc_dat_raw[1][14-2:0]};
+  adc_dat[0] <= digital_loop ? dac_a : {adc_dat_raw[0][14-1], ~adc_dat_raw[0][14-2:0]};
+  adc_dat[1] <= digital_loop ? dac_b : {adc_dat_raw[1][14-1], ~adc_dat_raw[1][14-2:0]};
 end
-
+   
 
 ////////////////////////////////////////////////////////////////////////////////
 // DAC IO
@@ -487,65 +448,6 @@ assign gpio.i[2*GDW-1:  GDW] = exp_p_in[GDW-1:0];
 assign gpio.i[3*GDW-1:2*GDW] = exp_n_in[GDW-1:0];
 
 ////////////////////////////////////////////////////////////////////////////////
-// oscilloscope
-////////////////////////////////////////////////////////////////////////////////
-
-
-red_pitaya_scope i_scope (
-  // ADC
-  .adc_a_i       (adc_dat[0]  ),  // CH 1
-  .adc_b_i       (adc_dat[1]  ),  // CH 2
-  .adc_clk_i     (adc_clk     ),  // clock
-  .adc_rstn_i    (adc_rstn    ),  // reset - active low
-  .trig_ext_i    (trig_ext    ),  // external trigger
-  .trig_asg_i    (trig_asg_out),  // ASG trigger
-  .daisy_trig_o  (scope_trigo ),
-  // AXI0 master                 // AXI1 master
-  .axi0_clk_o    (axi0_clk   ),  .axi1_clk_o    (axi1_clk   ),
-  .axi0_rstn_o   (axi0_rstn  ),  .axi1_rstn_o   (axi1_rstn  ),
-  .axi0_waddr_o  (axi0_waddr ),  .axi1_waddr_o  (axi1_waddr ),
-  .axi0_wdata_o  (axi0_wdata ),  .axi1_wdata_o  (axi1_wdata ),
-  .axi0_wsel_o   (axi0_wsel  ),  .axi1_wsel_o   (axi1_wsel  ),
-  .axi0_wvalid_o (axi0_wvalid),  .axi1_wvalid_o (axi1_wvalid),
-  .axi0_wlen_o   (axi0_wlen  ),  .axi1_wlen_o   (axi1_wlen  ),
-  .axi0_wfixed_o (axi0_wfixed),  .axi1_wfixed_o (axi1_wfixed),
-  .axi0_werr_i   (axi0_werr  ),  .axi1_werr_i   (axi1_werr  ),
-  .axi0_wrdy_i   (axi0_wrdy  ),  .axi1_wrdy_i   (axi1_wrdy  ),
-  // System bus
-  .sys_addr      (sys[1].addr ),
-  .sys_wdata     (sys[1].wdata),
-  .sys_wen       (sys[1].wen  ),
-  .sys_ren       (sys[1].ren  ),
-  .sys_rdata     (sys[1].rdata),
-  .sys_err       (sys[1].err  ),
-  .sys_ack       (sys[1].ack  )
-);
-
-////////////////////////////////////////////////////////////////////////////////
-//  DAC arbitrary signal generator
-////////////////////////////////////////////////////////////////////////////////
-
-
-red_pitaya_asg i_asg (
-   // DAC
-  .dac_a_o         (asg_dat[0]  ),  // CH 1
-  .dac_b_o         (asg_dat[1]  ),  // CH 2
-  .dac_clk_i       (adc_clk     ),  // clock
-  .dac_rstn_i      (adc_rstn    ),  // reset - active low
-  .trig_a_i        (trig_ext    ),
-  .trig_b_i        (trig_ext    ),
-  .trig_out_o      (trig_asg_out),
-  // System bus
-  .sys_addr        (sys[2].addr ),
-  .sys_wdata       (sys[2].wdata),
-  .sys_wen         (sys[2].wen  ),
-  .sys_ren         (sys[2].ren  ),
-  .sys_rdata       (sys[2].rdata),
-  .sys_err         (sys[2].err  ),
-  .sys_ack         (sys[2].ack  )
-);
-
-////////////////////////////////////////////////////////////////////////////////
 //  MIMO PID controller
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -553,7 +455,7 @@ red_pitaya_pid i_pid (
    // signals
   .clk_i           (adc_clk   ),  // clock
   .rstn_i          (adc_rstn  ),  // reset - active low
-  .dat_a_i         (adc_dat[0] - pid_dat[0]),  // in 1
+  .dat_a_i         (adc_filtered),  // in 1
   .dat_b_i         (adc_dat[1]),  // in 2
   .dat_a_o         (pid_dat[0]),  // out 1
   .dat_b_o         (pid_dat[1]),  // out 2

@@ -26,34 +26,38 @@ module ir_filter(
     output [13:0] out
     );
     
-    parameter prevVal_totalBits = 20;
-    parameter prevVal_fracBits = prevVal_totalBits - 14;
+    parameter totalBits = 30;
+    parameter fracBits = totalBits - 14;
     
     // Function to convert floating-point to fixed-point
-    function signed [prevVal_totalBits-1:0] convertToFixedPoint(real value, integer fracBits);
+    function signed [totalBits-1:0] convertToFixedPoint(real value, integer fracBits);
         convertToFixedPoint = $rtoi(value * (1 << fracBits));
     endfunction
     
-    reg signed [prevVal_totalBits-1:0] y_delayed = 0; // Delayed output for feedback
-    reg signed [prevVal_totalBits-1:0] a = convertToFixedPoint(0.8, prevVal_fracBits); // Example 'a' with 4 decimal bits
-    reg signed [prevVal_totalBits-1:0] b = convertToFixedPoint(0.2, prevVal_fracBits); // Example 'b' with 4 decimal bits
+    reg signed [totalBits-1:0] y_delayed; // Delayed output for feedback
+    reg signed [totalBits-1:0] a = convertToFixedPoint(0.9999, fracBits);
+    reg signed [totalBits-1:0] b = convertToFixedPoint(0.0001, fracBits);
 
-    wire [prevVal_totalBits-1:0] ay_1;
-    wire [prevVal_totalBits-1:0] bx;
+    initial begin
+        y_delayed = 0;
+    end
+
+    wire [totalBits-1:0] ay_1;
+    wire [totalBits-1:0] bx;
     
     FractionalMultiplier 
-        #(prevVal_totalBits,14,prevVal_totalBits,prevVal_fracBits,0,prevVal_fracBits) 
+        #(totalBits,totalBits,totalBits,fracBits,fracBits,fracBits) 
     ay_1_m (.a(a),.b(y_delayed),.result(ay_1));
     
     FractionalMultiplier 
-        #(prevVal_totalBits,14,prevVal_totalBits,prevVal_fracBits,0,prevVal_fracBits) 
+        #(totalBits,14,totalBits,fracBits,0,fracBits) 
     bx_m (.a(b),.b(in),.result(bx));
 
     always @(posedge clk_i) begin
         y_delayed <= ay_1 + bx;
     end
   
-  assign out = y_delayed[13+prevVal_fracBits:prevVal_fracBits];
+  assign out = y_delayed[13+fracBits:fracBits];
 //  assign out = in;
     
 endmodule
