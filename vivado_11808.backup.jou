@@ -1,0 +1,43 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Mon Dec 18 15:47:26 2023
+# Process ID: 11808
+# Current directory: C:/Git/redPitayaFpga
+# Command line: vivado.exe -source red_pitaya_vivado_project_Z10.tcl -tclargs v0.94 
+# Log file: C:/Git/redPitayaFpga/vivado.log
+# Journal file: C:/Git/redPitayaFpga\vivado.jou
+#-----------------------------------------------------------
+start_gui
+source red_pitaya_vivado_project_Z10.tcl
+update_compile_order -fileset sources_1
+launch_simulation
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+add_files -norecurse C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/test_irFiltet.sv
+update_compile_order -fileset sources_1
+add_files -norecurse C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/ir_filter.v
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+add_files -norecurse C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/test_irFiltet.sv
+launch_simulation
+source red_pitaya_top.tcl
+close_sim
+launch_simulation
+source red_pitaya_top.tcl
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top test_irFiltet [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+close_sim
+launch_simulation
+source red_pitaya_top.tcl
+close_sim

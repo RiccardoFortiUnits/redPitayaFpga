@@ -1,0 +1,19 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_proc_sys_reset_0/sim/system_proc_sys_reset_0.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/proc_common_v3_30_a/hdl/src/vhdl/system_xadc_0_conv_funs_pkg.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/proc_common_v3_30_a/hdl/src/vhdl/system_xadc_0_proc_common_pkg.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/proc_common_v3_30_a/hdl/src/vhdl/system_xadc_0_ipif_pkg.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/proc_common_v3_30_a/hdl/src/vhdl/system_xadc_0_family_support.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/proc_common_v3_30_a/hdl/src/vhdl/system_xadc_0_family.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/proc_common_v3_30_a/hdl/src/vhdl/system_xadc_0_soft_reset.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/proc_common_v3_30_a/hdl/src/vhdl/system_xadc_0_pselect_f.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/axi_lite_ipif_v1_01_a/hdl/src/vhdl/system_xadc_0_address_decoder.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/axi_lite_ipif_v1_01_a/hdl/src/vhdl/system_xadc_0_slave_attachment.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/interrupt_control_v2_01_a/hdl/src/vhdl/system_xadc_0_interrupt_control.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/axi_lite_ipif_v1_01_a/hdl/src/vhdl/system_xadc_0_axi_lite_ipif.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/system_xadc_0_xadc_core_drp.vhd" \
+"../../../../redpitaya.ip_user_files/bd/system/ip/system_xadc_0/system_xadc_0_axi_xadc.vhd" \
+
+# Do not sort compile order
+nosort

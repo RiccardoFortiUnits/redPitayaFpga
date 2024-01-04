@@ -1,0 +1,1218 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Thu Jan  4 11:25:59 2024
+# Process ID: 28648
+# Current directory: C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1
+# Command line: vivado.exe -log red_pitaya_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source red_pitaya_top.tcl
+# Log file: C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/red_pitaya_top.vds
+# Journal file: C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source red_pitaya_top.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2020.1/data/ip'.
+Command: synth_design -top red_pitaya_top -part xc7z010clg400-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z010'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z010'
+INFO: [Device 21-403] Loading part xc7z010clg400-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 28044
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1012.594 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_top' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_top.sv:52]
+	Parameter GITH bound to: 160'b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 
+	Parameter MNA bound to: 32'b00000000000000000000000000000010 
+	Parameter MNG bound to: 32'b00000000000000000000000000000010 
+	Parameter DWE bound to: 32'b00000000000000000000000000001000 
+	Parameter GDW bound to: 32'b00000000000000000000000000001000 
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (0#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_stub' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/sys_bus_stub.sv:7]
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_stub' (1#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/sys_bus_stub.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_if' (1#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/sys_bus_if.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'gpio_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/gpio_if.sv:1]
+	Parameter DW bound to: 32'b00000000000000000000000000011000 
+INFO: [Synth 8-6155] done synthesizing module 'gpio_if' (1#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/gpio_if.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'IBUFDS' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:32992]
+	Parameter CAPACITANCE bound to: DONT_CARE - type: string 
+	Parameter DIFF_TERM bound to: FALSE - type: string 
+	Parameter DQS_BIAS bound to: FALSE - type: string 
+	Parameter IBUF_DELAY_VALUE bound to: 0 - type: string 
+	Parameter IBUF_LOW_PWR bound to: TRUE - type: string 
+	Parameter IFD_DELAY_VALUE bound to: AUTO - type: string 
+	Parameter IOSTANDARD bound to: DEFAULT - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'IBUFDS' (2#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:32992]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_pll' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/red_pitaya_pll.sv:13]
+INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:61519]
+	Parameter BANDWIDTH bound to: OPTIMIZED - type: string 
+	Parameter CLKFBOUT_MULT bound to: 8 - type: integer 
+	Parameter CLKFBOUT_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKIN1_PERIOD bound to: 8.000000 - type: double 
+	Parameter CLKIN2_PERIOD bound to: 0.000000 - type: double 
+	Parameter CLKOUT0_DIVIDE bound to: 8 - type: integer 
+	Parameter CLKOUT0_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT0_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT1_DIVIDE bound to: 8 - type: integer 
+	Parameter CLKOUT1_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT1_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT2_DIVIDE bound to: 4 - type: integer 
+	Parameter CLKOUT2_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT2_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT3_DIVIDE bound to: 4 - type: integer 
+	Parameter CLKOUT3_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT3_PHASE bound to: -45.000000 - type: double 
+	Parameter CLKOUT4_DIVIDE bound to: 4 - type: integer 
+	Parameter CLKOUT4_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT4_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT5_DIVIDE bound to: 4 - type: integer 
+	Parameter CLKOUT5_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT5_PHASE bound to: 0.000000 - type: double 
+	Parameter COMPENSATION bound to: ZHOLD - type: string 
+	Parameter DIVCLK_DIVIDE bound to: 1 - type: integer 
+	Parameter IS_CLKINSEL_INVERTED bound to: 1'b0 
+	Parameter IS_PWRDWN_INVERTED bound to: 1'b0 
+	Parameter IS_RST_INVERTED bound to: 1'b0 
+	Parameter REF_JITTER1 bound to: 0.010000 - type: double 
+	Parameter REF_JITTER2 bound to: 0.010000 - type: double 
+	Parameter STARTUP_WAIT bound to: FALSE - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV' (3#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:61519]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_pll' (4#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/red_pitaya_pll.sv:13]
+INFO: [Synth 8-6157] synthesizing module 'BUFG' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:1083]
+INFO: [Synth 8-6155] done synthesizing module 'BUFG' (5#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:1083]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_ps' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:28]
+INFO: [Synth 8-6157] synthesizing module 'axi_master' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+	Parameter DW bound to: 64 - type: integer 
+	Parameter AW bound to: 32 - type: integer 
+	Parameter ID bound to: 1 - type: integer 
+	Parameter IW bound to: 4 - type: integer 
+	Parameter LW bound to: 4 - type: integer 
+	Parameter SW bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'axi_master' (6#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_awid_o' does not match port width (4) of module 'axi_master' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:142]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_wid_o' does not match port width (4) of module 'axi_master' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:153]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_bid_i' does not match port width (4) of module 'axi_master' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:160]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_arid_o' does not match port width (4) of module 'axi_master' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:165]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_rid_i' does not match port width (4) of module 'axi_master' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:176]
+WARNING: [Synth 8-7071] port 'sys_rrdy_i' of module 'axi_master' is unconnected for instance 'axi_master_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:137]
+WARNING: [Synth 8-7023] instance 'axi_master_0' of module 'axi_master' has 56 connections declared, but only 55 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:137]
+INFO: [Synth 8-6157] synthesizing module 'axi_master__parameterized0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+	Parameter DW bound to: 64 - type: integer 
+	Parameter AW bound to: 32 - type: integer 
+	Parameter ID bound to: 2 - type: integer 
+	Parameter IW bound to: 4 - type: integer 
+	Parameter LW bound to: 4 - type: integer 
+	Parameter SW bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'axi_master__parameterized0' (6#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_awid_o' does not match port width (4) of module 'axi_master__parameterized0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:214]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_wid_o' does not match port width (4) of module 'axi_master__parameterized0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:225]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_bid_i' does not match port width (4) of module 'axi_master__parameterized0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:232]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_arid_o' does not match port width (4) of module 'axi_master__parameterized0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:237]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_rid_i' does not match port width (4) of module 'axi_master__parameterized0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:248]
+WARNING: [Synth 8-7071] port 'sys_rrdy_i' of module 'axi_master' is unconnected for instance 'axi_master_1' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:209]
+WARNING: [Synth 8-7023] instance 'axi_master_1' of module 'axi_master' has 56 connections declared, but only 55 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:209]
+INFO: [Synth 8-6157] synthesizing module 'axi_master__parameterized1' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+	Parameter DW bound to: 64 - type: integer 
+	Parameter AW bound to: 32 - type: integer 
+	Parameter ID bound to: 3 - type: integer 
+	Parameter IW bound to: 4 - type: integer 
+	Parameter LW bound to: 4 - type: integer 
+	Parameter SW bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'axi_master__parameterized1' (6#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_awid_o' does not match port width (4) of module 'axi_master__parameterized1' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:286]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_wid_o' does not match port width (4) of module 'axi_master__parameterized1' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:297]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_bid_i' does not match port width (4) of module 'axi_master__parameterized1' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:304]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_arid_o' does not match port width (4) of module 'axi_master__parameterized1' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:309]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_rid_i' does not match port width (4) of module 'axi_master__parameterized1' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:320]
+WARNING: [Synth 8-7071] port 'sys_rrdy_i' of module 'axi_master' is unconnected for instance 'axi_master_2' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:281]
+WARNING: [Synth 8-7023] instance 'axi_master_2' of module 'axi_master' has 56 connections declared, but only 55 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:281]
+INFO: [Synth 8-6157] synthesizing module 'axi_master__parameterized2' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+	Parameter DW bound to: 64 - type: integer 
+	Parameter AW bound to: 32 - type: integer 
+	Parameter ID bound to: 4 - type: integer 
+	Parameter IW bound to: 4 - type: integer 
+	Parameter LW bound to: 4 - type: integer 
+	Parameter SW bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'axi_master__parameterized2' (6#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/axi_master.v:13]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_awid_o' does not match port width (4) of module 'axi_master__parameterized2' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:358]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_wid_o' does not match port width (4) of module 'axi_master__parameterized2' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:369]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_bid_i' does not match port width (4) of module 'axi_master__parameterized2' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:376]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_arid_o' does not match port width (4) of module 'axi_master__parameterized2' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:381]
+WARNING: [Synth 8-689] width (6) of port connection 'axi_rid_i' does not match port width (4) of module 'axi_master__parameterized2' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:392]
+WARNING: [Synth 8-7071] port 'sys_rrdy_i' of module 'axi_master' is unconnected for instance 'axi_master_3' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:353]
+WARNING: [Synth 8-7023] instance 'axi_master_3' of module 'axi_master' has 56 connections declared, but only 55 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:353]
+INFO: [Synth 8-6157] synthesizing module 'axi4_if' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/axi4_if.sv:1]
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+	Parameter IW bound to: 32'b00000000000000000000000000001100 
+	Parameter LW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'axi4_if' (6#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/interface/axi4_if.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'axi4_slave' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/axi4_slave.sv:49]
+	Parameter DW bound to: 32'b00000000000000000000000000100000 
+	Parameter AW bound to: 32'b00000000000000000000000000100000 
+	Parameter IW bound to: 32'b00000000000000000000000000001100 
+	Parameter SW bound to: 32'b00000000000000000000000000000100 
+INFO: [Synth 8-6155] done synthesizing module 'axi4_slave' (7#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/axi4_slave.sv:49]
+INFO: [Synth 8-6157] synthesizing module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:13]
+INFO: [Synth 8-6157] synthesizing module 'system_axi_protocol_converter_0_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_axi_protocol_converter_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'system_axi_protocol_converter_0_0' (8#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_axi_protocol_converter_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'm_axi_awprot' of module 'system_axi_protocol_converter_0_0' is unconnected for instance 'axi_protocol_converter_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1096]
+WARNING: [Synth 8-7071] port 'm_axi_arprot' of module 'system_axi_protocol_converter_0_0' is unconnected for instance 'axi_protocol_converter_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1096]
+WARNING: [Synth 8-7023] instance 'axi_protocol_converter_0' of module 'system_axi_protocol_converter_0_0' has 59 connections declared, but only 57 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1096]
+INFO: [Synth 8-6157] synthesizing module 'system_axi_register_slice_0_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_axi_register_slice_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'system_axi_register_slice_0_0' (9#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_axi_register_slice_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'system_proc_sys_reset_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_proc_sys_reset_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'system_proc_sys_reset_0' (10#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_proc_sys_reset_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'system_proc_sys_reset_0' is unconnected for instance 'proc_sys_reset' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1233]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'system_proc_sys_reset_0' is unconnected for instance 'proc_sys_reset' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1233]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'system_proc_sys_reset_0' is unconnected for instance 'proc_sys_reset' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1233]
+WARNING: [Synth 8-7023] instance 'proc_sys_reset' of module 'system_proc_sys_reset_0' has 10 connections declared, but only 7 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1233]
+INFO: [Synth 8-6157] synthesizing module 'system_processing_system7_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_processing_system7_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'system_processing_system7_0' (11#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_processing_system7_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'TTC0_WAVE0_OUT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'TTC0_WAVE1_OUT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'TTC0_WAVE2_OUT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'USB0_PORT_INDCTL' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'USB0_VBUS_PWRSELECT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_ARREADY' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_AWREADY' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_BVALID' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_RLAST' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_RVALID' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_WREADY' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_BRESP' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_RRESP' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_RDATA' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_BID' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_GP0_RID' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_RCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_WCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_RACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_WACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP1_RCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP1_WCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP1_RACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP1_WACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP2_RCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP2_WCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP2_RACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP2_WACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP3_RCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP3_WCOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP3_RACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7071] port 'S_AXI_HP3_WACOUNT' of module 'system_processing_system7_0' is unconnected for instance 'processing_system7' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+WARNING: [Synth 8-7023] instance 'processing_system7' of module 'system_processing_system7_0' has 350 connections declared, but only 318 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1241]
+INFO: [Synth 8-6157] synthesizing module 'system_xadc_0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_xadc_0_stub.v:5]
+INFO: [Synth 8-6155] done synthesizing module 'system_xadc_0' (12#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/.Xil/Vivado-28648-PC-CAUTERO-NEW/realtime/system_xadc_0_stub.v:5]
+WARNING: [Synth 8-7071] port 'channel_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'busy_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'eoc_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'eos_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'ot_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'vccddro_alarm_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'vccpaux_alarm_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'vccpint_alarm_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'vccaux_alarm_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'vccint_alarm_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'user_temp_alarm_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7071] port 'alarm_out' of module 'system_xadc_0' is unconnected for instance 'xadc' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+WARNING: [Synth 8-7023] instance 'xadc' of module 'system_xadc_0' has 42 connections declared, but only 30 given [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:1560]
+INFO: [Synth 8-6157] synthesizing module 'system_xlconstant_0' [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_xlconstant_0/synth/system_xlconstant_0.v:57]
+INFO: [Synth 8-6157] synthesizing module 'xlconstant_v1_1_7_xlconstant' [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ipshared/fcfc/hdl/xlconstant_v1_1_vl_rfs.v:23]
+	Parameter CONST_VAL bound to: 1 - type: integer 
+	Parameter CONST_WIDTH bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'xlconstant_v1_1_7_xlconstant' (13#1) [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ipshared/fcfc/hdl/xlconstant_v1_1_vl_rfs.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'system_xlconstant_0' (14#1) [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_xlconstant_0/synth/system_xlconstant_0.v:57]
+INFO: [Synth 8-6155] done synthesizing module 'system' (15#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/synth/system.v:13]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP0_bid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:585]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP1_bid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:585]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP0_rid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:586]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP1_rid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:586]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP0_arid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:611]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP1_arid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:611]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP0_awid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:612]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP1_awid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:612]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP0_wid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:613]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP1_wid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:613]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP2_bid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:626]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP3_bid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:626]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP2_rid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:627]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP3_rid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:627]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP2_arid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:652]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP3_arid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:652]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP2_awid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:653]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP3_awid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:653]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP2_wid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:654]
+WARNING: [Synth 8-689] width (6) of port connection 'S_AXI_HP3_wid' does not match port width (4) of module 'system' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:654]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_ps' (16#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_ps.sv:28]
+INFO: [Synth 8-6157] synthesizing module 'sys_bus_interconnect' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/sys_bus_interconnect.sv:7]
+	Parameter SN bound to: 32'b00000000000000000000000000001000 
+	Parameter SW bound to: 32'b00000000000000000000000000010100 
+	Parameter SYNC_IN_BUS bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_OUT_BUS1 bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_OUT_BUS2 bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_OUT_BUS3 bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_OUT_BUS4 bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_REG_OFS1 bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_REG_OFS2 bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_REG_OFS3 bound to: 32'b11111111111111111111111111111111 
+	Parameter SYNC_REG_OFS4 bound to: 32'b11111111111111111111111111111111 
+	Parameter SL bound to: 32'b00000000000000000000000000000011 
+WARNING: [Synth 8-324] index -1 out of range [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/sys_bus_interconnect.sv:40]
+INFO: [Synth 8-6155] done synthesizing module 'sys_bus_interconnect' (17#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/sys_bus_interconnect.sv:7]
+INFO: [Synth 8-6157] synthesizing module 'ODDR' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:49784]
+	Parameter DDR_CLK_EDGE bound to: OPPOSITE_EDGE - type: string 
+	Parameter INIT bound to: 1'b0 
+	Parameter IS_C_INVERTED bound to: 1'b0 
+	Parameter IS_D1_INVERTED bound to: 1'b0 
+	Parameter IS_D2_INVERTED bound to: 1'b0 
+	Parameter SRTYPE bound to: SYNC - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'ODDR' (18#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:49784]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_hk' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_hk.v:29]
+	Parameter DWL bound to: 8 - type: integer 
+	Parameter DWE bound to: 8 - type: integer 
+	Parameter DNA bound to: 57'b010000010001101000101011001111000100110101011110011011110 
+INFO: [Synth 8-6157] synthesizing module 'DNA_PORT' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:11984]
+	Parameter SIM_DNA_VALUE bound to: 57'b010000010001101000101011001111000100110101011110011011110 
+INFO: [Synth 8-6155] done synthesizing module 'DNA_PORT' (19#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:11984]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_hk' (20#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_hk.v:29]
+INFO: [Synth 8-6157] synthesizing module 'IOBUF' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:36238]
+	Parameter DRIVE bound to: 12 - type: integer 
+	Parameter IBUF_LOW_PWR bound to: TRUE - type: string 
+	Parameter IOSTANDARD bound to: DEFAULT - type: string 
+	Parameter SLEW bound to: SLOW - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'IOBUF' (21#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:36238]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_pid' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_pid.v:52]
+	Parameter PSR bound to: 12 - type: integer 
+	Parameter ISR bound to: 18 - type: integer 
+	Parameter DSR bound to: 10 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'delay_simulator' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/delay_simulator.v:23]
+	Parameter max_nOfCycles bound to: 600 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'delay_simulator' (22#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/delay_simulator.v:23]
+WARNING: [Synth 8-689] width (14) of port connection 'out' does not match port width (15) of module 'delay_simulator' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_pid.v:100]
+INFO: [Synth 8-6157] synthesizing module 'ir_filter' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/ir_filter.v:23]
+	Parameter totalBits bound to: 30 - type: integer 
+	Parameter fracBits bound to: 16 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'FractionalMultiplier' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/FractionalMultiplier.v:3]
+	Parameter A_WIDTH bound to: 30 - type: integer 
+	Parameter B_WIDTH bound to: 30 - type: integer 
+	Parameter OUTPUT_WIDTH bound to: 30 - type: integer 
+	Parameter FRAC_BITS_A bound to: 16 - type: integer 
+	Parameter FRAC_BITS_B bound to: 16 - type: integer 
+	Parameter FRAC_BITS_OUT bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'FractionalMultiplier' (23#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/FractionalMultiplier.v:3]
+INFO: [Synth 8-6157] synthesizing module 'FractionalMultiplier__parameterized0' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/FractionalMultiplier.v:3]
+	Parameter A_WIDTH bound to: 30 - type: integer 
+	Parameter B_WIDTH bound to: 14 - type: integer 
+	Parameter OUTPUT_WIDTH bound to: 30 - type: integer 
+	Parameter FRAC_BITS_A bound to: 16 - type: integer 
+	Parameter FRAC_BITS_B bound to: 0 - type: integer 
+	Parameter FRAC_BITS_OUT bound to: 16 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'FractionalMultiplier__parameterized0' (23#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/FractionalMultiplier.v:3]
+INFO: [Synth 8-6155] done synthesizing module 'ir_filter' (24#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/ir_filter.v:23]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_pid_block' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_pid_block.v:49]
+	Parameter PSR bound to: 12 - type: integer 
+	Parameter ISR bound to: 18 - type: integer 
+	Parameter DSR bound to: 10 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_pid_block' (25#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_pid_block.v:49]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_pid' (26#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_pid.v:52]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_daisy' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy.v:57]
+INFO: [Synth 8-6157] synthesizing module 'OBUFDS' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:46328]
+	Parameter CAPACITANCE bound to: DONT_CARE - type: string 
+	Parameter IOSTANDARD bound to: DIFF_HSTL_I_18 - type: string 
+	Parameter SLEW bound to: FAST - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'OBUFDS' (27#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:46328]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_daisy_tx' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy_tx.v:45]
+INFO: [Synth 8-6157] synthesizing module 'ODDR__parameterized0' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:49784]
+	Parameter DDR_CLK_EDGE bound to: SAME_EDGE - type: string 
+	Parameter INIT bound to: 1'b1 
+	Parameter IS_C_INVERTED bound to: 1'b0 
+	Parameter IS_D1_INVERTED bound to: 1'b0 
+	Parameter IS_D2_INVERTED bound to: 1'b0 
+	Parameter SRTYPE bound to: ASYNC - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'ODDR__parameterized0' (27#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:49784]
+INFO: [Synth 8-6157] synthesizing module 'OSERDESE2' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:50391]
+	Parameter DATA_RATE_OQ bound to: DDR - type: string 
+	Parameter DATA_RATE_TQ bound to: SDR - type: string 
+	Parameter DATA_WIDTH bound to: 4 - type: integer 
+	Parameter INIT_OQ bound to: 1'b0 
+	Parameter INIT_TQ bound to: 1'b0 
+	Parameter IS_CLKDIV_INVERTED bound to: 1'b0 
+	Parameter IS_CLK_INVERTED bound to: 1'b0 
+	Parameter IS_D1_INVERTED bound to: 1'b0 
+	Parameter IS_D2_INVERTED bound to: 1'b0 
+	Parameter IS_D3_INVERTED bound to: 1'b0 
+	Parameter IS_D4_INVERTED bound to: 1'b0 
+	Parameter IS_D5_INVERTED bound to: 1'b0 
+	Parameter IS_D6_INVERTED bound to: 1'b0 
+	Parameter IS_D7_INVERTED bound to: 1'b0 
+	Parameter IS_D8_INVERTED bound to: 1'b0 
+	Parameter IS_T1_INVERTED bound to: 1'b0 
+	Parameter IS_T2_INVERTED bound to: 1'b0 
+	Parameter IS_T3_INVERTED bound to: 1'b0 
+	Parameter IS_T4_INVERTED bound to: 1'b0 
+	Parameter SERDES_MODE bound to: MASTER - type: string 
+	Parameter SRVAL_OQ bound to: 1'b0 
+	Parameter SRVAL_TQ bound to: 1'b0 
+	Parameter TBYTE_CTL bound to: FALSE - type: string 
+	Parameter TBYTE_SRC bound to: FALSE - type: string 
+	Parameter TRISTATE_WIDTH bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'OSERDESE2' (28#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:50391]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_daisy_tx' (29#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy_tx.v:45]
+INFO: [Synth 8-6157] synthesizing module 'IBUFDS__parameterized0' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:32992]
+	Parameter CAPACITANCE bound to: DONT_CARE - type: string 
+	Parameter DIFF_TERM bound to: FALSE - type: string 
+	Parameter DQS_BIAS bound to: FALSE - type: string 
+	Parameter IBUF_DELAY_VALUE bound to: 0 - type: string 
+	Parameter IBUF_LOW_PWR bound to: TRUE - type: string 
+	Parameter IFD_DELAY_VALUE bound to: AUTO - type: string 
+	Parameter IOSTANDARD bound to: DIFF_HSTL_I_18 - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'IBUFDS__parameterized0' (29#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:32992]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_daisy_rx' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy_rx.v:54]
+INFO: [Synth 8-6157] synthesizing module 'BUFIO' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:1344]
+INFO: [Synth 8-6155] done synthesizing module 'BUFIO' (30#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:1344]
+INFO: [Synth 8-6157] synthesizing module 'BUFR' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:1410]
+	Parameter BUFR_DIVIDE bound to: 2 - type: string 
+	Parameter SIM_DEVICE bound to: 7SERIES - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'BUFR' (31#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:1410]
+INFO: [Synth 8-6157] synthesizing module 'ISERDESE2' [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:38616]
+	Parameter DATA_RATE bound to: DDR - type: string 
+	Parameter DATA_WIDTH bound to: 4 - type: integer 
+	Parameter DYN_CLKDIV_INV_EN bound to: FALSE - type: string 
+	Parameter DYN_CLK_INV_EN bound to: FALSE - type: string 
+	Parameter INIT_Q1 bound to: 1'b0 
+	Parameter INIT_Q2 bound to: 1'b0 
+	Parameter INIT_Q3 bound to: 1'b0 
+	Parameter INIT_Q4 bound to: 1'b0 
+	Parameter INTERFACE_TYPE bound to: NETWORKING - type: string 
+	Parameter IOBDELAY bound to: NONE - type: string 
+	Parameter IS_CLKB_INVERTED bound to: 1'b0 
+	Parameter IS_CLKDIVP_INVERTED bound to: 1'b0 
+	Parameter IS_CLKDIV_INVERTED bound to: 1'b0 
+	Parameter IS_CLK_INVERTED bound to: 1'b0 
+	Parameter IS_D_INVERTED bound to: 1'b0 
+	Parameter IS_OCLKB_INVERTED bound to: 1'b0 
+	Parameter IS_OCLK_INVERTED bound to: 1'b0 
+	Parameter NUM_CE bound to: 2 - type: integer 
+	Parameter OFB_USED bound to: FALSE - type: string 
+	Parameter SERDES_MODE bound to: MASTER - type: string 
+	Parameter SRVAL_Q1 bound to: 1'b0 
+	Parameter SRVAL_Q2 bound to: 1'b0 
+	Parameter SRVAL_Q3 bound to: 1'b0 
+	Parameter SRVAL_Q4 bound to: 1'b0 
+INFO: [Synth 8-6155] done synthesizing module 'ISERDESE2' (32#1) [C:/Xilinx/Vivado/2020.1/scripts/rt/data/unisim_comp.v:38616]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_daisy_rx' (33#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy_rx.v:54]
+INFO: [Synth 8-6157] synthesizing module 'red_pitaya_daisy_test' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy_test.v:46]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_daisy_test' (34#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy_test.v:46]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy.v:304]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_daisy' (35#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy.v:57]
+INFO: [Synth 8-6155] done synthesizing module 'red_pitaya_top' (36#1) [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/prj/v0.94/rtl/red_pitaya_top.sv:52]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1012.594 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1012.594 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1012.594 ; gain = 0.000
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.238 . Memory (MB): peak = 1012.594 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 45 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_axi_protocol_converter_0_0/system_axi_protocol_converter_0_0/system_axi_protocol_converter_0_0_in_context.xdc] for cell 'ps/system_i/axi_protocol_converter_0'
+Finished Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_axi_protocol_converter_0_0/system_axi_protocol_converter_0_0/system_axi_protocol_converter_0_0_in_context.xdc] for cell 'ps/system_i/axi_protocol_converter_0'
+Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_proc_sys_reset_0/system_proc_sys_reset_0/system_proc_sys_reset_0_in_context.xdc] for cell 'ps/system_i/proc_sys_reset'
+Finished Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_proc_sys_reset_0/system_proc_sys_reset_0/system_proc_sys_reset_0_in_context.xdc] for cell 'ps/system_i/proc_sys_reset'
+Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_axi_register_slice_0_0/system_axi_register_slice_0_0/system_axi_register_slice_0_0_in_context.xdc] for cell 'ps/system_i/axi_register_slice_0'
+Finished Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_axi_register_slice_0_0/system_axi_register_slice_0_0/system_axi_register_slice_0_0_in_context.xdc] for cell 'ps/system_i/axi_register_slice_0'
+Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc] for cell 'ps/system_i/processing_system7'
+WARNING: [Vivado 12-584] No ports matched ''. [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc:2]
+WARNING: [Vivado 12-584] No ports matched ''. [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc:4]
+WARNING: [Vivado 12-584] No ports matched ''. [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc:6]
+WARNING: [Vivado 12-584] No ports matched ''. [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc:8]
+Finished Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc] for cell 'ps/system_i/processing_system7'
+Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_xadc_0/system_xadc_0/system_xadc_0_in_context.xdc] for cell 'ps/system_i/xadc'
+Finished Parsing XDC File [c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_xadc_0/system_xadc_0/system_xadc_0_in_context.xdc] for cell 'ps/system_i/xadc'
+Parsing XDC File [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc]
+INFO: [Timing 38-2] Deriving generated clocks [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:206]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_o'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:206]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:206]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_2x'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:207]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:207]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_2p'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:208]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:208]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:209]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:209]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:210]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:210]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:213]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:213]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_1x'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:213]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:213]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:214]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:214]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_2x'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:214]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:214]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:215]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:215]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_2p'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:215]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:215]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:216]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:216]
+WARNING: [Vivado 12-627] No clocks matched 'ser_clk'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:216]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:216]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:217]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:217]
+WARNING: [Vivado 12-627] No clocks matched 'pdm_clk'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:217]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:217]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_o'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:218]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:218]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_2x'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:218]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:218]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_o'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:219]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:219]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_2p'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:219]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc:219]
+Finished Parsing XDC File [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc]
+WARNING: [Project 1-498] One or more constraints failed evaluation while reading constraint file [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc] and the design contains unresolved black boxes. These constraints will be read post-synthesis (as long as their source constraint file is marked as used_in_implementation) and should be applied correctly then. You should review the constraints listed in the file [.Xil/red_pitaya_top_propImpl.xdc] and check the run log file to verify that these constraints were correctly applied.
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/sdc/red_pitaya.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/red_pitaya_top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/red_pitaya_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_out'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:7]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:7]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:8]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:8]
+WARNING: [Vivado 12-627] No clocks matched 'ser_clk_out'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:8]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:8]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:9]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:9]
+WARNING: [Vivado 12-627] No clocks matched 'dac_2clk_out'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:9]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:9]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:10]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:10]
+WARNING: [Vivado 12-627] No clocks matched 'clk_fpga_0'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:11]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:11]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_out'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:12]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:12]
+WARNING: [Vivado 12-627] No clocks matched 'dac_2clk_out'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:12]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:12]
+WARNING: [Vivado 12-627] No clocks matched 'dac_clk_out'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:13]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:13]
+WARNING: [Vivado 12-627] No clocks matched 'dac_2ph_out'. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:13]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc:13]
+Finished Parsing XDC File [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc]
+WARNING: [Project 1-498] One or more constraints failed evaluation while reading constraint file [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc] and the design contains unresolved black boxes. These constraints will be read post-synthesis (as long as their source constraint file is marked as used_in_implementation) and should be applied correctly then. You should review the constraints listed in the file [.Xil/red_pitaya_top_propImpl.xdc] and check the run log file to verify that these constraints were correctly applied.
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/constrs_1/imports/redPitayaFpga/prj/v0.94/sdc/red_pitaya.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/red_pitaya_top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/red_pitaya_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1072.418 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 18 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 16 instances
+  OBUFDS => OBUFDS_DUAL_BUF (INV, OBUFDS(x2)): 2 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.091 . Memory (MB): peak = 1072.418 ; gain = 0.000
+WARNING: [Timing 38-316] Clock period '10.000' specified during out-of-context synthesis of instance 'ps/system_i/xadc' at clock pin 's_axi_aclk' is different from the actual clock period '5.000', this can lead to different synthesis results.
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1072.418 ; gain = 59.824
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z010clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1072.418 ; gain = 59.824
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 9).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 10).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[10]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 11).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[10]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 12).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[11]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 13).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[11]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 14).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[12]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 15).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[12]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 16).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[13]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 17).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[13]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 18).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[14]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 19).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[14]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 20).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 21).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 22).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 23).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 24).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 25).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 26).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[4]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 27).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[4]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 28).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[5]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 29).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[5]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 30).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[6]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 31).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[6]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 32).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[7]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 33).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[7]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 34).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[8]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 35).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[8]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 36).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[9]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 37).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[9]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 38).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 39).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 40).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 41).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 42).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 43).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 44).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cas_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 45).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cas_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 46).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cke. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 47).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cke. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 48).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cs_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 49).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cs_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 50).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ck_p. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 51).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ck_p. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 52).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ck_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 53).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ck_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 54).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 55).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 56).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 57).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 58).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 59).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 60).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 61).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 62).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 63).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 64).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 65).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 66).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 67).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 68).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 69).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 70).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 71).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 72).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 73).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 74).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 75).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 76).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 77).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 78).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 79).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 80).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[10]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 81).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[10]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 82).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[11]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 83).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[11]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 84).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[12]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 85).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[12]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 86).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[13]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 87).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[13]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 88).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[14]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 89).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[14]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 90).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[15]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 91).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[15]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 92).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[16]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 93).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[16]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 94).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[17]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 95).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[17]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 96).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[18]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 97).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[18]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 98).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[19]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 99).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[19]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 100).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 101).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 102).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[20]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 103).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[20]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 104).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[21]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 105).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[21]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 106).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[22]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 107).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[22]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 108).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[23]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 109).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[23]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 110).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[24]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 111).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[24]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 112).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[25]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 113).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[25]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 114).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[26]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 115).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[26]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 116).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[27]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 117).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[27]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 118).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[28]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 119).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[28]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 120).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[29]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 121).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[29]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 122).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 123).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 124).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[30]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 125).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[30]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 126).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[31]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 127).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[31]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 128).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 129).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 130).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[4]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 131).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[4]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 132).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[5]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 133).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[5]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 134).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[6]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 135).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[6]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 136).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[7]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 137).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[7]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 138).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[8]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 139).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[8]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 140).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[9]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 141).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[9]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 142).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_reset_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 143).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_reset_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 144).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_odt. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 145).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_odt. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 146).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ras_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 147).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ras_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 148).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrn. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 149).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrn. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 150).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrp. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 151).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrp. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 152).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_we_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 153).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_we_n. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 154).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 155).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[0]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 156).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[10]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 157).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[10]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 158).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[11]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 159).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[11]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 160).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[12]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 161).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[12]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 162).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[13]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 163).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[13]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 164).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[14]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 165).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[14]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 166).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[15]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 167).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[15]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 168).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[16]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 169).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[16]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 170).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[17]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 171).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[17]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 172).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[18]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 173).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[18]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 174).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[19]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 175).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[19]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 176).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 177).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[1]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 178).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[20]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 179).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[20]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 180).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[21]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 181).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[21]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 182).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[22]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 183).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[22]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 184).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[23]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 185).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[23]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 186).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[24]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 187).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[24]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 188).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[25]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 189).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[25]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 190).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[26]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 191).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[26]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 192).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[27]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 193).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[27]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 194).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[28]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 195).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[28]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 196).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[29]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 197).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[29]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 198).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 199).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[2]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 200).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[30]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 201).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[30]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 202).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[31]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 203).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[31]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 204).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[32]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 205).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[32]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 206).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[33]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 207).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[33]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 208).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[34]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 209).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[34]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 210).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[35]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 211).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[35]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 212).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[36]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 213).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[36]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 214).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[37]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 215).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[37]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 216).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[38]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 217).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[38]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 218).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[39]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 219).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[39]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 220).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 221).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[3]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 222).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[40]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 223).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[40]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 224).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[41]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 225).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[41]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 226).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[42]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 227).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[42]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 228).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[43]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 229).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[43]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 230).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[44]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 231).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[44]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 232).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[45]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 233).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[45]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 234).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[46]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 235).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[46]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 236).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[47]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 237).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[47]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 238).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[48]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 239).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[48]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 240).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[49]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 241).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[49]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 242).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[4]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 243).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[4]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 244).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[50]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 245).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[50]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 246).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[51]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 247).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[51]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 248).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[52]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 249).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[52]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 250).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[53]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 251).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[53]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 252).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[5]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 253).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[5]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 254).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[6]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 255).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[6]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 256).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[7]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 257).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[7]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 258).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[8]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 259).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[8]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 260).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[9]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 261).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[9]. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 262).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_clk. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 263).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_clk. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 264).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_porb. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 265).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_porb. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 266).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_srstb. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 267).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_srstb. (constraint file  c:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/bd/system/ip/system_processing_system7_0/system_processing_system7_0/system_processing_system7_0_in_context.xdc, line 268).
+Applied set_property DONT_TOUCH = true for ps/system_i. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ps/system_i/axi_protocol_converter_0. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ps/system_i/proc_sys_reset. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ps/system_i/axi_register_slice_0. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ps/system_i/processing_system7. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ps/system_i/xadc. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for ps/system_i/xlconstant. (constraint file  auto generated constraint, line ).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 1072.418 ; gain = 59.824
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-327] inferring latch for variable 'txp_dv_reg' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy.v:147]
+WARNING: [Synth 8-327] inferring latch for variable 'txp_dat_reg' [C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.srcs/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy.v:148]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 1072.418 ; gain = 59.824
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   33 Bit       Adders := 4     
+	   3 Input   33 Bit       Adders := 4     
+	   2 Input   30 Bit       Adders := 2     
+	   3 Input   20 Bit       Adders := 4     
+	   3 Input   15 Bit       Adders := 4     
+	   2 Input   15 Bit       Adders := 3     
+	   4 Input   15 Bit       Adders := 1     
+	   3 Input   14 Bit       Adders := 1     
+	   2 Input    9 Bit       Adders := 1     
+	   2 Input    6 Bit       Adders := 1     
+	   2 Input    5 Bit       Adders := 2     
+	   2 Input    4 Bit       Adders := 44    
+	   2 Input    3 Bit       Adders := 1     
+	   2 Input    2 Bit       Adders := 2     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
+	   2 Input      1 Bit         XORs := 3     
++---XORs : 
+	                2 Bit    Wide XORs := 2     
++---Registers : 
+	               64 Bit    Registers := 8     
+	               57 Bit    Registers := 1     
+	               32 Bit    Registers := 29    
+	               30 Bit    Registers := 2     
+	               20 Bit    Registers := 8     
+	               19 Bit    Registers := 8     
+	               17 Bit    Registers := 4     
+	               16 Bit    Registers := 10    
+	               15 Bit    Registers := 12    
+	               14 Bit    Registers := 22    
+	               12 Bit    Registers := 3     
+	               10 Bit    Registers := 1     
+	                9 Bit    Registers := 1     
+	                8 Bit    Registers := 9     
+	                6 Bit    Registers := 1     
+	                5 Bit    Registers := 2     
+	                4 Bit    Registers := 59    
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 13    
+	                1 Bit    Registers := 89    
++---Multipliers : 
+	              30x30  Multipliers := 1     
+	              14x30  Multipliers := 1     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 8     
+	  15 Input   32 Bit        Muxes := 1     
+	   4 Input   32 Bit        Muxes := 4     
+	   2 Input   16 Bit        Muxes := 3     
+	   2 Input   14 Bit        Muxes := 25    
+	   2 Input   10 Bit        Muxes := 1     
+	   4 Input    6 Bit        Muxes := 1     
+	   2 Input    6 Bit        Muxes := 4     
+	   2 Input    4 Bit        Muxes := 13    
+	  15 Input    4 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 17    
+	   2 Input    1 Bit        Muxes := 69    
+	   8 Input    1 Bit        Muxes := 1     
+	   7 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 80 (col length:40)
+BRAMs: 120 (col length: RAMB18 40 RAMB36 20)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+DSP Report: Generating DSP bx_m/full_aByb, operation Mode is: A*B.
+DSP Report: operator bx_m/full_aByb is absorbed into DSP bx_m/full_aByb.
+DSP Report: operator bx_m/full_aByb is absorbed into DSP bx_m/full_aByb.
+DSP Report: Generating DSP bx_m/full_aByb, operation Mode is: (PCIN>>17)+A*B.
+DSP Report: operator bx_m/full_aByb is absorbed into DSP bx_m/full_aByb.
+DSP Report: operator bx_m/full_aByb is absorbed into DSP bx_m/full_aByb.
+DSP Report: Generating DSP ay_1_m/full_aByb, operation Mode is: A2*B.
+DSP Report: register ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: Generating DSP ay_1_m/full_aByb, operation Mode is: (PCIN>>17)+A*B2.
+DSP Report: register y_delayed_reg is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: Generating DSP ay_1_m/full_aByb, operation Mode is: A*B2.
+DSP Report: register ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: Generating DSP ay_1_m/full_aByb, operation Mode is: (PCIN>>17)+A*B2.
+DSP Report: register y_delayed_reg is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: operator ay_1_m/full_aByb is absorbed into DSP ay_1_m/full_aByb.
+DSP Report: Generating DSP ki_mult_reg, operation Mode is: (A*B2)'.
+DSP Report: register error_reg is absorbed into DSP ki_mult_reg.
+DSP Report: register ki_mult_reg is absorbed into DSP ki_mult_reg.
+DSP Report: operator ki_mult0 is absorbed into DSP ki_mult_reg.
+DSP Report: Generating DSP kd_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kd_mult.
+DSP Report: operator error0 is absorbed into DSP kd_mult.
+DSP Report: operator kd_mult is absorbed into DSP kd_mult.
+DSP Report: Generating DSP kp_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kp_mult.
+DSP Report: operator error0 is absorbed into DSP kp_mult.
+DSP Report: operator kp_mult is absorbed into DSP kp_mult.
+DSP Report: Generating DSP ki_mult_reg, operation Mode is: (A*B2)'.
+DSP Report: register error_reg is absorbed into DSP ki_mult_reg.
+DSP Report: register ki_mult_reg is absorbed into DSP ki_mult_reg.
+DSP Report: operator ki_mult0 is absorbed into DSP ki_mult_reg.
+DSP Report: Generating DSP kd_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kd_mult.
+DSP Report: operator error0 is absorbed into DSP kd_mult.
+DSP Report: operator kd_mult is absorbed into DSP kd_mult.
+DSP Report: Generating DSP kp_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kp_mult.
+DSP Report: operator error0 is absorbed into DSP kp_mult.
+DSP Report: operator kp_mult is absorbed into DSP kp_mult.
+DSP Report: Generating DSP ki_mult_reg, operation Mode is: (A*B2)'.
+DSP Report: register error_reg is absorbed into DSP ki_mult_reg.
+DSP Report: register ki_mult_reg is absorbed into DSP ki_mult_reg.
+DSP Report: operator ki_mult0 is absorbed into DSP ki_mult_reg.
+DSP Report: Generating DSP kd_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kd_mult.
+DSP Report: operator error0 is absorbed into DSP kd_mult.
+DSP Report: operator kd_mult is absorbed into DSP kd_mult.
+DSP Report: Generating DSP kp_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kp_mult.
+DSP Report: operator error0 is absorbed into DSP kp_mult.
+DSP Report: operator kp_mult is absorbed into DSP kp_mult.
+DSP Report: Generating DSP ki_mult_reg, operation Mode is: (A*B2)'.
+DSP Report: register error_reg is absorbed into DSP ki_mult_reg.
+DSP Report: register ki_mult_reg is absorbed into DSP ki_mult_reg.
+DSP Report: operator ki_mult0 is absorbed into DSP ki_mult_reg.
+DSP Report: Generating DSP kd_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kd_mult.
+DSP Report: operator error0 is absorbed into DSP kd_mult.
+DSP Report: operator kd_mult is absorbed into DSP kd_mult.
+DSP Report: Generating DSP kp_mult, operation Mode is: (D-A)*B.
+DSP Report: register error_reg is absorbed into DSP kp_mult.
+DSP Report: operator error0 is absorbed into DSP kp_mult.
+DSP Report: operator kp_mult is absorbed into DSP kp_mult.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:33 ; elapsed = 00:00:34 . Memory (MB): peak = 1072.418 ; gain = 59.824
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping	Report (see note below)
++---------------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name          | DSP Mapping     | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++---------------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|ir_filter            | A*B             | 18     | 14     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|ir_filter            | (PCIN>>17)+A*B  | 14     | 13     | -      | -      | 48     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|ir_filter            | A2*B            | 18     | 13     | -      | -      | 48     | 1    | 0    | -    | -    | -     | 0    | 0    | 
+|ir_filter            | (PCIN>>17)+A*B2 | 13     | 13     | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
+|ir_filter            | A*B2            | 18     | 18     | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
+|ir_filter            | (PCIN>>17)+A*B2 | 18     | 13     | -      | -      | 48     | 0    | 1    | -    | -    | -     | 0    | 0    | 
+|red_pitaya_pid_block | (A*B2)'         | 20     | 15     | -      | -      | 35     | 0    | 1    | -    | -    | -     | 1    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
+|red_pitaya_pid_block | (A*B2)'         | 20     | 15     | -      | -      | 35     | 0    | 1    | -    | -    | -     | 1    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
+|red_pitaya_pid_block | (A*B2)'         | 20     | 15     | -      | -      | 35     | 0    | 1    | -    | -    | -     | 1    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
+|red_pitaya_pid_block | (A*B2)'         | 20     | 15     | -      | -      | 35     | 0    | 1    | -    | -    | -     | 1    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
+|red_pitaya_pid_block | (D-A)*B         | 14     | 14     | -      | 14     | 29     | 0    | 0    | -    | 0    | 1     | 0    | 0    | 
++---------------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:45 ; elapsed = 00:00:46 . Memory (MB): peak = 1072.418 ; gain = 59.824
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:48 ; elapsed = 00:00:49 . Memory (MB): peak = 1102.824 ; gain = 90.230
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:50 ; elapsed = 00:00:51 . Memory (MB): peak = 1115.277 ; gain = 102.684
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+INFO: [Synth 8-4560] design has 11 instantiated BUFGs while the available bufg limit from the part is 8
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:54 ; elapsed = 00:00:55 . Memory (MB): peak = 1120.059 ; gain = 107.465
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:54 ; elapsed = 00:00:55 . Memory (MB): peak = 1120.059 ; gain = 107.465
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:54 ; elapsed = 00:00:56 . Memory (MB): peak = 1120.059 ; gain = 107.465
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:54 ; elapsed = 00:00:56 . Memory (MB): peak = 1120.059 ; gain = 107.465
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:54 ; elapsed = 00:00:56 . Memory (MB): peak = 1120.059 ; gain = 107.465
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:54 ; elapsed = 00:00:56 . Memory (MB): peak = 1120.059 ; gain = 107.465
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register Report:
++---------------+----------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name    | RTL Name                         | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++---------------+----------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|red_pitaya_top | i_daisy/i_rx/bitslip_r_reg[2]    | 3      | 1     | NO           | NO                 | YES               | 1      | 0       | 
+|red_pitaya_top | i_daisy/i_test/rand_work_reg[26] | 5      | 2     | YES          | NO                 | YES               | 2      | 0       | 
++---------------+----------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+
+Dynamic Shift Register Report:
++------------+-----------------------+--------+------------+--------+---------+--------+--------+--------+
+|Module Name | RTL Name              | Length | Data Width | SRL16E | SRLC32E | Mux F7 | Mux F8 | Mux F9 | 
++------------+-----------------------+--------+------------+--------+---------+--------+--------+--------+
+|dsrl        | delay_buffer_reg[600] | 15     | 15         | 0      | 285     | 150    | 75     | 0      | 
++------------+-----------------------+--------+------------+--------+---------+--------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+----------------------------------+----------+
+|      |BlackBox name                     |Instances |
++------+----------------------------------+----------+
+|1     |system_axi_protocol_converter_0_0 |         1|
+|2     |system_axi_register_slice_0_0     |         1|
+|3     |system_proc_sys_reset_0           |         1|
+|4     |system_processing_system7_0       |         1|
+|5     |system_xadc_0                     |         1|
++------+----------------------------------+----------+
+
+Report Cell Usage: 
++------+--------------------------------+------+
+|      |Cell                            |Count |
++------+--------------------------------+------+
+|1     |system_axi_protocol_converter_0 |     1|
+|2     |system_axi_register_slice_0     |     1|
+|3     |system_proc_sys_reset           |     1|
+|4     |system_processing_system7       |     1|
+|5     |system_xadc                     |     1|
+|6     |BUFG                            |    11|
+|7     |BUFIO                           |     1|
+|8     |BUFR                            |     1|
+|9     |CARRY4                          |   112|
+|10    |DNA_PORT                        |     1|
+|11    |DSP48E1                         |    12|
+|15    |ISERDESE2                       |     1|
+|16    |LUT1                            |    76|
+|17    |LUT2                            |   255|
+|18    |LUT3                            |   237|
+|19    |LUT4                            |   100|
+|20    |LUT5                            |   129|
+|21    |LUT6                            |   438|
+|22    |MUXF7                           |   128|
+|23    |MUXF8                           |    56|
+|24    |ODDR                            |    21|
+|26    |OSERDESE2                       |     1|
+|27    |PLLE2_ADV                       |     1|
+|28    |SRL16E                          |     3|
+|29    |SRLC32E                         |   266|
+|30    |FDCE                            |    17|
+|31    |FDRE                            |  1505|
+|32    |FDSE                            |    10|
+|33    |LD                              |    17|
+|34    |IBUF                            |    38|
+|35    |IBUFDS                          |     3|
+|36    |IOBUF                           |    16|
+|37    |OBUF                            |    29|
+|38    |OBUFDS                          |     2|
+|39    |OBUFT                           |     4|
++------+--------------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:54 ; elapsed = 00:00:56 . Memory (MB): peak = 1120.059 ; gain = 107.465
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 2 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:42 ; elapsed = 00:00:51 . Memory (MB): peak = 1120.059 ; gain = 47.641
+Synthesis Optimization Complete : Time (s): cpu = 00:00:55 ; elapsed = 00:00:56 . Memory (MB): peak = 1120.059 ; gain = 107.465
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.107 . Memory (MB): peak = 1128.062 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 370 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 1 inverter(s) to 1 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1128.121 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 35 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 16 instances
+  LD => LDCE: 17 instances
+  OBUFDS => OBUFDS_DUAL_BUF (INV, OBUFDS(x2)): 2 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+160 Infos, 142 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:02 ; elapsed = 00:01:04 . Memory (MB): peak = 1128.121 ; gain = 115.527
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'C:/Git/redPitayaFpga/prj/v0.94/project/redpitaya.runs/synth_1/red_pitaya_top.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file red_pitaya_top_utilization_synth.rpt -pb red_pitaya_top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Thu Jan  4 11:27:08 2024...
