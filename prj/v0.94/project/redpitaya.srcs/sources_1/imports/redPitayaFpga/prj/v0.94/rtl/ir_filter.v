@@ -20,14 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ir_filter(
+module ir_filter#(
+    parameter totalBits = 30,
+    parameter fracBits = totalBits - 14
+)(
     input clk_i,
     input [13:0] in,
+    input [totalBits-1:0] coefficient,
     output [13:0] out
     );
     
-    parameter totalBits = 30;
-    parameter fracBits = totalBits - 14;
     
     // Function to convert floating-point to fixed-point
     function signed [totalBits-1:0] convertToFixedPoint(real value, integer fracBits);
@@ -35,8 +37,8 @@ module ir_filter(
     endfunction
     
     reg signed [totalBits-1:0] y_delayed; // Delayed output for feedback
-    reg signed [totalBits-1:0] a = convertToFixedPoint(0.9999, fracBits);
-    reg signed [totalBits-1:0] b = convertToFixedPoint(0.0001, fracBits);
+    wire signed [totalBits-1:0] a = coefficient;//convertToFixedPoint(0.9999, fracBits);
+    wire signed [totalBits-1:0] b = convertToFixedPoint(1, fracBits) - a;
 
     initial begin
         y_delayed = 0;

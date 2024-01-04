@@ -340,22 +340,6 @@ assign adc_dat_raw[0] = adc_dat_i[0][16-1:2];
 assign adc_dat_raw[1] = adc_dat_i[1][16-1:2];
 //*/
 
-logic [1:0] [13:0] adc_toMovingAverage;
-
-reg [13:0] adc_delay;
-reg [13:0] adc_filtered;
-
-delay_simulator #(300) delay1(
-    .in(adc_dat[0] - pid_dat[0]),
-    .out(adc_delay),
-    .clk(adc_clk)
-    );
-    
-ir_filter ma1(
-    .clk_i           (adc_clk   ),
-    .in(adc_delay),
-    .out(adc_filtered)
-);
 // transform into 2's complement (negative slope)
 always @(posedge adc_clk) begin
   adc_dat[0] <= digital_loop ? dac_a : {adc_dat_raw[0][14-1], ~adc_dat_raw[0][14-2:0]};
@@ -455,7 +439,7 @@ red_pitaya_pid i_pid (
    // signals
   .clk_i           (adc_clk   ),  // clock
   .rstn_i          (adc_rstn  ),  // reset - active low
-  .dat_a_i         (adc_filtered),  // in 1
+  .dat_a_i         (adc_dat[0]),  // in 1
   .dat_b_i         (adc_dat[1]),  // in 2
   .dat_a_o         (pid_dat[0]),  // out 1
   .dat_b_o         (pid_dat[1]),  // out 2

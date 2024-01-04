@@ -82,6 +82,44 @@ reg  [ 20-1: 0] set_11_ki    ;
 reg  [ 14-1: 0] set_11_kd    ;
 reg             set_11_irst  ;
 
+reg use_feedback;
+reg use_fakeDelay;
+reg [9:0] fakeDelay;
+reg use_irFilter;
+reg [29:0] filterCoefficient;
+
+reg [13:0] dat_WithFeedback;
+reg [13:0] dat_delayed;
+reg [13:0] dat_filtered;
+
+wire [13:0] dat_delayOut;
+wire [13:0] dat_filterOut;
+
+delay_simulator #(600) delay1(
+    .in(dat_WithFeedback),
+    .out(dat_delayOut),
+    .nOfDelays(fakeDelay),
+    .clk(clk_i)
+    );
+    
+ir_filter#(
+30, 30-14
+)ma1(
+    .clk_i           (clk_i   ),
+    .in(dat_delayed),
+    .coefficient(filterCoefficient),
+    .out(dat_filterOut)
+);
+
+always @(*)begin
+    dat_WithFeedback = use_feedback ? dat_a_i - pid_11_out : dat_a_i;
+    dat_delayed = use_fakeDelay ? dat_delayOut : dat_WithFeedback;
+    dat_filtered = use_irFilter ? dat_filterOut : dat_delayed;
+end
+
+
+
+
 red_pitaya_pid_block #(
   .PSR (  PSR   ),
   .ISR (  ISR   ),
@@ -90,7 +128,7 @@ red_pitaya_pid_block #(
    // data
   .clk_i        (  clk_i          ),  // clock
   .rstn_i       (  rstn_i         ),  // reset - active low
-  .dat_i        (  dat_a_i        ),  // input data
+  .dat_i        (  dat_filtered   ),  // input data
   .dat_o        (  pid_11_out     ),  // output data
 
    // settings
@@ -230,6 +268,8 @@ assign dat_b_o = out_2_sat ;
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
+      {use_irFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
+      filterCoefficient <= 0;
       set_11_sp    <= 14'd0 ;
       set_11_kp    <= 14'd0 ;
       set_11_ki    <= 20'd0 ;
@@ -255,7 +295,10 @@ always @(posedge clk_i) begin
    else begin
       if (sys_wen) begin
          if (sys_addr[19:0]==16'h0)    {set_22_irst,set_21_irst,set_12_irst,set_11_irst} <= sys_wdata[ 4-1:0] ;
-
+         
+         if (sys_addr[19:0]==16'h4)    {use_irFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[3+10-1:0] ;
+         if (sys_addr[19:0]==16'h8)     filterCoefficient  <= sys_wdata[30-1:0] ;
+         
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h14)    set_11_kp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h18)    set_11_ki  <= sys_wdata[20-1:0] ;
@@ -288,6 +331,9 @@ end else begin
 
    casez (sys_addr[19:0])
       20'h00 : begin sys_ack <= sys_en;          sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
+
+     20'h04 : begin sys_ack <= sys_en;          sys_rdata <= {{32- 3{1'b0}},use_irFilter, fakeDelay, use_fakeDelay, use_feedback};end
+     20'h08 : begin sys_ack <= sys_en;          sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
 
       20'h10 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_sp}          ; end 
       20'h14 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_kp}          ; end 
