@@ -74,12 +74,13 @@ localparam  DSR = 10         ;
 
 //---------------------------------------------------------------------------------
 //  PID 11
+parameter totalBits_coeffs = 28;
 
 wire [ 14-1: 0] pid_11_out   ;
-reg  [ 14-1: 0] set_11_sp    ;
-reg  [ 14-1: 0] set_11_kp    ;
-reg  [ 20-1: 0] set_11_ki    ;
-reg  [ 14-1: 0] set_11_kd    ;
+reg  [ totalBits_coeffs-1: 0] set_11_sp    ;
+reg  [ totalBits_coeffs-1: 0] set_11_kp    ;
+reg  [ totalBits_coeffs-1: 0] set_11_ki    ;
+reg  [ totalBits_coeffs-1: 0] set_11_kd    ;
 reg             set_11_irst  ;
 
 reg [1:0]use_feedback;
@@ -123,10 +124,15 @@ always @(*)begin
     dat_filtered = use_irFilter ? dat_filterOut : dat_delayed;
 end
 
-red_pitaya_pid_block #(
-  .PSR (  PSR   ),
-  .ISR (  ISR   ),
-  .DSR (  DSR   )      
+new_PID #(
+   .totalBits_IO               (24),
+   .fracBits_IO                (24-14),
+   .totalBits_coeffs           (totalBits_coeffs),
+   .fracBits_P                 (PSR),
+   .fracBits_I                 (ISR),
+   .fracBits_D                 (DSR),
+   .totalBits_I_saturation     (24),
+   .workingBits                (32)
 ) i_pid11 (
    // data
   .clk_i        (  clk_i          ),  // clock
@@ -273,10 +279,10 @@ always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
       {use_irFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
       filterCoefficient <= 0;
-      set_11_sp    <= 14'd0 ;
-      set_11_kp    <= 14'd0 ;
-      set_11_ki    <= 20'd0 ;
-      set_11_kd    <= 14'd0 ;
+      set_11_sp    <= 0 ;
+      set_11_kp    <= 0 ;
+      set_11_ki    <= 0 ;
+      set_11_kd    <= 0 ;
       set_11_irst  <=  1'b1 ;
       set_12_sp    <= 14'd0 ;
       set_12_kp    <= 14'd0 ;
@@ -302,10 +308,10 @@ always @(posedge clk_i) begin
          if (sys_addr[19:0]==16'h4)    {use_irFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1-1:0] ;
          if (sys_addr[19:0]==16'h8)     filterCoefficient  <= sys_wdata[30-1:0] ;
          
-         if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[14-1:0] ;
-         if (sys_addr[19:0]==16'h14)    set_11_kp  <= sys_wdata[14-1:0] ;
-         if (sys_addr[19:0]==16'h18)    set_11_ki  <= sys_wdata[20-1:0] ;
-         if (sys_addr[19:0]==16'h1C)    set_11_kd  <= sys_wdata[14-1:0] ;
+         if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
+         if (sys_addr[19:0]==16'h14)    set_11_kp  <= sys_wdata[totalBits_coeffs-1:0] ;
+         if (sys_addr[19:0]==16'h18)    set_11_ki  <= sys_wdata[totalBits_coeffs-1:0] ;
+         if (sys_addr[19:0]==16'h1C)    set_11_kd  <= sys_wdata[totalBits_coeffs-1:0] ;
          if (sys_addr[19:0]==16'h20)    set_12_sp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h24)    set_12_kp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h28)    set_12_ki  <= sys_wdata[20-1:0] ;
@@ -338,10 +344,10 @@ end else begin
      20'h04 : begin sys_ack <= sys_en;          sys_rdata <= {{(32-(2+1+10+1)){1'b0}},use_irFilter, fakeDelay, use_fakeDelay, use_feedback};end
      20'h08 : begin sys_ack <= sys_en;          sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
 
-      20'h10 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_sp}          ; end 
-      20'h14 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_kp}          ; end 
-      20'h18 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_11_ki}          ; end 
-      20'h1C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_11_kd}          ; end 
+      20'h10 : begin sys_ack <= sys_en;          sys_rdata <= set_11_sp          ; end 
+      20'h14 : begin sys_ack <= sys_en;          sys_rdata <= set_11_kp          ; end 
+      20'h18 : begin sys_ack <= sys_en;          sys_rdata <= set_11_ki          ; end 
+      20'h1C : begin sys_ack <= sys_en;          sys_rdata <= set_11_kd          ; end 
 
       20'h20 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_sp}          ; end 
       20'h24 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_kp}          ; end 
