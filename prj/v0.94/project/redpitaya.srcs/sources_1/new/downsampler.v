@@ -23,17 +23,21 @@
 module downsampler#(
     parameter downsampling = 10
 )(
-    input [13:0] in,
+    input [13:0] in,//todo add variable input bit size
     output [13:0] out,
     input clk_in,
-    output reg clk_out
+    output reg clk_out,
+    input reset
 );
     ir_filter_fixed #(
         0.5/downsampling,
+        14,
+        0,
         30,
         30-14
     )irff(
         clk_in,
+        reset,
         in,
         out
     );
@@ -46,12 +50,17 @@ module downsampler#(
         end
     end
     always @(negedge(clk_in))begin
-        if(currentClockPosition == 0)begin
+        if(reset) begin
             clk_out <= 0;
-            currentClockPosition <= currentClockPosition + 1;
-        end
-        if(currentClockPosition == downsampling)begin
             currentClockPosition <= 0;
+        end else begin            
+            if(currentClockPosition == 0)begin
+                clk_out <= 0;
+                currentClockPosition <= currentClockPosition + 1;
+            end
+            if(currentClockPosition == downsampling)begin
+                currentClockPosition <= 0;
+            end
         end
     end
     

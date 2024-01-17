@@ -126,7 +126,7 @@ FractionalMultiplier
 #(workingBits,totalBits_coeffs-1,workingBits,fracBits_IO,fracBits_P, fracBits_IO)fmp
 (error,set_kp_i,kp_mult);
 
-assign kp_reg = rstn_i ? 0 : kp_mult;
+assign kp_reg = rstn_i ? kp_mult : 0;
 
 
 
@@ -150,7 +150,6 @@ FractionalMultiplier
 saturator#(workingBits,totalBits_IO)sat_i(int_sum, int_shr);
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
-      ki_mult  <= 0;
       int_reg  <= 0;
    end
    else begin

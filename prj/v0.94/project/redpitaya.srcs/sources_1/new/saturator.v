@@ -27,9 +27,9 @@ module saturator #(parameter s = 8, parameter n = 3) (
   // Calculate the saturation limit
   always @(*) begin
     if ({input_data [s-1],(|input_data [s-2:n-1])} == 'b01) begin// positive saturation
-        saturated_output <= (1<<(n-1)) - 1; // max positive
+        saturated_output = (1<<(n-1)) - 1; // max positive
     end else if ({input_data [s-1],(&input_data [s-2:n-1])} == 'b10) begin // negative saturation
-        saturated_output <= -$signed(1<<(n-1)); // max negative
+        saturated_output = -$signed(1<<(n-1)); // max negative
     end else begin// No saturation
         saturated_output = input_data;
     end

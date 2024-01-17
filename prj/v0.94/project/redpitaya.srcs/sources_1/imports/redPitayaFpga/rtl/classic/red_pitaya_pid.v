@@ -75,7 +75,9 @@ localparam  DSR = 10         ;
 //---------------------------------------------------------------------------------
 //  PID 11
 parameter totalBits_coeffs = 28;
-
+parameter totalBits_IO = 24;
+parameter fracBits_IO = 24-14;
+wire [ totalBits_IO-1: 0] pid_11_out_withExtraBits   ;
 wire [ 14-1: 0] pid_11_out   ;
 reg  [ totalBits_coeffs-1: 0] set_11_sp    ;
 reg  [ totalBits_coeffs-1: 0] set_11_kp    ;
@@ -87,23 +89,24 @@ reg [1:0]use_feedback;
 reg use_fakeDelay;
 reg [9:0] fakeDelay;
 reg use_irFilter;
-reg [29:0] filterCoefficient;
+reg [31+16:0] filterCoefficient;
 
-wire [13:0] dat_WithFeedback;
-reg [13:0] dat_delayed;
-reg [13:0] dat_filtered;
+wire [totalBits_IO-1:0] dat_WithFeedback;
+reg [totalBits_IO-1:0] dat_delayed;
+reg [totalBits_IO-1:0] dat_filtered;
 
-wire [13:0] dat_delayOut;
-wire [13:0] dat_filterOut;
+wire [totalBits_IO-1:0] dat_delayOut;
+wire [totalBits_IO-1:0] dat_filterOut;
 
-feedbackAdder fba(
+assign pid_11_out = pid_11_out_withExtraBits[fracBits_IO+13:fracBits_IO];
+feedbackAdder#(totalBits_IO) fba(
     .feedbackType(use_feedback),
-    .in(dat_a_i),
-    .feedback(pid_11_out),
+    .in({dat_a_i, {fracBits_IO{1'b0}}}),
+    .feedback(pid_11_out_withExtraBits),
     .out(dat_WithFeedback)
     );
 
-delay_simulator #(600) delay1(
+delay_simulator #(600, totalBits_IO) delay1(
     .in(dat_WithFeedback),
     .out(dat_delayOut),
     .nOfDelays(fakeDelay),
@@ -111,9 +114,10 @@ delay_simulator #(600) delay1(
     );
     
 ir_filter#(
-30, 30-14
+totalBits_IO, fracBits_IO, 30+16, 30
 )ma1(
     .clk_i           (clk_i   ),
+    .reset(!rstn_i),
     .in(dat_delayed),
     .coefficient(filterCoefficient),
     .out(dat_filterOut)
@@ -125,8 +129,8 @@ always @(*)begin
 end
 
 new_PID #(
-   .totalBits_IO               (24),
-   .fracBits_IO                (24-14),
+   .totalBits_IO               (totalBits_IO),
+   .fracBits_IO                (fracBits_IO),
    .totalBits_coeffs           (totalBits_coeffs),
    .fracBits_P                 (PSR),
    .fracBits_I                 (ISR),
@@ -138,7 +142,7 @@ new_PID #(
   .clk_i        (  clk_i          ),  // clock
   .rstn_i       (  rstn_i         ),  // reset - active low
   .dat_i        (  dat_filtered   ),  // input data
-  .dat_o        (  pid_11_out     ),  // output data
+  .dat_o        (  pid_11_out_withExtraBits     ),  // output data
 
    // settings
   .set_sp_i     (  set_11_sp      ),  // set point
@@ -147,6 +151,7 @@ new_PID #(
   .set_kd_i     (  set_11_kd      ),  // Kd
   .int_rst_i    (  set_11_irst    )   // integrator reset
 );
+
 
 //---------------------------------------------------------------------------------
 //  PID 21
@@ -306,7 +311,7 @@ always @(posedge clk_i) begin
          if (sys_addr[19:0]==16'h0)    {set_22_irst,set_21_irst,set_12_irst,set_11_irst} <= sys_wdata[ 4-1:0] ;
          
          if (sys_addr[19:0]==16'h4)    {use_irFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1-1:0] ;
-         if (sys_addr[19:0]==16'h8)     filterCoefficient  <= sys_wdata[30-1:0] ;
+         if (sys_addr[19:0]==16'h8)     filterCoefficient  <= {{16{sys_wdata[32-1]}},sys_wdata[30-1:0]};
          
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
          if (sys_addr[19:0]==16'h14)    set_11_kp  <= sys_wdata[totalBits_coeffs-1:0] ;

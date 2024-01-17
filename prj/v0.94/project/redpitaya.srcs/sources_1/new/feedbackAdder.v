@@ -20,11 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module feedbackAdder(
+module feedbackAdder#(
+        parameter dataSize = 14
+    )(
     input [1:0] feedbackType,
-    input [13:0] in,
-    input [13:0] feedback,
-    output [13:0] out
+    input [dataSize-1:0] in,
+    input [dataSize-1:0] feedback,
+    output [dataSize-1:0] out
     );
 //    always @(*)begin
 //        case(feedbackType)
@@ -38,5 +40,5 @@ module feedbackAdder(
              (feedbackType == 'b00) ?   in :            //no feedback
              (feedbackType == 'b01) ?   in - feedback : //negative feedback
              (feedbackType == 'b10) ?   in + feedback : //positive feedback
-           /*(feedbackType == 'b11) ?*/ feedback - in;  //negative feedback, output reversed
+           /*(feedbackType == 'b11) ?*/ - in;           //no feedback, output reversed
 endmodule

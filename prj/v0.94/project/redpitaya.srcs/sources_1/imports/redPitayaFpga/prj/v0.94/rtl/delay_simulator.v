@@ -21,14 +21,15 @@
 
 
 module delay_simulator#(
-    parameter max_nOfCycles = 300
+    parameter max_nOfCycles = 300,
+    parameter dataSize = 14
 )(
     input clk,
-    input [14:0] in,
+    input [dataSize-1:0] in,
     input [9:0] nOfDelays,// Adjust the range based on your maximum delay
-    output [14:0] out
+    output [dataSize-1:0] out
     );
-    reg [15:0] delay_buffer [0:max_nOfCycles]; //(max_nOfCycles + 1) registers
+    reg [dataSize-1:0] delay_buffer [0:max_nOfCycles]; //(max_nOfCycles + 1) registers
     reg [9:0] nOfDelays_saturated;
     
     always @(*)begin
