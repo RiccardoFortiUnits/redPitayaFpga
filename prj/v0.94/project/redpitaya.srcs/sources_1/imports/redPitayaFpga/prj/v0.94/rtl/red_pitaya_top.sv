@@ -501,4 +501,48 @@ red_pitaya_daisy i_daisy (
   .sys_ack_o       (  sys[5].ack                 )
 );
 
+
+////debug
+//reg clk;
+//reg reset;
+//// Clock generation
+//initial begin
+//    clk = 0;
+//    reset = 1;
+//    while(1)begin
+//        #10;
+//        clk = ~clk;
+//        #10;
+//        clk = ~clk;
+//        reset = 0;
+//    end
+//end
+
+//reg [23:0] out;
+//reg [7:0] [27:0] coeffs= {
+//    28'b0,28'b0,28'b0,
+//    28'b1<<9,//.125
+//    28'b0,
+//    28'b1<<14,//4
+//    28'b1<<10,//.25
+//    28'b1<<12//1
+//};
+//discreteFilter #(
+//   .totalBits_IO               (24),
+//   .fracBits_IO                (24-14),
+//   .totalBits_coeffs           (28),
+//   .fracBits_coeffs            (12)
+//) i_pid11 (
+//   // data
+//  .clk        (  clk          ),
+//  .reset       (  reset         ),
+//  .in        (  1<<10   ),
+//  .out        (  out     ),
+
+//   // settings
+//  .coefficients     (  coeffs      ),
+//  .denNumSplit     (  2      )
+//);
+
+
 endmodule: red_pitaya_top

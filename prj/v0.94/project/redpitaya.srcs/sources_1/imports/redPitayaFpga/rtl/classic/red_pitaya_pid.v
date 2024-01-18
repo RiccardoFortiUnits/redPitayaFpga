@@ -74,9 +74,19 @@ localparam  PSR = 12         ;
 localparam  ISR = 18         ;
 localparam  DSR = 10         ;
 
+parameter led_feedbackType0         = 0;
+parameter led_feedbackType1         = 1;
+parameter led_delay                 = 2;
+parameter led_filter                = 3;
+parameter led_PID                   = 4;
+parameter led_tensionShifter        = 5;
+parameter led_outSaturation         = 6;
+parameter led_integralSaturation    = 7;
+
 //---------------------------------------------------------------------------------
 //  PID 11
 parameter totalBits_coeffs = 28;
+parameter fracBits_coeffs = 20;
 parameter totalBits_IO = 24;
 parameter fracBits_IO = 24-14;
 wire [ totalBits_IO-1: 0] dat_pidded   ;
@@ -118,15 +128,15 @@ delay_simulator #(600, totalBits_IO) delay1(
     .clk(clk_i)
     );
     
-ir_filter#(
-totalBits_IO, fracBits_IO, 30+16, 30
-)ma1(
-    .clk_i           (clk_i   ),
-    .reset(!rstn_i),
-    .in(dat_delayed),
-    .coefficient(filterCoefficient),
-    .out(dat_filterOut)
-);
+//ir_filter#(
+//totalBits_IO, fracBits_IO, 30+16, 30
+//)ma1(
+//    .clk_i           (clk_i   ),
+//    .reset(!rstn_i),
+//    .in(dat_delayed),
+//    .coefficient(filterCoefficient),
+//    .out(dat_filterOut)
+//);
 
 always @(*)begin
     dat_delayed = use_fakeDelay ? dat_delayOut : dat_WithFeedback;
@@ -156,14 +166,20 @@ new_PID #(
   .set_ki_i     (  set_11_ki      ),  // Ki
   .set_kd_i     (  set_11_kd      ),  // Kd
   .int_rst_i    (  set_11_irst    ),  // integrator reset
-  .outSaturation(led_o[0]),
-  .integralSaturation(led_o[1])
+  .outSaturation(led_o[led_outSaturation]),
+  .integralSaturation(led_o[led_integralSaturation])
 );
 
 tensionShifter#(totalBits_IO)ts(
 .in(dat_pidded),
 .out(dat_shiftedOut)
 );
+
+assign led_o[led_feedbackType1:led_feedbackType0]  = use_feedback;
+assign led_o[led_delay]                            = use_fakeDelay;
+assign led_o[led_filter]                           = use_irFilter;
+assign led_o[led_PID]                              = rstn_i;
+assign led_o[led_tensionShifter]                   = use_tensionShifter;
 
 //---------------------------------------------------------------------------------
 //  PID 21
@@ -290,6 +306,38 @@ assign dat_b_o = out_2_sat ;
 
 //---------------------------------------------------------------------------------
 //
+//  generic filter
+
+integer i;
+parameter     max_nOfCoefficients = 8;
+reg  [totalBits_coeffs-1:0] coeffs[max_nOfCoefficients-1:0];
+reg [7:0] numDenSplit;
+
+parameter addr_numDenSplit = 'h60;
+parameter addr_coeffs = 'h64;
+
+
+
+discreteFilter #(
+   .totalBits_IO               (totalBits_IO    ),
+   .fracBits_IO                (fracBits_IO     ),
+   .totalBits_coeffs           (totalBits_coeffs),
+   .fracBits_coeffs            (fracBits_coeffs) 
+) df (
+   // data
+  .clk        (  clk_i          ),
+  .reset       (  !rstn_i         ),
+  .in        (  dat_delayed   ),
+  .out        (  dat_filterOut     ),
+
+   // settings
+  .coefficients     ({coeffs[7],coeffs[6],coeffs[5],coeffs[4],coeffs[3],coeffs[2],coeffs[1],coeffs[0]}),
+  .denNumSplit     (  numDenSplit      )
+);
+
+
+//---------------------------------------------------------------------------------
+//
 //  System bus connection
 
 always @(posedge clk_i) begin
@@ -316,7 +364,10 @@ always @(posedge clk_i) begin
       set_22_ki    <= 20'd0 ;
       set_22_kd    <= 14'd0 ;
       set_22_irst  <=  1'b1 ;
-
+      numDenSplit  <= 0 ;
+      for(i=0;i<max_nOfCoefficients;i=i+1)begin
+          coeffs[i] <= 0;
+      end
    end
    else begin
       if (sys_wen) begin
@@ -341,6 +392,11 @@ always @(posedge clk_i) begin
          if (sys_addr[19:0]==16'h44)    set_22_kp  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==16'h48)    set_22_ki  <= sys_wdata[20-1:0] ;
          if (sys_addr[19:0]==16'h4C)    set_22_kd  <= sys_wdata[14-1:0] ;
+         if (sys_addr[19:0]==addr_numDenSplit)    numDenSplit  <= sys_wdata[14-1:0] ;
+         
+          for(i=0;i<max_nOfCoefficients;i=i+1)begin
+              if (sys_addr[19:0]==(addr_coeffs+(i<<2)))    coeffs[i]  <= sys_wdata[totalBits_coeffs-1:0] ;
+          end
       end
    end
 end
@@ -354,35 +410,42 @@ if (rstn_i == 1'b0) begin
    sys_ack <= 1'b0 ;
 end else begin
    sys_err <= 1'b0 ;
-
-   casez (sys_addr[19:0])
-      20'h00 : begin sys_ack <= sys_en;          sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
-
-     20'h04 : begin sys_ack <= sys_en;          sys_rdata <= {{(32-(2+1+10+1+1)){1'b0}}, use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback};end
-     20'h08 : begin sys_ack <= sys_en;          sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
-
-      20'h10 : begin sys_ack <= sys_en;          sys_rdata <= set_11_sp          ; end 
-      20'h14 : begin sys_ack <= sys_en;          sys_rdata <= set_11_kp          ; end 
-      20'h18 : begin sys_ack <= sys_en;          sys_rdata <= set_11_ki          ; end 
-      20'h1C : begin sys_ack <= sys_en;          sys_rdata <= set_11_kd          ; end 
-
-      20'h20 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_sp}          ; end 
-      20'h24 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_kp}          ; end 
-      20'h28 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_12_ki}          ; end 
-      20'h2C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_12_kd}          ; end 
-
-      20'h30 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_21_sp}          ; end 
-      20'h34 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_21_kp}          ; end 
-      20'h38 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_21_ki}          ; end 
-      20'h3C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_21_kd}          ; end 
-
-      20'h40 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_22_sp}          ; end 
-      20'h44 : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_22_kp}          ; end 
-      20'h48 : begin sys_ack <= sys_en;          sys_rdata <= {{32-20{1'b0}}, set_22_ki}          ; end 
-      20'h4C : begin sys_ack <= sys_en;          sys_rdata <= {{32-14{1'b0}}, set_22_kd}          ; end 
-
-     default : begin sys_ack <= sys_en;          sys_rdata <=  32'h0                              ; end
-   endcase
+    sys_ack <= sys_en;
+    if(sys_addr[19:0]<addr_coeffs)begin
+       casez (sys_addr[19:0])
+          20'h00 : begin sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
+    
+         20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1)){1'b0}}, use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback};end
+         20'h08 : begin  sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
+    
+          20'h10 : begin sys_rdata <= set_11_sp          ; end 
+          20'h14 : begin sys_rdata <= set_11_kp          ; end 
+          20'h18 : begin sys_rdata <= set_11_ki          ; end 
+          20'h1C : begin sys_rdata <= set_11_kd          ; end 
+    
+          20'h20 : begin sys_rdata <= {{32-14{1'b0}}, set_12_sp}          ; end 
+          20'h24 : begin sys_rdata <= {{32-14{1'b0}}, set_12_kp}          ; end 
+          20'h28 : begin sys_rdata <= {{32-20{1'b0}}, set_12_ki}          ; end 
+          20'h2C : begin sys_rdata <= {{32-14{1'b0}}, set_12_kd}          ; end 
+    
+          20'h30 : begin sys_rdata <= {{32-14{1'b0}}, set_21_sp}          ; end 
+          20'h34 : begin sys_rdata <= {{32-14{1'b0}}, set_21_kp}          ; end 
+          20'h38 : begin sys_rdata <= {{32-20{1'b0}}, set_21_ki}          ; end 
+          20'h3C : begin sys_rdata <= {{32-14{1'b0}}, set_21_kd}          ; end 
+    
+          20'h40 : begin sys_rdata <= {{32-14{1'b0}}, set_22_sp}          ; end 
+          20'h44 : begin sys_rdata <= {{32-14{1'b0}}, set_22_kp}          ; end 
+          20'h48 : begin sys_rdata <= {{32-20{1'b0}}, set_22_ki}          ; end 
+          20'h4C : begin sys_rdata <= {{32-14{1'b0}}, set_22_kd}          ; end 
+          addr_numDenSplit : begin sys_rdata <= numDenSplit               ; end 
+    
+         default : begin sys_rdata <=  32'h0                              ; end
+       endcase
+   end else begin
+          for(i=0;i<max_nOfCoefficients;i=i+1)begin
+              if (sys_addr[19:0]==(16'h64+(i<<2)))   sys_rdata <=  coeffs[i] ;
+          end
+   end
 end
 
 endmodule
