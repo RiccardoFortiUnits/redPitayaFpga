@@ -65,7 +65,9 @@ module red_pitaya_pid (
    input                 sys_ren         ,  //!< bus read enable
    output reg [ 32-1: 0] sys_rdata       ,  //!< bus read data
    output reg            sys_err         ,  //!< bus error indicator
-   output reg            sys_ack            //!< bus acknowledge signal
+   output reg            sys_ack         ,  //!< bus acknowledge signal
+   
+   output [ 8-1:0] led_o
 );
 
 localparam  PSR = 12         ;
@@ -77,7 +79,7 @@ localparam  DSR = 10         ;
 parameter totalBits_coeffs = 28;
 parameter totalBits_IO = 24;
 parameter fracBits_IO = 24-14;
-wire [ totalBits_IO-1: 0] pid_11_out_withExtraBits   ;
+wire [ totalBits_IO-1: 0] dat_pidded   ;
 wire [ 14-1: 0] pid_11_out   ;
 reg  [ totalBits_coeffs-1: 0] set_11_sp    ;
 reg  [ totalBits_coeffs-1: 0] set_11_kp    ;
@@ -90,19 +92,22 @@ reg use_fakeDelay;
 reg [9:0] fakeDelay;
 reg use_irFilter;
 reg [31+16:0] filterCoefficient;
+reg use_tensionShifter;
 
 wire [totalBits_IO-1:0] dat_WithFeedback;
 reg [totalBits_IO-1:0] dat_delayed;
 reg [totalBits_IO-1:0] dat_filtered;
+reg [totalBits_IO-1:0] dat_shifted;
 
 wire [totalBits_IO-1:0] dat_delayOut;
 wire [totalBits_IO-1:0] dat_filterOut;
+wire [totalBits_IO-1:0] dat_shiftedOut;
 
-assign pid_11_out = pid_11_out_withExtraBits[fracBits_IO+13:fracBits_IO];
+assign pid_11_out = dat_shifted[fracBits_IO+13:fracBits_IO];
 feedbackAdder#(totalBits_IO) fba(
     .feedbackType(use_feedback),
     .in({dat_a_i, {fracBits_IO{1'b0}}}),
-    .feedback(pid_11_out_withExtraBits),
+    .feedback(dat_pidded),
     .out(dat_WithFeedback)
     );
 
@@ -126,6 +131,7 @@ totalBits_IO, fracBits_IO, 30+16, 30
 always @(*)begin
     dat_delayed = use_fakeDelay ? dat_delayOut : dat_WithFeedback;
     dat_filtered = use_irFilter ? dat_filterOut : dat_delayed;
+    dat_shifted = use_tensionShifter ? dat_shiftedOut : dat_pidded;
 end
 
 new_PID #(
@@ -142,16 +148,22 @@ new_PID #(
   .clk_i        (  clk_i          ),  // clock
   .rstn_i       (  rstn_i         ),  // reset - active low
   .dat_i        (  dat_filtered   ),  // input data
-  .dat_o        (  pid_11_out_withExtraBits     ),  // output data
+  .dat_o        (  dat_pidded     ),  // output data
 
    // settings
   .set_sp_i     (  set_11_sp      ),  // set point
   .set_kp_i     (  set_11_kp      ),  // Kp
   .set_ki_i     (  set_11_ki      ),  // Ki
   .set_kd_i     (  set_11_kd      ),  // Kd
-  .int_rst_i    (  set_11_irst    )   // integrator reset
+  .int_rst_i    (  set_11_irst    ),  // integrator reset
+  .outSaturation(led_o[0]),
+  .integralSaturation(led_o[1])
 );
 
+tensionShifter#(totalBits_IO)ts(
+.in(dat_pidded),
+.out(dat_shiftedOut)
+);
 
 //---------------------------------------------------------------------------------
 //  PID 21
@@ -282,7 +294,7 @@ assign dat_b_o = out_2_sat ;
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
-      {use_irFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
+      {use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
       filterCoefficient <= 0;
       set_11_sp    <= 0 ;
       set_11_kp    <= 0 ;
@@ -310,7 +322,7 @@ always @(posedge clk_i) begin
       if (sys_wen) begin
          if (sys_addr[19:0]==16'h0)    {set_22_irst,set_21_irst,set_12_irst,set_11_irst} <= sys_wdata[ 4-1:0] ;
          
-         if (sys_addr[19:0]==16'h4)    {use_irFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1-1:0] ;
+         if (sys_addr[19:0]==16'h4)    {use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1-1:0] ;
          if (sys_addr[19:0]==16'h8)     filterCoefficient  <= {{16{sys_wdata[32-1]}},sys_wdata[30-1:0]};
          
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
@@ -346,7 +358,7 @@ end else begin
    casez (sys_addr[19:0])
       20'h00 : begin sys_ack <= sys_en;          sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
 
-     20'h04 : begin sys_ack <= sys_en;          sys_rdata <= {{(32-(2+1+10+1)){1'b0}},use_irFilter, fakeDelay, use_fakeDelay, use_feedback};end
+     20'h04 : begin sys_ack <= sys_en;          sys_rdata <= {{(32-(2+1+10+1+1)){1'b0}}, use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback};end
      20'h08 : begin sys_ack <= sys_en;          sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
 
       20'h10 : begin sys_ack <= sys_en;          sys_rdata <= set_11_sp          ; end 

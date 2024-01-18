@@ -196,6 +196,13 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/tensionShifter.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/imports/redPitayaFpga/rtl/interface/axi4_if.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../../rtl/interface/axi4_if.sv"/>

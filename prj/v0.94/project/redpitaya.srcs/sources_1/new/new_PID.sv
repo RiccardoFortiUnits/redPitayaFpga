@@ -79,17 +79,22 @@ module new_PID #(
 )
 (
    // data
-   input                 clk_i           ,  // clock
-   input                 rstn_i          ,  // reset - active low
-   input      [ totalBits_IO-1: 0] dat_i           ,  // input data
-   output     [ totalBits_IO-1: 0] dat_o           ,  // output data
+   input                 clk_i                         ,  // clock
+   input                 rstn_i                        ,  // reset - active low
+   input      [ totalBits_IO-1: 0] dat_i               ,  // input data
+   output     [ totalBits_IO-1: 0] dat_o               ,  // output data
 
    // settings
-   input      [ totalBits_IO-1: 0] set_sp_i        ,  // set point
+   input      [ totalBits_IO-1: 0] set_sp_i            ,  // set point
    input      [ totalBits_coeffs-1: 0] set_kp_i        ,  // Kp
    input      [ totalBits_coeffs-1: 0] set_ki_i        ,  // Ki
    input      [ totalBits_coeffs-1: 0] set_kd_i        ,  // Kd
-   input                 int_rst_i          // integrator reset
+   input        int_rst_i                              ,  // integrator reset
+   
+   // warnings
+   
+   output       integralSaturation,
+   output       outSaturation
 );
 
 
@@ -147,7 +152,7 @@ FractionalMultiplier
 #(workingBits,totalBits_coeffs-1,workingBits,fracBits_IO,fracBits_I, fracBits_IO)fmi
 (error,set_ki_i,ki_mult);
 
-saturator#(workingBits,totalBits_IO)sat_i(int_sum, int_shr);
+saturator#(workingBits,totalBits_IO)sat_i(int_sum, int_shr, integralSaturation);
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
       int_reg  <= 0;
@@ -210,7 +215,7 @@ wire  [workingBits-1: 0] pid_sum_saturated     ; // biggest posible bit-width
 reg   [totalBits_IO-1: 0] pid_out     ;
 
 assign pid_sum = $signed(kp_reg) + $signed(int_shr) + $signed(kd_reg_s) ;
-saturator#(workingBits,totalBits_IO)sat_pid(pid_sum, pid_sum_saturated);
+saturator#(workingBits,totalBits_IO)sat_pid(pid_sum, pid_sum_saturated, outSaturation);
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin

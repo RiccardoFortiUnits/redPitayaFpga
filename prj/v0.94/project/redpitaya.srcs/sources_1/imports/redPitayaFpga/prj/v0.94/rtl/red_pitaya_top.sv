@@ -388,7 +388,7 @@ red_pitaya_hk i_hk (
   .clk_i           (adc_clk ),  // clock
   .rstn_i          (adc_rstn),  // reset - active low
   // LED
-  .led_o           (  led_o                      ),  // LED output
+//  .led_o           (  led_o                      ),  // LED output
   // global configuration
   .digital_loop    (digital_loop),
   .daisy_mode_o    (daisy_mode),
@@ -434,7 +434,7 @@ assign gpio.i[3*GDW-1:2*GDW] = exp_n_in[GDW-1:0];
 ////////////////////////////////////////////////////////////////////////////////
 //  MIMO PID controller
 ////////////////////////////////////////////////////////////////////////////////
-
+reg [7:0] leds;
 red_pitaya_pid i_pid (
    // signals
   .clk_i           (adc_clk   ),  // clock
@@ -450,8 +450,11 @@ red_pitaya_pid i_pid (
   .sys_ren         (sys[3].ren  ),
   .sys_rdata       (sys[3].rdata),
   .sys_err         (sys[3].err  ),
-  .sys_ack         (sys[3].ack  )
+  .sys_ack         (sys[3].ack  ),
+  .led_o           (leds)  // LED output
 );
+
+assign led_o = leds;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Daisy test code

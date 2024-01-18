@@ -21,17 +21,21 @@
 
 module saturator #(parameter s = 8, parameter n = 3) (
   input wire signed [s-1:0] input_data,
-  output reg signed [s-1:0] saturated_output
+  output reg signed [s-1:0] saturated_output,
+  output reg is_saturated
 );
 
   // Calculate the saturation limit
   always @(*) begin
-    if ({input_data [s-1],(|input_data [s-2:n-1])} == 'b01) begin// positive saturation
+    if ({input_data [s-1],(|input_data [s-2:n-1])} == 'b01) begin // positive saturation
         saturated_output = (1<<(n-1)) - 1; // max positive
+        is_saturated = 1;
     end else if ({input_data [s-1],(&input_data [s-2:n-1])} == 'b10) begin // negative saturation
         saturated_output = -$signed(1<<(n-1)); // max negative
-    end else begin// No saturation
+        is_saturated = 1;
+    end else begin // No saturation
         saturated_output = input_data;
+        is_saturated = 0;
     end
   end
 endmodule
