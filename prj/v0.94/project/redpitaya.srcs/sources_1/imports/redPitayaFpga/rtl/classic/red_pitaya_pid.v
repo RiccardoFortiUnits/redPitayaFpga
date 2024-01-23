@@ -100,17 +100,20 @@ reg             set_11_irst  ;
 reg [1:0]use_feedback;
 reg use_fakeDelay;
 reg [9:0] fakeDelay;
-reg use_irFilter;
+reg use_lpFilter;
 reg [31+16:0] filterCoefficient;
 reg use_tensionShifter;
+reg use_genFilter;
 
 wire [totalBits_IO-1:0] dat_WithFeedback;
 reg [totalBits_IO-1:0] dat_delayed;
-reg [totalBits_IO-1:0] dat_filtered;
+reg [totalBits_IO-1:0] dat_lpFiltered;
+reg [totalBits_IO-1:0] dat_genFiltered;
 reg [totalBits_IO-1:0] dat_shifted;
 
 wire [totalBits_IO-1:0] dat_delayOut;
-wire [totalBits_IO-1:0] dat_filterOut;
+wire [totalBits_IO-1:0] dat_lpFilterOut;
+wire [totalBits_IO-1:0] dat_genFilterOut;
 wire [totalBits_IO-1:0] dat_shiftedOut;
 
 assign pid_11_out = dat_shifted[fracBits_IO+13:fracBits_IO];
@@ -128,19 +131,20 @@ delay_simulator #(600, totalBits_IO) delay1(
     .clk(clk_i)
     );
     
-//ir_filter#(
-//totalBits_IO, fracBits_IO, 30+16, 30
-//)ma1(
-//    .clk_i           (clk_i   ),
-//    .reset(!rstn_i),
-//    .in(dat_delayed),
-//    .coefficient(filterCoefficient),
-//    .out(dat_filterOut)
-//);
+ir_filter#(
+totalBits_IO, fracBits_IO, 30+16, 30
+)ma1(
+    .clk_i           (clk_i   ),
+    .reset(!rstn_i),
+    .in(dat_delayed),
+    .coefficient(filterCoefficient),
+    .out(dat_lpFilterOut)
+);
 
 always @(*)begin
     dat_delayed = use_fakeDelay ? dat_delayOut : dat_WithFeedback;
-    dat_filtered = use_irFilter ? dat_filterOut : dat_delayed;
+    dat_lpFiltered = use_lpFilter ? dat_lpFilterOut : dat_delayed;
+    dat_genFiltered = use_genFilter ? dat_genFilterOut : dat_lpFiltered;
     dat_shifted = use_tensionShifter ? dat_shiftedOut : dat_pidded;
 end
 
@@ -157,7 +161,7 @@ new_PID #(
    // data
   .clk_i        (  clk_i          ),  // clock
   .rstn_i       (  rstn_i         ),  // reset - active low
-  .dat_i        (  dat_filtered   ),  // input data
+  .dat_i        (  dat_genFiltered   ),  // input data
   .dat_o        (  dat_pidded     ),  // output data
 
    // settings
@@ -177,7 +181,7 @@ tensionShifter#(totalBits_IO)ts(
 
 assign led_o[led_feedbackType1:led_feedbackType0]  = use_feedback;
 assign led_o[led_delay]                            = use_fakeDelay;
-assign led_o[led_filter]                           = use_irFilter;
+assign led_o[led_filter]                           = use_lpFilter;
 assign led_o[led_PID]                              = rstn_i;
 assign led_o[led_tensionShifter]                   = use_tensionShifter;
 
@@ -316,8 +320,6 @@ reg [7:0] numDenSplit;
 parameter addr_numDenSplit = 'h60;
 parameter addr_coeffs = 'h64;
 
-
-
 discreteFilter #(
    .totalBits_IO               (totalBits_IO    ),
    .fracBits_IO                (fracBits_IO     ),
@@ -327,8 +329,8 @@ discreteFilter #(
    // data
   .clk        (  clk_i          ),
   .reset       (  !rstn_i         ),
-  .in        (  dat_delayed   ),
-  .out        (  dat_filterOut     ),
+  .in        (  dat_lpFiltered   ),
+  .out        (  dat_genFilterOut     ),
 
    // settings
   .coefficients     ({coeffs[7],coeffs[6],coeffs[5],coeffs[4],coeffs[3],coeffs[2],coeffs[1],coeffs[0]}),
@@ -342,7 +344,7 @@ discreteFilter #(
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
-      {use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
+      {use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
       filterCoefficient <= 0;
       set_11_sp    <= 0 ;
       set_11_kp    <= 0 ;
@@ -373,7 +375,7 @@ always @(posedge clk_i) begin
       if (sys_wen) begin
          if (sys_addr[19:0]==16'h0)    {set_22_irst,set_21_irst,set_12_irst,set_11_irst} <= sys_wdata[ 4-1:0] ;
          
-         if (sys_addr[19:0]==16'h4)    {use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1-1:0] ;
+         if (sys_addr[19:0]==16'h4)    {use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1+1-1:0] ;
          if (sys_addr[19:0]==16'h8)     filterCoefficient  <= {{16{sys_wdata[32-1]}},sys_wdata[30-1:0]};
          
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
@@ -415,7 +417,7 @@ end else begin
        casez (sys_addr[19:0])
           20'h00 : begin sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
     
-         20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1)){1'b0}}, use_tensionShifter, use_irFilter, fakeDelay, use_fakeDelay, use_feedback};end
+         20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1+1)){1'b0}}, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
          20'h08 : begin  sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
     
           20'h10 : begin sys_rdata <= set_11_sp          ; end 

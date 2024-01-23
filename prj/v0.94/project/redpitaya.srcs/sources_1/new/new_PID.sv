@@ -114,36 +114,32 @@ always @(posedge clk_i) begin
    end
 end
 
-
-
-
-
-
-
-
 //---------------------------------------------------------------------------------
 //  Proportional part
 
 reg   [workingBits-1: 0] kp_reg        ;
 wire  [workingBits-1: 0] kp_mult       ;
 
+
 FractionalMultiplier 
 #(workingBits,totalBits_coeffs-1,workingBits,fracBits_IO,fracBits_P, fracBits_IO)fmp
 (error,set_kp_i,kp_mult);
 
-assign kp_reg = rstn_i ? kp_mult : 0;
-
-
-
-
-
-
+always @(posedge clk_i) begin
+   if (rstn_i == 1'b0) begin
+      kp_reg <= 0 ;
+   end
+   else begin
+      kp_reg <= kp_mult;
+   end
+end
 
 
 //---------------------------------------------------------------------------------
 //  Integrator
 
-reg   [workingBits-1: 0] ki_mult       ;
+wire   [workingBits-1: 0] ki_mult       ;
+reg   [workingBits-1: 0] ki_mult_reg       ;
 wire  [workingBits-1: 0] int_sum       ;
 reg   [workingBits-1: 0] int_reg       ;
 wire   [workingBits-1: 0] int_shr       ;
@@ -156,16 +152,20 @@ saturator#(workingBits,totalBits_IO)sat_i(int_sum, int_shr, integralSaturation);
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
       int_reg  <= 0;
+      ki_mult_reg <= 0;
    end
    else begin
-      if (int_rst_i)
+      if (int_rst_i) begin
          int_reg <= 0; // reset
-      else 
+         ki_mult_reg <= 0;
+      end else begin 
          int_reg <= int_shr;
+         ki_mult_reg <= ki_mult;
+       end
    end
 end
 
-assign int_sum = $signed(ki_mult) + $signed(int_reg) ;
+assign int_sum = $signed(ki_mult_reg) + $signed(int_reg) ;
 
 
 
@@ -176,8 +176,9 @@ assign int_sum = $signed(ki_mult) + $signed(int_reg) ;
 //  Derivative
 
 wire  [workingBits-1: 0] kd_mult       ;
+reg   [workingBits-1: 0] kd_mult_reg       ;
 reg   [workingBits-1: 0] kd_reg        ;
-reg   [workingBits-1: 0] kd_reg_s      ;
+wire  [workingBits-1: 0] kd_reg_s      ;
 
 
 FractionalMultiplier 
@@ -187,13 +188,13 @@ FractionalMultiplier
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
       kd_reg   <= 0;
-      kd_reg_s <= 0;
    end
    else begin
-      kd_reg   <= kd_mult;
-      kd_reg_s <= $signed(kd_mult) - $signed(kd_reg);
+      kd_reg   <= kd_mult_reg;
+      kd_mult_reg  <= kd_mult;
    end
 end
+assign kd_reg_s = rstn_i ? 0 : $signed(kd_mult_reg) - $signed(kd_reg);
 
 
 

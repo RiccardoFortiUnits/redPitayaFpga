@@ -36,14 +36,15 @@ module ir_filter#(//the parameters for IO should be smaller than the parameters 
     output [totalBits_IO-1:0] out
     );
     
-    
+    reg [totalBits_IO-1:0] in_reg;
     // Function to convert floating-point to fixed-point
     function signed [totalBits_coeff-1:0] convertToFixedPoint(real value, integer fracBits);
         convertToFixedPoint = $rtoi(value * (1 << fracBits));
     endfunction
     
     reg signed [totalBits_coeff-1:0] y_delayed; // Delayed output for feedback
-    wire signed [totalBits_coeff-1:0] a = coefficient;//convertToFixedPoint(0.9999, fracBits_coeff);
+    reg signed [totalBits_coeff-1:0] a;//set as a register because otherwise the timing analyser 
+                    //might complain. It's not a very sensitive line, but still, it's better to protect its value with a register
     wire signed [totalBits_coeff-1:0] b = convertToFixedPoint(1, fracBits_coeff) - a;
 
     wire [totalBits_coeff-1:0] ay_1;
@@ -55,13 +56,18 @@ module ir_filter#(//the parameters for IO should be smaller than the parameters 
     
     FractionalMultiplier 
         #(totalBits_coeff,totalBits_IO,totalBits_coeff,fracBits_coeff,fracBits_IO,fracBits_coeff) 
-    bx_m (.a(b),.b(in),.result(bx));
+    bx_m (.a(b),.b(in_reg),.result(bx));
 
     always @(posedge clk_i) begin
-        if(reset)
-            y_delayed = 0;
-        else
+        if(reset)begin
+            y_delayed <= 0;
+            in_reg <= 0;
+            a <= 0;
+        end else begin
             y_delayed <= ay_1 + bx;
+            in_reg = in;
+            a <= coefficient;
+        end
     end
   
   assign out = y_delayed[fracBits_coeff - fracBits_IO + totalBits_IO - 1 : fracBits_coeff - fracBits_IO];
