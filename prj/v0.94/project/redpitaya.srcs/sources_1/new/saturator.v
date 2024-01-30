@@ -39,3 +39,25 @@ module saturator #(parameter s = 8, parameter n = 3) (
     end
   end
 endmodule
+
+
+module precisionSaturator #(parameter s = 8, parameter maxValue = 'hF, parameter minValue = -maxValue) (
+  input wire signed [s-1:0] input_data,
+  output reg signed [s-1:0] saturated_output,
+  output reg is_saturated
+);
+    
+  // Calculate the saturation limit
+  always @(*) begin
+    if(input_data > maxValue) begin
+        saturated_output = maxValue; // max positive
+        is_saturated = 1;
+    end else if (input_data < minValue) begin // negative saturation
+        saturated_output = minValue;
+        is_saturated = 1;
+    end else begin // No saturation
+        saturated_output = input_data;
+        is_saturated = 0;
+    end
+  end
+endmodule

@@ -55,3 +55,33 @@ module delay_simulator#(
     
     
 endmodule
+
+module delay #(
+    parameter nOfDelays = 1,
+    parameter dataSize = 14
+)(
+    input clk,
+    input [dataSize-1:0] in,
+    output [dataSize-1:0] out
+);
+
+    parameter croppedNOfDelays = (nOfDelays > 0) ? nOfDelays-1 : 0;
+
+    reg [dataSize-1:0] delayBuffers [croppedNOfDelays:0];
+
+    integer i;
+
+    always @(posedge clk) begin
+        // Shift data through the delay buffer
+        for (i = croppedNOfDelays; i > 0; i = i - 1) begin
+            delayBuffers[i] <= delayBuffers[i - 1];
+        end
+
+        // Store the current input in the delay buffer
+        delayBuffers[0] <= in;
+    end
+
+    // Output assignment
+    assign out = (nOfDelays > 0) ? delayBuffers[croppedNOfDelays] : in;
+
+endmodule

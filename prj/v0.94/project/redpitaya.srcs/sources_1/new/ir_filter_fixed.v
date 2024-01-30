@@ -11,15 +11,12 @@ module ir_filter_fixed#(
     input [13:0] in,
     output [13:0] out
     );
-    
-  
-    // Function to convert floating-point to fixed-point
-    function signed [totalBits_coeff-1:0] convertToFixedPoint(real value, integer fracBits);
-        convertToFixedPoint = $rtoi(value * (1 << fracBits));
+    function integer convertToFixedPoint(input real value, input integer fracBits);
+    convertToFixedPoint = $rtoi(value * (1 << fracBits));
     endfunction
     
     localparam real pi = 3.141592654;
-    function real a_from_fcT(real fcT);
+    function real a_from_fcT(input real fcT);
         a_from_fcT = (1 - $cos(2*pi*fcT)) / (1 - $cos(2*pi*fcT) + $sin(2*pi*fcT));
     endfunction
     

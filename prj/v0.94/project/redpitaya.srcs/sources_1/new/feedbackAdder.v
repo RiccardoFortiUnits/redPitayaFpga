@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+//depending on the value feedbackType, add or subtract the feedback signal to the input
 
 module feedbackAdder#(
         parameter dataSize = 14
