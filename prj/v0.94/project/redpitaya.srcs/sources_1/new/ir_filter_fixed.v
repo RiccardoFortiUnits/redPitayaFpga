@@ -8,8 +8,8 @@ module ir_filter_fixed#(
 )(
     input clk_i,
     input reset,
-    input [13:0] in,
-    output [13:0] out
+    input [totalBits_IO-1:0] in,
+    output [totalBits_IO-1:0] out
     );
     function integer convertToFixedPoint(input real value, input integer fracBits);
     convertToFixedPoint = $rtoi(value * (1 << fracBits));

@@ -501,22 +501,46 @@ red_pitaya_daisy i_daisy (
   .sys_ack_o       (  sys[5].ack                 )
 );
 
+function integer convertToFixedPoint(input real value, input integer fracBits);
+    convertToFixedPoint = $rtoi(value * (1 << fracBits));
+endfunction
+//debug
+reg clk;
+reg reset;
+// Clock generation
+initial begin
+    clk = 0;
+    reset = 1;
+    while(1)begin
+        #10;
+        clk = ~clk;
+        #10;
+        clk = ~clk;
+        reset = 0;
+    end
+end
 
-////debug
-//reg clk;
-//reg reset;
-//// Clock generation
-//initial begin
-//    clk = 0;
-//    reset = 1;
-//    while(1)begin
-//        #10;
-//        clk = ~clk;
-//        #10;
-//        clk = ~clk;
-//        reset = 0;
-//    end
-//end
+
+wire outt;
+
+PWM#(30,14,4) pwmm(
+    clk,
+    reset,
+    'h10 << 14,
+    0,
+    'h40 << 14,
+    outt
+);
+
+//wire [30-1:0]pidSetPoint;
+//wire [14-1:0]signalForExternalVoltage;
+//offsetSetter#(30, 14, 14, 0.2, 20000, 4.9) ossss(
+//   clk,
+//   reset,
+//   convertToFixedPoint(0.700,14),
+//   pidSetPoint,
+//   signalForExternalVoltage
+//);
 
 //reg [23:0] out;
 //reg [7:0] [27:0] coeffs= {

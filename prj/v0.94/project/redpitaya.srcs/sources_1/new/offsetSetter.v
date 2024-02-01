@@ -24,7 +24,7 @@ module offsetSetter#(
     parameter     fracBits = 0,
     parameter     totalBits_extVoltageSignal = 14,
     parameter diodeResponsivity = 0.2,
-    parameter tiagain1 = 20000,
+    parameter tiagain1 = 20000.0,
     parameter tiagain2 = 4.9
 )(
     input clk,
@@ -37,9 +37,9 @@ module offsetSetter#(
     function integer convertToFixedPoint(input real value, input integer fracBits);
         convertToFixedPoint = $rtoi(value * (1 << fracBits));
     endfunction
-    wire [31:0] powerToOffsetCoefficient = convertToFixedPoint(diodeResponsivity*tiagain1*tiagain2 /(tiagain2+1), 13);
-    wire [31:0] totalPowerGain =           convertToFixedPoint(diodeResponsivity*tiagain1*tiagain2,               13);
-    wire [31:0] tiagain2_plus1 =           convertToFixedPoint(                                      tiagain2+1,  13);
+    wire [31:0] powerToOffsetCoefficient = convertToFixedPoint(diodeResponsivity*tiagain1*tiagain2 /(tiagain2+1), fracBits);
+    wire [31:0] totalPowerGain =           convertToFixedPoint(diodeResponsivity*tiagain1*tiagain2,               fracBits);
+    wire [31:0] tiagain2_plus1 =           convertToFixedPoint(                                      tiagain2+1,  fracBits);
     
     reg [totalBits-1:0] in;
     
@@ -60,7 +60,7 @@ module offsetSetter#(
     clocked_FractionalMultiplier#(totalBits,totalBits,totalBits,fracBits,fracBits,fracBits)
     offsetTofinalVoltage            (clk, realExternalVoltage, tiagain2_plus1, finalOffsetVoltage);
     
-    delay#(2,totalBits) 
+    delay_s#(2,totalBits) 
     delayFinalInputVoltage          (clk, finalInputVoltage, finalInputVoltage_delayed);
     
     requiredToRealOffset#(totalBits, fracBits, totalBits_extVoltageSignal)
@@ -68,13 +68,22 @@ module offsetSetter#(
 
     //todo we should also reset the PID, or the integral part would be incorrect in the new offset. 
         //Or does the software already do a reset?
+        
+    wire enlargedReset;
+    resetEnlarger#(3) re3           (reset,clk,enlargedReset);
     
     always @(posedge clk)begin
         if(reset)begin
             in <= 0;
-            pidSetPoint <= 0;
         end else begin
             in <= inputPower;
+        end
+        
+        if(enlargedReset)begin//let's keep the outputs in reset for a while more, so that the rest 
+                                    //of the circuit can stabilize before updating the output
+            pidSetPoint <= 0;
+            signalForExternalVoltage <= 0;
+        end else begin
             pidSetPoint <= finalOffsetVoltage - finalInputVoltage_delayed;
             signalForExternalVoltage <= obtainedSignalForExternalVoltage;
         end
@@ -98,7 +107,7 @@ module requiredToRealOffset#(
         //todo: do the actual conversion
         
     
-        realOffset <= requiredOffset;
+        realOffset <= requiredOffset & -(1<<(fracBits+8));
         signalForExternalVoltage <= requiredOffset;
         
     end

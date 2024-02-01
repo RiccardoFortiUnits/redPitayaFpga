@@ -21,47 +21,87 @@
 
 
 module downsampler#(
+    parameter     totalBits = 14,
+    parameter     fracBits = 0,
     parameter downsampling = 10
 )(
-    input [13:0] in,//todo add variable input bit size
-    output [13:0] out,
+    input [totalBits-1:0] in,
+    output reg [totalBits-1:0] out,
     input clk_in,
     output reg clk_out,
     input reset
 );
+
+    wire [totalBits-1:0] outWire;
+
     ir_filter_fixed #(
         0.5/downsampling,
-        14,
-        0,
-        30,
-        30-14
+        totalBits,
+        fracBits,
+        totalBits+8,//todo is it enough? (+3 for whole part, +5 for fractional part) 
+        fracBits+5
     )irff(
         clk_in,
         reset,
         in,
-        out
+        outWire
     );
     
-    reg [15:0] currentClockPosition;
+    reg [$clog2(downsampling):0] currentClockPosition;
     
-    always @(posedge(clk_in))begin
-        if(currentClockPosition == 0)begin
-            clk_out <= 1;
+    always @(posedge clk_in)begin
+        if(reset) begin
+            clk_out <= 0;
+            currentClockPosition <= 0;
+            out <= 0;
+        end else begin            
+            if(currentClockPosition == downsampling - 1)begin
+                currentClockPosition <= 0;
+                clk_out <= 1;
+                out <= outWire;
+            end else begin
+                currentClockPosition <= currentClockPosition + 1;
+                clk_out <= 0;//currentClockPosition == 0;
+            end
         end
     end
-    always @(negedge(clk_in))begin
+    
+    always @(negedge clk_in)begin
+        clk_out <= 0;
+    end
+    
+    
+    
+endmodule
+
+
+module clockDivider#(
+    parameter downsampling = 10
+)(
+    input clk_in,
+    output reg clk_out,
+    input reset
+);
+    
+    reg [$clog2(downsampling):0] currentClockPosition;
+    
+    always @(posedge clk_in)begin
         if(reset) begin
             clk_out <= 0;
             currentClockPosition <= 0;
         end else begin            
-            if(currentClockPosition == 0)begin
-                clk_out <= 0;
-                currentClockPosition <= currentClockPosition + 1;
-            end
-            if(currentClockPosition == downsampling)begin
+            if(currentClockPosition == downsampling - 1)begin
                 currentClockPosition <= 0;
+                clk_out <= 1;
+            end else begin
+                currentClockPosition <= currentClockPosition + 1;
+                clk_out <= 0;//currentClockPosition == 0;
             end
         end
+    end
+    
+    always @(negedge clk_in)begin
+        clk_out <= 0;
     end
     
     

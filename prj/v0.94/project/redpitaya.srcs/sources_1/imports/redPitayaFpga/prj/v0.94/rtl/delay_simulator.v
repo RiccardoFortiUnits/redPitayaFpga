@@ -56,7 +56,7 @@ module delay_simulator#(
     
 endmodule
 
-module delay #(
+module delay_s #(
     parameter nOfDelays = 1,
     parameter dataSize = 14
 )(
@@ -65,7 +65,7 @@ module delay #(
     output [dataSize-1:0] out
 );
 
-    parameter croppedNOfDelays = (nOfDelays > 0) ? nOfDelays-1 : 0;
+    localparam croppedNOfDelays = (nOfDelays > 0) ? nOfDelays-1 : 0;
 
     reg [dataSize-1:0] delayBuffers [croppedNOfDelays:0];
 
