@@ -104,6 +104,7 @@ reg use_lpFilter;
 reg [31+16:0] filterCoefficient;
 reg use_tensionShifter;
 reg use_genFilter;
+reg [1:0]saturationConfiguration;
 
 wire [totalBits_IO-1:0] dat_WithFeedback;
 reg [totalBits_IO-1:0] dat_delayed;
@@ -148,6 +149,26 @@ always @(*)begin
     dat_shifted = use_tensionShifter ? dat_shiftedOut : dat_pidded;
 end
 
+wire pidSaturation;
+wire stopPid;
+blinker bl(
+    clk_i,
+    stopPid,
+    !rstn_i || set_11_irst,
+    led_o[led_outSaturation]
+);
+safeSwitch sssss(
+    pidSaturation | led_o[led_integralSaturation],
+    clk_i,
+    !rstn_i | set_11_irst,
+    saturationConfiguration,
+    1,
+    stopPid
+);
+
+wire pidReset;
+assign pidReset = rstn_i & !stopPid;
+
 new_PID #(
    .totalBits_IO               (totalBits_IO),
    .fracBits_IO                (fracBits_IO),
@@ -160,7 +181,7 @@ new_PID #(
 ) i_pid11 (
    // data
   .clk_i        (  clk_i          ),  // clock
-  .rstn_i       (  rstn_i         ),  // reset - active low
+  .rstn_i       (  pidReset         ),  // reset - active low
   .dat_i        (  dat_genFiltered   ),  // input data
   .dat_o        (  dat_pidded     ),  // output data
 
@@ -170,7 +191,7 @@ new_PID #(
   .set_ki_i     (  set_11_ki      ),  // Ki
   .set_kd_i     (  set_11_kd      ),  // Kd
   .int_rst_i    (  set_11_irst    ),  // integrator reset
-  .outSaturation(led_o[led_outSaturation]),
+  .outSaturation(pidSaturation),
   .integralSaturation(led_o[led_integralSaturation])
 );
 
@@ -344,7 +365,7 @@ discreteFilter #(
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
-      {use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
+      {saturationConfiguration, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
       filterCoefficient <= 0;
       set_11_sp    <= 0 ;
       set_11_kp    <= 0 ;
@@ -375,7 +396,7 @@ always @(posedge clk_i) begin
       if (sys_wen) begin
          if (sys_addr[19:0]==16'h0)    {set_22_irst,set_21_irst,set_12_irst,set_11_irst} <= sys_wdata[ 4-1:0] ;
          
-         if (sys_addr[19:0]==16'h4)    {use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1+1-1:0] ;
+         if (sys_addr[19:0]==16'h4)    {saturationConfiguration, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1+1+2-1:0] ;
          if (sys_addr[19:0]==16'h8)     filterCoefficient  <= {{16{sys_wdata[32-1]}},sys_wdata[30-1:0]};
          
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
@@ -417,7 +438,7 @@ end else begin
        casez (sys_addr[19:0])
           20'h00 : begin sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
     
-         20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1+1)){1'b0}}, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
+         20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1+1+2)){1'b0}}, saturationConfiguration, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
          20'h08 : begin  sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
     
           20'h10 : begin sys_rdata <= set_11_sp          ; end 

@@ -49,10 +49,10 @@ module precisionSaturator #(parameter s = 8, parameter maxValue = 'hF, parameter
     
   // Calculate the saturation limit
   always @(*) begin
-    if(input_data > maxValue) begin
+    if(input_data > $signed(maxValue)) begin
         saturated_output = maxValue; // max positive
         is_saturated = 1;
-    end else if (input_data < minValue) begin // negative saturation
+    end else if (input_data < $signed(minValue)) begin // negative saturation
         saturated_output = minValue;
         is_saturated = 1;
     end else begin // No saturation

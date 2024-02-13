@@ -410,9 +410,29 @@ red_pitaya_hk i_hk (
   .sys_ack         (sys[0].ack  )
 );
 
+
 ////////////////////////////////////////////////////////////////////////////////
-// LED
+//  DAC arbitrary signal generator
 ////////////////////////////////////////////////////////////////////////////////
+
+red_pitaya_asg i_asg (
+   // DAC
+  .dac_a_o         (asg_dat[0]  ),  // CH 1
+  .dac_b_o         (asg_dat[1]  ),  // CH 2
+  .dac_clk_i       (adc_clk     ),  // clock
+  .dac_rstn_i      (adc_rstn    ),  // reset - active low
+  .trig_a_i        (trig_ext    ),
+  .trig_b_i        (trig_ext    ),
+  .trig_out_o      (trig_asg_out),
+  // System bus
+  .sys_addr        (sys[2].addr ),
+  .sys_wdata       (sys[2].wdata),
+  .sys_wen         (sys[2].wen  ),
+  .sys_ren         (sys[2].ren  ),
+  .sys_rdata       (sys[2].rdata),
+  .sys_err         (sys[2].err  ),
+  .sys_ack         (sys[2].ack  )
+);
 
 ////////////////////////////////////////////////////////////////////////////////
 // GPIO
@@ -501,36 +521,134 @@ red_pitaya_daisy i_daisy (
   .sys_ack_o       (  sys[5].ack                 )
 );
 
-function integer convertToFixedPoint(input real value, input integer fracBits);
-    convertToFixedPoint = $rtoi(value * (1 << fracBits));
-endfunction
-//debug
-reg clk;
-reg reset;
-// Clock generation
-initial begin
-    clk = 0;
-    reset = 1;
-    while(1)begin
-        #10;
-        clk = ~clk;
-        #10;
-        clk = ~clk;
-        reset = 0;
-    end
-end
+//function integer convertToFixedPoint(input real value, input integer fracBits);
+//    convertToFixedPoint = $rtoi(value * (1 << fracBits));
+//endfunction
+////debug
+//reg clk;
+//reg reset;
+//reg enable;
+
+//initial begin
+//    clk = 0;
+//    reset = 1;
+//    while(1)begin
+//        #10;
+//        clk = ~clk;
+//        #10;
+//        clk = ~clk;
+//        reset = 0;
+//    end
+//end
+
+//// Clock generation
+//initial begin
+//    clk = 0;
+//    reset = 1;
+//    enable = 0;
+    
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    reset = 0;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 1;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 0;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 1;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 0;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 1;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 0;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 1;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 0;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 1;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    enable = 0;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+//    #10;clk = ~clk; #10; clk = ~clk;
+    
+//    while(1)begin
+//        #10;
+//        clk = ~clk;
+//        #10;
+//        clk = ~clk;
+//        reset = 0;
+//    end
+//end
+
+//blinker#(2) bl(
+//    clk,
+//    enable,
+//    reset,
+//    switchInput
+//);
 
 
-wire outt;
+//wire switchInput;
+//blinker#(10) bl(
+//    clk,
+//    reset,
+//    switchInput
+//);
+//wire switchConf;
+//wire [1:0] conf;
+//blinker#(30) bla(
+//    clk,
+//    reset,
+//    switchConf
+//);
+//assign conf = switchConf ? 'b01 : 'b10;
 
-PWM#(30,14,4) pwmm(
-    clk,
-    reset,
-    'h10 << 14,
-    0,
-    'h40 << 14,
-    outt
-);
+//wire outt;
+
+//safeSwitch sssss(
+//    switchInput,
+//    clk,
+//    reset,
+//    conf,
+//    5,
+//    outt
+//);
+//red_pitaya_pdm pdm (
+//  // system signals
+//  .clk   (clk ),
+//  .rstn  (!reset),
+//  // configuration
+//  .cfg   ('h60),
+//  .ena      (1'b1),
+//  .rng      (8'd255),
+//  // PWM outputs
+//  .pdm (outt)
+//);
+//PWM#(30,14,32,0) pwmm(
+//    clk,
+//    reset,
+//    (-'h22) << 14,
+//    -'h40 << 14,
+//    'h40 << 14,
+//    outt
+//);
 
 //wire [30-1:0]pidSetPoint;
 //wire [14-1:0]signalForExternalVoltage;
