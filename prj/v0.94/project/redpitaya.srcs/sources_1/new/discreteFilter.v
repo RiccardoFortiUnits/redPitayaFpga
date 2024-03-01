@@ -53,7 +53,6 @@ module discreteFilter#(
     wire [workingBits-1:0] valsToMultiply [max_nOfCoefficients-1:0];
     
     wire [workingBits-1:0] multipliedVals [max_nOfCoefficients-1:0];
-    reg [workingBits-1:0] multipliedRegs [max_nOfCoefficients-1:0];
     wire signed [workingBits-1:0] sums [(max_nOfCoefficients << 1)-2:0];
     wire [workingBits-1:0] saturated_sum;
         
@@ -62,7 +61,7 @@ generate
         
     //multipliers (coefficient * in/out)
     for (gi = 0; gi < max_nOfCoefficients; gi = gi + 1) begin
-        FractionalMultiplier #(
+        clocked_FractionalMultiplier #(
         .A_WIDTH(totalBits_coeffs),
         .B_WIDTH(workingBits),
         .OUTPUT_WIDTH(workingBits),
@@ -70,6 +69,7 @@ generate
         .FRAC_BITS_B(fracBits_IO),
         .FRAC_BITS_OUT(fracBits_IO)
         ) mult_b (
+        .clk(clk),
         .a(coefficients[gi]),
         .b(valsToMultiply[gi]),
         .result(multipliedVals[gi])
@@ -78,7 +78,7 @@ generate
     
     //initialize the first elements of sums with the results of the multiplications
     for (gi = 0; gi < max_nOfCoefficients; gi = gi + 1) begin
-        assign sums[gi] = multipliedRegs[gi];
+        assign sums[gi] = multipliedVals[gi];
     end
     
     //sums of every multiplicator. Optimized to have the higher parallelization possible (number of sums "in series" = log2(max_nOfCoefficients) )
@@ -89,7 +89,7 @@ generate
     end
     
     //in/out selectors
-    assign valsToMultiply[0] = in;
+    assign valsToMultiply[0] = ins[0];
     for (gi = 1; gi < max_nOfCoefficients; gi = gi + 1) begin
         assign valsToMultiply[gi] = (gi < denNumSplit) ? ins[gi-1] : outs[gi - denNumSplit];
     end
@@ -105,7 +105,6 @@ saturator#(workingBits, totalBits_IO) outSaturator(sums[(max_nOfCoefficients << 
             for(i=0;i<max_nOfCoefficients;i=i+1)begin
                 ins[i] <= 0;
                 outs[i] <= 0;
-                multipliedRegs[i] <= 0;
             end
         end else begin                
             
@@ -116,7 +115,6 @@ saturator#(workingBits, totalBits_IO) outSaturator(sums[(max_nOfCoefficients << 
                 outs[i] <= outs[i-1];
             end
             for(i=0;i<max_nOfCoefficients;i=i+1)begin
-                multipliedRegs[i] <= multipliedVals[i];
             end
             
             ins[0] <= in;

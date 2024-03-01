@@ -521,6 +521,47 @@ red_pitaya_daisy i_daisy (
   .sys_ack_o       (  sys[5].ack                 )
 );
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Analog mixed signals (PDM analog outputs)
+////////////////////////////////////////////////////////////////////////////////
+
+logic [4-1:0] [8-1:0] pdm_cfg;
+
+red_pitaya_ams i_ams (
+  // power test
+  .clk_i           (adc_clk ),  // clock
+  .rstn_i          (adc_rstn),  // reset - active low
+  // PWM configuration
+  .dac_a_o         (pdm_cfg[0]),
+  .dac_b_o         (pdm_cfg[1]),
+  .dac_c_o         (pdm_cfg[2]),
+  .dac_d_o         (pdm_cfg[3]),
+  // external signal inputs
+  .dat_a_i         (adc_dat[0]),
+  .dat_b_i         (adc_dat[1]),
+  // System bus
+  .sys_addr        (sys[4].addr ),
+  .sys_wdata       (sys[4].wdata),
+  .sys_wen         (sys[4].wen  ),
+  .sys_ren         (sys[4].ren  ),
+  .sys_rdata       (sys[4].rdata),
+  .sys_err         (sys[4].err  ),
+  .sys_ack         (sys[4].ack  )
+);
+
+red_pitaya_pdm pdm (
+  // system signals
+  .clk   (adc_clk ),
+  .rstn  (adc_rstn),
+  // configuration
+  .cfg   (pdm_cfg),
+  .ena      (1'b1),
+  .rng      (8'd255),
+  // PWM outputs
+  .pdm (dac_pwm_o)
+);
+
 //function integer convertToFixedPoint(input real value, input integer fracBits);
 //    convertToFixedPoint = $rtoi(value * (1 << fracBits));
 //endfunction
@@ -528,19 +569,49 @@ red_pitaya_daisy i_daisy (
 //reg clk;
 //reg reset;
 //reg enable;
+//reg [13:0] in;
+//reg [7:0] out,out2;
 
 //initial begin
 //    clk = 0;
 //    reset = 1;
+//    in = 0;
 //    while(1)begin
 //        #10;
 //        clk = ~clk;
 //        #10;
 //        clk = ~clk;
 //        reset = 0;
+//        in = in + 'h10;
 //    end
 //end
 
+//shift_n_scale#(
+//        .input_size     (14),
+//        .output_size    (8),
+//        .scaler_size    (14),
+//        .scaler_fracBits(11)
+//    )sns(
+//        .clk          (clk),
+//        .reset        (reset),
+//        .in           (in),
+//        .out          (out),
+//        .minInputValue(0),
+//        .scalingFactor((1<<12)-1)//2
+//    );   
+//shift_n_scale#(
+//        .input_size     (14),
+//        .output_size    (8),
+//        .scaler_size    (14),
+//        .scaler_fracBits(12)
+//    )sns2(
+//        .clk          (clk),
+//        .reset        (reset),
+//        .in           (in),
+//        .out          (out2),
+//        .minInputValue('h2000),//-1
+//        .scalingFactor(1<<11)//0.5
+//    );   
 //// Clock generation
 //initial begin
 //    clk = 0;
