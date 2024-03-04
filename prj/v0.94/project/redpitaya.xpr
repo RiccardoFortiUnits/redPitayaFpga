@@ -140,6 +140,13 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/ramp.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/imports/redPitayaFpga/rtl/classic/red_pitaya_daisy.v">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../../rtl/classic/red_pitaya_daisy.v"/>

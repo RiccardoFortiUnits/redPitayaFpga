@@ -568,14 +568,33 @@ red_pitaya_pdm pdm (
 ////debug
 //reg clk;
 //reg reset;
-//reg enable;
+//initial begin
+//    clk = 0;
+//    reset = 1;
+//    while(1)begin
+//        #10;
+//        clk = ~clk;
+//        #10;
+//        clk = ~clk;
+//        reset = 0;
+//    end
+//end
+      
+
+
+
+//reg trigger;
 //reg [13:0] in;
-//reg [7:0] out,out2;
+//reg [15:0] counter;
+//reg [1:0] conf;
+//reg [7:0] out;
 
 //initial begin
 //    clk = 0;
 //    reset = 1;
 //    in = 0;
+//    counter = 0;
+//    conf = 0;
 //    while(1)begin
 //        #10;
 //        clk = ~clk;
@@ -583,8 +602,29 @@ red_pitaya_pdm pdm (
 //        clk = ~clk;
 //        reset = 0;
 //        in = in + 'h10;
+//        counter = counter + 1;
+//        trigger = (counter[3:0] == 2); 
+//        if (counter[5:0] == 0)begin
+//            conf = conf + 1;
+//        end       
 //    end
 //end
+
+
+//ramp#(
+//	.data_size(8),
+//	.time_size(16)
+//)rrrrrrrr(
+//	.clk			(clk),
+//	.reset			(reset),
+//	.trigger		(trigger),
+//	.startPoint		('h10),
+//	.timeStep		('h3),
+//	.nOfSteps		(8),
+//	.stepIncrease	('h07),
+//	.idleConfig		(conf),
+//	.out			(out)
+//);
 
 //shift_n_scale#(
 //        .input_size     (14),
