@@ -29,10 +29,9 @@ module ramp#(
 	input reset,
 	input trigger,
 	input signed [data_size-1:0] startPoint,
-	input signed [data_size-1:0] stepIncrease,
-	input [time_size-1:0] timeStep,
-	input [data_size-1:0] nOfSteps,//since the output is incremented every cycle, 
-	                           //we should not have more cycles than possible output values
+	input signed [data_size-1:0] stepIncrease, // = (endPoint - startPoint) / nOfSteps
+	input [time_size-1:0] timeStep, // = rampTime / nOfSteps
+	input [data_size-1:0] nOfSteps,
 	input [1:0] idleConfig,
 	output reg [data_size-1:0] out
 );
@@ -45,6 +44,7 @@ module ramp#(
 //let's save all the parameters in some registers that will keep the value for the duration of the ramp (is it really necessary?)
 reg [data_size-1:0] startPoint_r;
 reg [time_size-1:0] timeStep_r;
+reg [data_size-1:0] nOfSteps_r;
 reg [data_size-1:0] stepIncrease_r;
 reg [1:0] idleConfig_r;
 
@@ -57,7 +57,8 @@ reg [0:0] state;
 //configuration of idle state: on which value do we stay while the module is waiting for a trigger?
 localparam 	c_zero = 0,		
 			c_start = 1,
-			c_current = 2;
+			c_current = 2,
+			c_inverseRamp = 3;
 
 //counters
 reg [time_size-1:0] stepCounter;
@@ -72,6 +73,7 @@ always @(posedge clk)begin
 
 		startPoint_r <= 0;
 		timeStep_r <= 0;
+		nOfSteps_r <= 0;
 		stepIncrease_r <= 0;
 		idleConfig_r <= 0;
 
@@ -88,6 +90,7 @@ always @(posedge clk)begin
 					//fix the values of the input parameters
 					startPoint_r <= startPoint;
 					timeStep_r <= timeStep - 1;
+					nOfSteps_r <= nOfSteps - 1;
 					stepIncrease_r <= stepIncrease;
 					idleConfig_r <= idleConfig;
 
@@ -98,18 +101,26 @@ always @(posedge clk)begin
 			s_running: begin
 				if(!stepCounter)begin//one cycle finished?
 					if(!cycleCounter)begin//final cycle finished?
-						state <= s_idle;						
-                        //set idle output
-                        case(idleConfig)
-                            c_zero: begin		out <= 0; 			end
-                            c_start: begin		out <= startPoint_r;end
-                            //c_current: begin	out <= out; 		end
-                            default: begin end
-                        endcase						
+                        if(idleConfig_r == c_inverseRamp)begin//inverse ramp?
+                            stepCounter <= timeStep_r;//reset the counters
+                            cycleCounter <= nOfSteps_r;
+                            
+                            stepIncrease_r <= - stepIncrease_r;//let's move backwards
+                            idleConfig_r <= c_start;//remove the inverseRamp configuration, so that we won't repeat it again
+                        end else begin
+                            state <= s_idle;						
+                            //set idle output
+                            case(idleConfig)
+                                c_zero: begin		out <= 0; 			end
+                                c_start: begin		out <= startPoint_r;end
+                                //c_current: begin	out <= out; 		end
+                                default: begin end
+                            endcase
+                        end				
 					end else begin
-						stepCounter <= timeStep_r;//reset step counter
-						cycleCounter <= cycleCounter - 1;//reduce cycle counter
-						out <= out + stepIncrease_r;//go to the next ramp value
+                        stepCounter <= timeStep_r;//reset step counter
+                        cycleCounter <= cycleCounter - 1;//reduce cycle counter
+                        out <= out + stepIncrease_r;//go to the next ramp value
 					end
 				end else begin
 					//reduce step counter
