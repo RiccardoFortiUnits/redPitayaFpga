@@ -61,12 +61,12 @@ module red_pitaya_ams#(
     output reg            sys_err         ,  // bus error indicator
     output reg            sys_ack            // bus acknowledge signal
 );
-//new feature: you can control the value of the PWM outputs with the analog inputs, and you can 
-    //even shift and resize their value for better mapping.
-    //set the channel configuration to either 0x10 or 0x11 to select one of the two analog channels
-    //keep it at 0 to use the value read from RAM 
-    //for mapping, you can select the minimum value of the analog signal (any value lower or equal 
-    //to that will result in an output = 0) and a multiplication factor
+//new feature: the value of the PWM outputs can be controlled with the analog inputs, or it can be set to create ramps
+    //the input of the analog inputs can be shifted and multiplied before being converted to PWM, so that you can decide 
+        //how to map the signal from the ADC range [-1V,+1V] to the PWM range [0,1.8V].
+    //the ramp function can be triggered either from a RAM write command or an external trigger on th analog inputs
+        //the ramp start point, end point, slope, and resolution can be modified
+//the output can also be processed through a segmented function, which will render the output nonlinear.
 
 localparam scalerSize = 14;
 localparam scalerFracBits = 10;
@@ -77,6 +77,8 @@ localparam  use_memory = 0,
             use_adc    = 2;
 reg [1:0] conf_outputSelect[3:0];
 reg conf_AdcSelect[3:0];
+reg conf_useLinearizer[3:0];
+
 wire [13:0] selectedADC_input[3:0];
 
 //set output from memory
@@ -85,7 +87,8 @@ reg [pwm_size-1:0] valuesFromMemory[3:0];
 //set output from ramp
 localparam  trigger_none   = 0,
             trigger_now    = 1,
-            trigger_adc   = 2;
+            trigger_adc   = 2,
+            trigger_asg   = 3;
 localparam  edge_pos    = 0,
             edge_neg    = 1;
 reg [pwm_size-1:0] ramp_start[3:0];
@@ -105,6 +108,16 @@ reg [scalerSize-1:0] adc_scaler[3:0];
 reg [13:0] adc_minValue[3:0];
 wire [pwm_size-1:0] adc_conditionedOut[3:0];
 
+
+localparam nOfEdges = 8;//if you want to change it, also change the parameter .edgePoints() (and following) of the segmentedFunction sf
+
+reg [pwm_size-1:0]              asg_edges     [nOfEdges-1:0];
+reg [pwm_size-1:0]              asg_qs        [nOfEdges-1:0];
+reg [32-pwm_size-pwm_size-1:0]  asg_ms        [nOfEdges-1:0];
+
+
+reg [pwm_size-1:0] signalToLinearize[3:0];
+wire [pwm_size-1:0] linearizedOut[3:0];
 reg [pwm_size-1:0] outs[3:0];
 integer i;
 
@@ -162,8 +175,23 @@ for(gi = 0; gi < 4; gi = gi + 1)begin
         .minInputValue(adc_minValue[gi]),
         .scalingFactor(adc_scaler[gi])
     );
-    
-    
+
+    segmentedFunction#(
+        .nOfEdges		(nOfEdges),
+        .totalBits_IO	(pwm_size),
+        .fracBits_IO	(0),
+        .totalBits_m	(32-pwm_size-pwm_size),
+        .fracBits_m		(32-pwm_size-pwm_size-pwm_size),
+        .areSignalsSigned(0)
+    )linearizer(
+        .clk            (clk_i),       
+        .reset          (!rstn_i),     
+        .in             (signalToLinearize[gi]),
+        .edgePoints     ({asg_edges [7], asg_edges [6], asg_edges [5], asg_edges [4], asg_edges [3], asg_edges [2], asg_edges [1], asg_edges [0]}),
+        .qs             ({asg_qs    [7], asg_qs    [6], asg_qs    [5], asg_qs    [4], asg_qs    [3], asg_qs    [2], asg_qs    [1], asg_qs    [0]}),
+        .ms             ({asg_ms    [7], asg_ms    [6], asg_ms    [5], asg_ms    [4], asg_ms    [3], asg_ms    [2], asg_ms    [1], asg_ms    [0]}),
+        .out            (linearizedOut[gi])
+    );
               
 end
 
@@ -173,20 +201,23 @@ endgenerate
 always @(posedge clk_i) begin
     if (!rstn_i) begin
         for(i = 0; i < 4; i=i+1)begin
+            signalToLinearize[i] <= 0;
             outs[i] <= 0;
         end
     end else begin
         for(i = 0; i < 4; i=i+1)begin
-            outs[i] <= conf_outputSelect[i] == use_memory ? 
+            signalToLinearize[i] <= conf_outputSelect[i] == use_memory ? 
                            valuesFromMemory[i] :
                        conf_outputSelect[i] == use_ramp ?
                            ramp_Output[i] :
                        conf_outputSelect[i] == use_adc ?
                            adc_conditionedOut[i] :
                            0;
+            outs[i] <= conf_useLinearizer[i] ? linearizedOut[i] : signalToLinearize[i];
         end
     end
 end
+
 assign dac_a_o = outs[0];
 assign dac_b_o = outs[1];
 assign dac_c_o = outs[2];
@@ -198,6 +229,7 @@ always @(posedge clk_i) begin
         for(i = 0; i < 4; i=i+1)begin
             conf_outputSelect[i] <= use_memory;
             conf_AdcSelect[i] <= 0;
+            conf_useLinearizer[i] <= 0;
         
             ramp_start[i] <= 0;
             ramp_valueIncrementer[i] <= 0;
@@ -219,6 +251,7 @@ always @(posedge clk_i) begin
                     valuesFromMemory[i] <= sys_wdata[23:16];
                     conf_outputSelect[i] <= sys_wdata[1:0];
                     conf_AdcSelect[i] <= sys_wdata[2];
+                    conf_useLinearizer[i] <= sys_wdata[3];
                 end
                 if (sys_addr[19:0] == 'h30 + (i << 2))begin//addresses 0x30, 0x34, 0x38, 0x3C
                     adc_minValue[i] <= sys_wdata[13:0];
@@ -242,10 +275,19 @@ always @(posedge clk_i) begin
                     ramp_ADCtriggerEdge[i] <= sys_wdata[18];
                 end
                 
+                
             end else begin
                 if(ramp_triggerSelect[i] == trigger_now)begin
                     ramp_triggerSelect[i] <= trigger_none;
                 end     
+            end
+        end
+        
+        if (sys_wen) begin
+            if (sys_addr[19:0] >= 'h80 && sys_addr[19:0] <= 'hA0)begin
+                asg_edges[sys_addr[4:2]] = sys_wdata[7:0];
+                asg_qs[sys_addr[4:2]] = sys_wdata[15:8];
+                asg_ms[sys_addr[4:2]] = sys_wdata[31:16];
             end
         end
     end
@@ -262,10 +304,10 @@ always @(posedge clk_i)begin
         sys_err <= 1'b0 ;
         sys_ack <= sys_en;
         casez (sys_addr[19:0])    
-            20'h20 : begin sys_rdata <= {valuesFromMemory[0], {16-3{1'b0}}, conf_AdcSelect[0], conf_outputSelect[0]}; end
-            20'h24 : begin sys_rdata <= {valuesFromMemory[1], {16-3{1'b0}}, conf_AdcSelect[1], conf_outputSelect[1]}; end
-            20'h28 : begin sys_rdata <= {valuesFromMemory[2], {16-3{1'b0}}, conf_AdcSelect[2], conf_outputSelect[2]}; end
-            20'h2C : begin sys_rdata <= {valuesFromMemory[3], {16-3{1'b0}}, conf_AdcSelect[3], conf_outputSelect[3]}; end
+            20'h20 : begin sys_rdata <= {valuesFromMemory[0], {16-4{1'b0}}, conf_useLinearizer[0], conf_AdcSelect[0], conf_outputSelect[0]}; end
+            20'h24 : begin sys_rdata <= {valuesFromMemory[1], {16-4{1'b0}}, conf_useLinearizer[1], conf_AdcSelect[1], conf_outputSelect[1]}; end
+            20'h28 : begin sys_rdata <= {valuesFromMemory[2], {16-4{1'b0}}, conf_useLinearizer[2], conf_AdcSelect[2], conf_outputSelect[2]}; end
+            20'h2C : begin sys_rdata <= {valuesFromMemory[3], {16-4{1'b0}}, conf_useLinearizer[3], conf_AdcSelect[3], conf_outputSelect[3]}; end
             20'h30 : begin sys_rdata <= {adc_scaler[0], adc_minValue[0]}; end
             20'h34 : begin sys_rdata <= {adc_scaler[1], adc_minValue[1]}; end
             20'h38 : begin sys_rdata <= {adc_scaler[2], adc_minValue[2]}; end
@@ -283,6 +325,16 @@ always @(posedge clk_i)begin
             20'h64 : begin sys_rdata <= {ramp_ADCtriggerEdge[1], ramp_ADCtriggerValue[1], ramp_idleConfig[1], ramp_triggerSelect[1]}; end
             20'h68 : begin sys_rdata <= {ramp_ADCtriggerEdge[2], ramp_ADCtriggerValue[2], ramp_idleConfig[2], ramp_triggerSelect[2]}; end
             20'h6C : begin sys_rdata <= {ramp_ADCtriggerEdge[3], ramp_ADCtriggerValue[3], ramp_idleConfig[3], ramp_triggerSelect[3]}; end
+            
+            20'h80 : begin sys_rdata <= {asg_ms[0], asg_qs[0], asg_edges[0]}; end
+            20'h84 : begin sys_rdata <= {asg_ms[1], asg_qs[1], asg_edges[1]}; end
+            20'h88 : begin sys_rdata <= {asg_ms[2], asg_qs[2], asg_edges[2]}; end
+            20'h8C : begin sys_rdata <= {asg_ms[3], asg_qs[3], asg_edges[3]}; end
+            20'h90 : begin sys_rdata <= {asg_ms[4], asg_qs[4], asg_edges[4]}; end
+            20'h94 : begin sys_rdata <= {asg_ms[5], asg_qs[5], asg_edges[5]}; end
+            20'h98 : begin sys_rdata <= {asg_ms[6], asg_qs[6], asg_edges[6]}; end
+            20'h9C : begin sys_rdata <= {asg_ms[7], asg_qs[7], asg_edges[7]}; end
+            
             default : begin sys_rdata <=32'h0; end
         endcase
     end

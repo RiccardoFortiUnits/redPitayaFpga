@@ -334,7 +334,7 @@ assign dat_b_o = out_2_sat ;
 //  generic filter
 
 integer i;
-parameter     max_nOfCoefficients = 8;
+localparam     max_nOfCoefficients = 8;//if you want to change it, also change the parameter .coefficients() of the discreteFilter df
 reg  [totalBits_coeffs-1:0] coeffs[max_nOfCoefficients-1:0];
 reg [7:0] numDenSplit;
 

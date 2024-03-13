@@ -580,8 +580,60 @@ red_pitaya_pdm pdm (
 //    end
 //end
       
+//reg clk;
+//reg reset;
+//reg[7:0] x;
+//wire[7:0] y;
+//initial begin
+//    clk = 0;
+//    reset = 1;
+//    x = 'hE0;
+//    while(1)begin
+//        #10;
+//        clk = ~clk;
+//        #10;
+//        clk = ~clk;
+//        reset = 0;
+//        x = x + 8'h10;
+//    end
+//end
 
+//wire [3:0][7:0] edges = {
+//    8'h00,
+//    8'h60,
+//    8'h20,
+//    8'h00
+//};
 
+//wire [3:0][7:0] qs = {
+//    8'hXX,
+//    8'h41,
+//    8'h07,
+//    8'h00
+//};
+
+//wire [3:0][15:0] ms = {
+//    8'hXX,
+//    16'h040,
+//    16'h080,
+//    16'h100
+//};
+
+//segmentedFunction#(
+//    .nOfEdges		(4),
+//    .totalBits_IO	(8),
+//    .fracBits_IO	(4),
+//    .totalBits_m	(16),
+//    .fracBits_m		(8)
+//)sf(
+//	.clk			(clk),
+//	.reset			(reset),
+//	.in				(x),
+//	.edgePoints		(edges),
+//	.qs				(qs),
+//	.ms				(ms),
+//	.out			(y)
+//);
 
 //reg trigger;
 //reg [13:0] in;
