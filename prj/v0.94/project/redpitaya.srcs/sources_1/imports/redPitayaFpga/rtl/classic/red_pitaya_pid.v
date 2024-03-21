@@ -79,7 +79,7 @@ parameter led_feedbackType1         = 1;
 parameter led_delay                 = 2;
 parameter led_filter                = 3;
 parameter led_PID                   = 4;
-parameter led_tensionShifter        = 5;
+parameter led_linearizer            = 5;
 parameter led_outSaturation         = 6;
 parameter led_integralSaturation    = 7;
 
@@ -102,22 +102,30 @@ reg use_fakeDelay;
 reg [9:0] fakeDelay;
 reg use_lpFilter;
 reg [31+16:0] filterCoefficient;
-reg use_tensionShifter;
+reg use_linearizer;
 reg use_genFilter;
 reg [1:0]saturationConfiguration;
+
+localparam nOfEdges = 8;
+localparam totalBits_m = 32;
+localparam fracBits_m = 24;
+reg [totalBits_IO-1:0]    asg_edges   [nOfEdges-1:0];
+reg [totalBits_IO-1:0]    asg_qs      [nOfEdges-1:0];
+reg [totalBits_m-1:0]     asg_ms      [nOfEdges-1:0];
+
 
 wire [totalBits_IO-1:0] dat_WithFeedback;
 reg [totalBits_IO-1:0] dat_delayed;
 reg [totalBits_IO-1:0] dat_lpFiltered;
 reg [totalBits_IO-1:0] dat_genFiltered;
-reg [totalBits_IO-1:0] dat_shifted;
+reg [totalBits_IO-1:0] dat_linearized;
 
 wire [totalBits_IO-1:0] dat_delayOut;
 wire [totalBits_IO-1:0] dat_lpFilterOut;
 wire [totalBits_IO-1:0] dat_genFilterOut;
-wire [totalBits_IO-1:0] dat_shiftedOut;
+wire [totalBits_IO-1:0] dat_linearizedOut;
 
-assign pid_11_out = dat_shifted[fracBits_IO+13:fracBits_IO];
+assign pid_11_out = dat_linearized[fracBits_IO+13:fracBits_IO];
 feedbackAdder#(totalBits_IO) fba(
     .feedbackType(use_feedback),
     .in({dat_a_i, {fracBits_IO{1'b0}}}),
@@ -146,7 +154,7 @@ always @(*)begin
     dat_delayed = use_fakeDelay ? dat_delayOut : dat_WithFeedback;
     dat_lpFiltered = use_lpFilter ? dat_lpFilterOut : dat_delayed;
     dat_genFiltered = use_genFilter ? dat_genFilterOut : dat_lpFiltered;
-    dat_shifted = use_tensionShifter ? dat_shiftedOut : dat_pidded;
+    dat_linearized = use_linearizer ? dat_linearizedOut : dat_pidded;
 end
 
 wire pidSaturation;
@@ -195,16 +203,29 @@ new_PID #(
   .integralSaturation(led_o[led_integralSaturation])
 );
 
-tensionShifter#(totalBits_IO)ts(
-.in(dat_pidded),
-.out(dat_shiftedOut)
+
+segmentedFunction#(
+    .nOfEdges		(nOfEdges),
+    .totalBits_IO	(totalBits_IO),
+    .fracBits_IO	(fracBits_IO),
+    .totalBits_m	(totalBits_m),
+    .fracBits_m		(fracBits_m),
+    .areSignalsSigned(1)
+)linearizer(
+    .clk            (clk_i),       
+    .reset          (!rstn_i),     
+    .in             (dat_pidded),
+    .edgePoints     ({asg_edges [7], asg_edges [6], asg_edges [5], asg_edges [4], asg_edges [3], asg_edges [2], asg_edges [1], asg_edges [0]}),
+    .qs             ({asg_qs    [7], asg_qs    [6], asg_qs    [5], asg_qs    [4], asg_qs    [3], asg_qs    [2], asg_qs    [1], asg_qs    [0]}),
+    .ms             ({asg_ms    [7], asg_ms    [6], asg_ms    [5], asg_ms    [4], asg_ms    [3], asg_ms    [2], asg_ms    [1], asg_ms    [0]}),
+    .out            (dat_linearizedOut)
 );
 
 assign led_o[led_feedbackType1:led_feedbackType0]  = use_feedback;
 assign led_o[led_delay]                            = use_fakeDelay;
 assign led_o[led_filter]                           = use_lpFilter;
 assign led_o[led_PID]                              = rstn_i;
-assign led_o[led_tensionShifter]                   = use_tensionShifter;
+assign led_o[led_linearizer]                   = use_linearizer;
 
 //---------------------------------------------------------------------------------
 //  PID 21
@@ -340,6 +361,7 @@ reg [7:0] numDenSplit;
 
 parameter addr_numDenSplit = 'h60;
 parameter addr_coeffs = 'h64;
+parameter addr_linearizerCoeffs = 'hA0;
 
 discreteFilter #(
    .totalBits_IO               (totalBits_IO    ),
@@ -365,7 +387,7 @@ discreteFilter #(
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
-      {saturationConfiguration, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
+      {saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback} <= 0;
       filterCoefficient <= 0;
       set_11_sp    <= 0 ;
       set_11_kp    <= 0 ;
@@ -391,12 +413,17 @@ always @(posedge clk_i) begin
       for(i=0;i<max_nOfCoefficients;i=i+1)begin
           coeffs[i] <= 0;
       end
+      for(i=0;i<nOfEdges;i=i+1)begin
+            asg_edges[i] <= 0;
+            asg_qs[i] <= 0;
+            asg_ms[i] <= 0;
+      end
    end
    else begin
       if (sys_wen) begin
          if (sys_addr[19:0]==16'h0)    {set_22_irst,set_21_irst,set_12_irst,set_11_irst} <= sys_wdata[ 4-1:0] ;
          
-         if (sys_addr[19:0]==16'h4)    {saturationConfiguration, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1+1+2-1:0] ;
+         if (sys_addr[19:0]==16'h4)    {saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1+1+2-1:0] ;
          if (sys_addr[19:0]==16'h8)     filterCoefficient  <= {{16{sys_wdata[32-1]}},sys_wdata[30-1:0]};
          
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
@@ -417,9 +444,16 @@ always @(posedge clk_i) begin
          if (sys_addr[19:0]==16'h4C)    set_22_kd  <= sys_wdata[14-1:0] ;
          if (sys_addr[19:0]==addr_numDenSplit)    numDenSplit  <= sys_wdata[14-1:0] ;
          
-          for(i=0;i<max_nOfCoefficients;i=i+1)begin
-              if (sys_addr[19:0]==(addr_coeffs+(i<<2)))    coeffs[i]  <= sys_wdata[totalBits_coeffs-1:0] ;
-          end
+		for(i=0;i<max_nOfCoefficients;i=i+1)begin
+			if (sys_addr[19:0]==(addr_coeffs+(i<<2)))    coeffs[i]  <= sys_wdata[totalBits_coeffs-1:0] ;
+		end
+		for(i=0;i<nOfEdges;i=i+1)begin
+			if (sys_addr[19:0]==addr_linearizerCoeffs+(i<<3)) begin
+                asg_edges[i] <= {sys_wdata[13:0], {fracBits_IO{1'b0}}};
+                asg_qs[i] <= {sys_wdata[27:14], {fracBits_IO{1'b0}}};
+			end
+			if (sys_addr[19:0]==addr_linearizerCoeffs+(i<<3)+4)    asg_ms[i] <= sys_wdata;
+		end
       end
    end
 end
@@ -434,41 +468,61 @@ if (rstn_i == 1'b0) begin
 end else begin
    sys_err <= 1'b0 ;
     sys_ack <= sys_en;
-    if(sys_addr[19:0]<addr_coeffs)begin
-       casez (sys_addr[19:0])
-          20'h00 : begin sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
-    
-         20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1+1+2)){1'b0}}, saturationConfiguration, use_tensionShifter, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
-         20'h08 : begin  sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
-    
-          20'h10 : begin sys_rdata <= set_11_sp          ; end 
-          20'h14 : begin sys_rdata <= set_11_kp          ; end 
-          20'h18 : begin sys_rdata <= set_11_ki          ; end 
-          20'h1C : begin sys_rdata <= set_11_kd          ; end 
-    
-          20'h20 : begin sys_rdata <= {{32-14{1'b0}}, set_12_sp}          ; end 
-          20'h24 : begin sys_rdata <= {{32-14{1'b0}}, set_12_kp}          ; end 
-          20'h28 : begin sys_rdata <= {{32-20{1'b0}}, set_12_ki}          ; end 
-          20'h2C : begin sys_rdata <= {{32-14{1'b0}}, set_12_kd}          ; end 
-    
-          20'h30 : begin sys_rdata <= {{32-14{1'b0}}, set_21_sp}          ; end 
-          20'h34 : begin sys_rdata <= {{32-14{1'b0}}, set_21_kp}          ; end 
-          20'h38 : begin sys_rdata <= {{32-20{1'b0}}, set_21_ki}          ; end 
-          20'h3C : begin sys_rdata <= {{32-14{1'b0}}, set_21_kd}          ; end 
-    
-          20'h40 : begin sys_rdata <= {{32-14{1'b0}}, set_22_sp}          ; end 
-          20'h44 : begin sys_rdata <= {{32-14{1'b0}}, set_22_kp}          ; end 
-          20'h48 : begin sys_rdata <= {{32-20{1'b0}}, set_22_ki}          ; end 
-          20'h4C : begin sys_rdata <= {{32-14{1'b0}}, set_22_kd}          ; end 
-          addr_numDenSplit : begin sys_rdata <= numDenSplit               ; end 
-    
-         default : begin sys_rdata <=  32'h0                              ; end
-       endcase
-   end else begin
-          for(i=0;i<max_nOfCoefficients;i=i+1)begin
-              if (sys_addr[19:0]==(16'h64+(i<<2)))   sys_rdata <=  coeffs[i] ;
-          end
-   end
+	casez (sys_addr[19:0])
+		20'h00 : begin sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
+
+		20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1+1+2)){1'b0}}, saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
+		20'h08 : begin  sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
+
+		20'h10 : begin sys_rdata <= set_11_sp          ; end 
+		20'h14 : begin sys_rdata <= set_11_kp          ; end 
+		20'h18 : begin sys_rdata <= set_11_ki          ; end 
+		20'h1C : begin sys_rdata <= set_11_kd          ; end 
+
+		20'h20 : begin sys_rdata <= {{32-14{1'b0}}, set_12_sp}        				; end 
+		20'h24 : begin sys_rdata <= {{32-14{1'b0}}, set_12_kp}        				; end 
+		20'h28 : begin sys_rdata <= {{32-20{1'b0}}, set_12_ki}        				; end 
+		20'h2C : begin sys_rdata <= {{32-14{1'b0}}, set_12_kd}        				; end 
+								
+		20'h30 : begin sys_rdata <= {{32-14{1'b0}}, set_21_sp}        				; end 
+		20'h34 : begin sys_rdata <= {{32-14{1'b0}}, set_21_kp}        				; end 
+		20'h38 : begin sys_rdata <= {{32-20{1'b0}}, set_21_ki}        				; end 
+		20'h3C : begin sys_rdata <= {{32-14{1'b0}}, set_21_kd}        				; end 
+								
+		20'h40 : begin sys_rdata <= {{32-14{1'b0}}, set_22_sp}        				; end 
+		20'h44 : begin sys_rdata <= {{32-14{1'b0}}, set_22_kp}        				; end 
+		20'h48 : begin sys_rdata <= {{32-20{1'b0}}, set_22_ki}        				; end 
+		20'h4C : begin sys_rdata <= {{32-14{1'b0}}, set_22_kd}        				; end 
+								
+		20'h60 : begin sys_rdata <= numDenSplit        								; end
+		20'h64 : begin sys_rdata <= coeffs[0]          								; end
+		20'h68 : begin sys_rdata <= coeffs[1]          								; end
+		20'h6C : begin sys_rdata <= coeffs[2]          								; end
+		20'h70 : begin sys_rdata <= coeffs[3]          								; end
+		20'h74 : begin sys_rdata <= coeffs[4]          								; end
+		20'h78 : begin sys_rdata <= coeffs[5]          								; end
+		20'h7C : begin sys_rdata <= coeffs[6]          								; end
+		20'h80 : begin sys_rdata <= coeffs[7]          								; end
+
+        20'hA0 : begin sys_rdata <= {asg_qs[0][totalBits_IO-1:fracBits_IO], asg_edges[0][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hA4 : begin sys_rdata <= {asg_ms[0]}                                     ; end
+        20'hA8 : begin sys_rdata <= {asg_qs[1][totalBits_IO-1:fracBits_IO], asg_edges[1][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hAC : begin sys_rdata <= {asg_ms[1]}                                     ; end
+        20'hB0 : begin sys_rdata <= {asg_qs[2][totalBits_IO-1:fracBits_IO], asg_edges[2][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hB4 : begin sys_rdata <= {asg_ms[2]}                                     ; end
+        20'hB8 : begin sys_rdata <= {asg_qs[3][totalBits_IO-1:fracBits_IO], asg_edges[3][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hBC : begin sys_rdata <= {asg_ms[3]}                                     ; end
+        20'hC0 : begin sys_rdata <= {asg_qs[4][totalBits_IO-1:fracBits_IO], asg_edges[4][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hC4 : begin sys_rdata <= {asg_ms[4]}                                     ; end
+        20'hC8 : begin sys_rdata <= {asg_qs[5][totalBits_IO-1:fracBits_IO], asg_edges[5][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hCC : begin sys_rdata <= {asg_ms[5]}                                     ; end
+        20'hD0 : begin sys_rdata <= {asg_qs[6][totalBits_IO-1:fracBits_IO], asg_edges[6][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hD4 : begin sys_rdata <= {asg_ms[6]}                                     ; end
+        20'hD8 : begin sys_rdata <= {asg_qs[7][totalBits_IO-1:fracBits_IO], asg_edges[7][totalBits_IO-1:fracBits_IO]}       ; end
+        20'hDC : begin sys_rdata <= {asg_ms[7]}                                     ; end
+
+    	default : begin sys_rdata <=  32'h0                              ; end
+	endcase
 end
 
 endmodule

@@ -598,33 +598,31 @@ red_pitaya_pdm pdm (
 //    end
 //end
 
-//wire [3:0][7:0] edges = {
-//    8'h00,
-//    8'h60,
-//    8'h20,
-//    8'h00
+//wire [2:0][7:0] edges = {
+//    8'h60,//6
+//    8'h20,//2
+//    8'h80//-8
 //};
 
-//wire [3:0][7:0] qs = {
-//    8'hXX,
-//    8'h41,
-//    8'h07,
-//    8'h00
+//wire [2:0][7:0] qs = {
+//    8'h41,//4.
+//    8'hE2,//-2.
+//    8'h00//0
 //};
 
-//wire [3:0][15:0] ms = {
-//    8'hXX,
-//    16'h040,
-//    16'h080,
-//    16'h100
+//wire [2:0][15:0] ms = {
+//    16'h040,//0.25
+//    16'hFF80,//-0.5
+//    16'h100//1
 //};
 
 //segmentedFunction#(
-//    .nOfEdges		(4),
+//    .nOfEdges		(3),
 //    .totalBits_IO	(8),
 //    .fracBits_IO	(4),
 //    .totalBits_m	(16),
-//    .fracBits_m		(8)
+//    .fracBits_m		(8),
+//    .areSignalsSigned(1)
 //)sf(
 //	.clk			(clk),
 //	.reset			(reset),

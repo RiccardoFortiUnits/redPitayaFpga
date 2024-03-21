@@ -77,16 +77,17 @@ generate
     
     //set isInHigherThanEdge    
     if(areSignalsSigned) begin
-        assign isInHigherThanEdge[0] = in_r[0] >= edgePoints_r[0];
+        assign isInHigherThanEdge[0] = $signed(in_r[0]) >= $signed(edgePoints_r[0]);
         for(gi = 1; gi < nOfEdges; gi = gi + 1)begin
-            assign isInHigherThanEdge[gi] = (in_r[0] >= edgePoints_r[gi]) && 
-                            (edgePoints_r[gi] > edgePoints_r[0]);// if set lower or higher than the first edge, it means it is disabled
+            assign isInHigherThanEdge[gi] = ($signed(in_r[0]) >= $signed(edgePoints_r[gi])) && 
+                ($signed(edgePoints_r[gi]) > $signed(edgePoints_r[gi-1]));// if set lower or higher than the first 
+                                                                                    //edge, it means it is disabled
         end
     end else begin
         assign isInHigherThanEdge[0] = $unsigned(in_r[0]) >= $unsigned(edgePoints_r[0]);
         for(gi = 1; gi < nOfEdges; gi = gi + 1)begin
             assign isInHigherThanEdge[gi] = ($unsigned(in_r[0]) >= $unsigned(edgePoints_r[gi])) && 
-                ($unsigned(edgePoints_r[gi]) > $unsigned(edgePoints_r[0]));// if set lower or higher than the first 
+                ($unsigned(edgePoints_r[gi]) > $unsigned(edgePoints_r[gi-1]));// if set lower or higher than the first 
                                                                                     //edge, it means it is disabled
         end    
     end

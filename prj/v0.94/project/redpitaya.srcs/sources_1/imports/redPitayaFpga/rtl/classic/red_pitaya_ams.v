@@ -109,7 +109,7 @@ reg [13:0] adc_minValue[3:0];
 wire [pwm_size-1:0] adc_conditionedOut[3:0];
 
 
-localparam nOfEdges = 8;//if you want to change it, also change the parameter .edgePoints() (and following) of the segmentedFunction sf
+localparam nOfEdges = 8;//if you want to change it, also change the parameter .edgePoints() (and following) of the segmentedFunction linearizer
 
 reg [pwm_size-1:0]              asg_edges     [nOfEdges-1:0];
 reg [pwm_size-1:0]              asg_qs        [nOfEdges-1:0];
@@ -243,6 +243,13 @@ always @(posedge clk_i) begin
             valuesFromMemory[i] <= 0;
             adc_minValue[i] <= 'h2000;
             adc_scaler[i] <= 1<<(scalerFracBits-1);
+                        
+        end
+        
+        for(i=0;i<nOfEdges;i=i+1)begin
+            asg_edges[i] <= 0;
+            asg_qs[i] <= 0;
+            asg_ms[i] <= 0;
         end
     end else begin
         for(i = 0; i < 4; i=i+1)begin
@@ -284,10 +291,10 @@ always @(posedge clk_i) begin
         end
         
         if (sys_wen) begin
-            if (sys_addr[19:0] >= 'h80 && sys_addr[19:0] <= 'hA0)begin
-                asg_edges[sys_addr[4:2]] = sys_wdata[7:0];
-                asg_qs[sys_addr[4:2]] = sys_wdata[15:8];
-                asg_ms[sys_addr[4:2]] = sys_wdata[31:16];
+            if (sys_addr[19:0] >= 'h80 && sys_addr[19:0] < 'hA0)begin
+                asg_edges[sys_addr[4:2]] <= sys_wdata[7:0];
+                asg_qs[sys_addr[4:2]] <= sys_wdata[15:8];
+                asg_ms[sys_addr[4:2]] <= sys_wdata[31:16];
             end
         end
     end
