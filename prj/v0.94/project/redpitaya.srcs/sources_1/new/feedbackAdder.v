@@ -29,17 +29,13 @@ module feedbackAdder#(
     input [dataSize-1:0] feedback,
     output [dataSize-1:0] out
     );
-//    always @(*)begin
-//        case(feedbackType)
-//            'b00: begin out <= in; end 
-//            'b01: begin out <= in - feedback; end 
-//            'b10: begin out <= in + feedback; end 
-//            'b11: begin out <= feedback - in; end
-//        endcase
-//    end
+    parameter cfg_noFeedback = 0,
+              cfg_negFeedback = 1,
+              cfg_posFeedback = 2,
+              cfg_reverseOutput = 3;
     assign out = 
-             (feedbackType == 'b00) ?   in :            //no feedback
-             (feedbackType == 'b01) ?   in - feedback : //negative feedback
-             (feedbackType == 'b10) ?   in + feedback : //positive feedback
-           /*(feedbackType == 'b11) ?*/ - in;           //no feedback, output reversed
+             (feedbackType == cfg_noFeedback)       ?   in : //no feedback
+             (feedbackType == cfg_negFeedback)      ?   in - feedback : //negative feedback
+             (feedbackType == cfg_posFeedback)      ?   in + feedback : //positive feedback
+           /*(feedbackType == cfg_reverseOutput)    ?*/ - in;           //no feedback, output reversed
 endmodule

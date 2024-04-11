@@ -353,7 +353,7 @@ end
 
 // Sumation of ASG and PID signal perform saturation before sending to DAC 
 assign dac_a_sum = asg_dat[0] + pid_dat[0];
-assign dac_b_sum = asg_dat[1] + adc_dat[0] - pid_dat[0];
+assign dac_b_sum = asg_dat[1] + pid_dat[1];
 
 // saturation
 assign dac_a = (^dac_a_sum[15-1:15-2]) ? {dac_a_sum[15-1], {13{~dac_a_sum[15-1]}}} : dac_a_sum[14-1:0];

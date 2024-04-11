@@ -74,14 +74,14 @@ localparam  PSR = 12         ;
 localparam  ISR = 18         ;
 localparam  DSR = 10         ;
 
-parameter led_feedbackType0         = 0;
-parameter led_feedbackType1         = 1;
-parameter led_delay                 = 2;
-parameter led_filter                = 3;
-parameter led_PID                   = 4;
-parameter led_linearizer            = 5;
-parameter led_outSaturation         = 6;
-parameter led_integralSaturation    = 7;
+parameter led_feedbackType0         = 0,
+          led_feedbackType1         = 1,
+          led_delay                 = 2,
+          led_filter                = 3,
+          led_PID                   = 4,
+          led_linearizer            = 5,
+          led_outSaturation         = 6,
+          led_integralSaturation    = 7;
 
 //---------------------------------------------------------------------------------
 //  PID 11
@@ -90,12 +90,21 @@ parameter fracBits_coeffs = 20;
 parameter totalBits_IO = 24;
 parameter fracBits_IO = 24-14;
 wire [ totalBits_IO-1: 0] dat_pidded   ;
+wire [ totalBits_IO-1: 0] dat_pidded_opposite;
 wire [ 14-1: 0] pid_11_out   ;
 reg  [ totalBits_coeffs-1: 0] set_11_sp    ;
 reg  [ totalBits_coeffs-1: 0] set_11_kp    ;
 reg  [ totalBits_coeffs-1: 0] set_11_ki    ;
 reg  [ totalBits_coeffs-1: 0] set_11_kd    ;
 reg             set_11_irst  ;
+
+wire [ 14-1: 0] pid_12_out   ;
+reg  [ 14-1: 0] set_12_sp    ;
+reg  [ 14-1: 0] set_12_kp    ;
+reg  [ 20-1: 0] set_12_ki    ;
+reg  [ 14-1: 0] set_12_kd    ;
+reg             set_12_irst  ;
+
 
 reg [1:0]use_feedback;
 reg use_fakeDelay;
@@ -105,6 +114,7 @@ reg [31+16:0] filterCoefficient;
 reg use_linearizer;
 reg use_genFilter;
 reg [1:0]saturationConfiguration;
+reg removeCommonMode;
 
 localparam nOfEdges = 8;
 localparam totalBits_m = 32;
@@ -113,22 +123,28 @@ reg [totalBits_IO-1:0]    asg_edges   [nOfEdges-1:0];
 reg [totalBits_IO-1:0]    asg_qs      [nOfEdges-1:0];
 reg [totalBits_m-1:0]     asg_ms      [nOfEdges-1:0];
 
-
+wire [14-1:0] dat_commonModeRemoved;
 wire [totalBits_IO-1:0] dat_WithFeedback;
 reg [totalBits_IO-1:0] dat_delayed;
 reg [totalBits_IO-1:0] dat_lpFiltered;
 reg [totalBits_IO-1:0] dat_genFiltered;
+reg [totalBits_IO-1:0] dat_genFiltered_opposite;
 reg [totalBits_IO-1:0] dat_linearized;
+reg [totalBits_IO-1:0] dat_linearized_opposite;
 
 wire [totalBits_IO-1:0] dat_delayOut;
 wire [totalBits_IO-1:0] dat_lpFilterOut;
 wire [totalBits_IO-1:0] dat_genFilterOut;
+wire [totalBits_IO-1:0] dat_genFilterOut_opposite;
 wire [totalBits_IO-1:0] dat_linearizedOut;
 
+assign dat_commonModeRemoved = removeCommonMode ? dat_a_i - dat_b_i : dat_a_i;
+
 assign pid_11_out = dat_linearized[fracBits_IO+13:fracBits_IO];
+assign pid_12_out = dat_linearized_opposite[fracBits_IO+13:fracBits_IO];
 feedbackAdder#(totalBits_IO) fba(
     .feedbackType(use_feedback),
-    .in({dat_a_i, {fracBits_IO{1'b0}}}),
+    .in({dat_commonModeRemoved, {fracBits_IO{1'b0}}}),
     .feedback(dat_pidded),
     .out(dat_WithFeedback)
     );
@@ -154,10 +170,13 @@ always @(*)begin
     dat_delayed = use_fakeDelay ? dat_delayOut : dat_WithFeedback;
     dat_lpFiltered = use_lpFilter ? dat_lpFilterOut : dat_delayed;
     dat_genFiltered = use_genFilter ? dat_genFilterOut : dat_lpFiltered;
+    dat_genFiltered_opposite = use_genFilter ? dat_genFilterOut_opposite : dat_lpFiltered;
     dat_linearized = use_linearizer ? dat_linearizedOut : dat_pidded;
+    dat_linearized_opposite = dat_pidded_opposite;
 end
 
-wire pidSaturation;
+wire pidSaturation, pidSaturation1, pidSaturation2;
+
 wire stopPid;
 blinker bl(
     clk_i,
@@ -199,10 +218,37 @@ new_PID #(
   .set_ki_i     (  set_11_ki      ),  // Ki
   .set_kd_i     (  set_11_kd      ),  // Kd
   .int_rst_i    (  set_11_irst    ),  // integrator reset
-  .outSaturation(pidSaturation),
-  .integralSaturation(led_o[led_integralSaturation])
+  .outSaturation(pidSaturation1),
+  .integralSaturation(integralSaturation1)
 );
+new_PID #(
+   .totalBits_IO               (totalBits_IO),
+   .fracBits_IO                (fracBits_IO),
+   .totalBits_coeffs           (totalBits_coeffs),
+   .fracBits_P                 (PSR),
+   .fracBits_I                 (ISR),
+   .fracBits_D                 (DSR),
+   .totalBits_I_saturation     (24),
+   .workingBits                (32)
+) i_pid12 (
+   // data
+  .clk_i        (  clk_i          ),  // clock
+  .rstn_i       (  pidReset         ),  // reset - active low
+  .dat_i        (  dat_genFiltered_opposite   ),  // input data
+  .dat_o        (  dat_pidded_opposite     ),  // output data
 
+   // settings
+  .set_sp_i     (  set_12_sp      ),  // set point
+  .set_kp_i     (  set_12_kp      ),  // Kp
+  .set_ki_i     (  set_12_ki      ),  // Ki
+  .set_kd_i     (  set_12_kd      ),  // Kd
+  .int_rst_i    (  set_12_irst    ),  // integrator reset
+  .outSaturation(pidSaturation2),
+  .integralSaturation(integralSaturation2)
+);
+assign pidSaturation = pidSaturation1 | pidSaturation2;
+wire integralSaturation1, integralSaturation2;
+assign led_o[led_integralSaturation] = integralSaturation1 | integralSaturation2;
 
 segmentedFunction#(
     .nOfEdges		(nOfEdges),
@@ -211,7 +257,7 @@ segmentedFunction#(
     .totalBits_m	(totalBits_m),
     .fracBits_m		(fracBits_m),
     .areSignalsSigned(1)
-)linearizer(
+)linearizer1(
     .clk            (clk_i),       
     .reset          (!rstn_i),     
     .in             (dat_pidded),
@@ -259,31 +305,24 @@ red_pitaya_pid_block #(
 //---------------------------------------------------------------------------------
 //  PID 12
 
-wire [ 14-1: 0] pid_12_out   ;
-reg  [ 14-1: 0] set_12_sp    ;
-reg  [ 14-1: 0] set_12_kp    ;
-reg  [ 20-1: 0] set_12_ki    ;
-reg  [ 14-1: 0] set_12_kd    ;
-reg             set_12_irst  ;
+//red_pitaya_pid_block #(
+//  .PSR (  PSR   ),
+//  .ISR (  ISR   ),
+//  .DSR (  DSR   )      
+//) i_pid12 (
+//   // data
+//  .clk_i        (  clk_i          ),  // clock
+//  .rstn_i       (  rstn_i         ),  // reset - active low
+//  .dat_i        (  dat_b_i        ),  // input data
+//  .dat_o        (  pid_12_out     ),  // output data
 
-red_pitaya_pid_block #(
-  .PSR (  PSR   ),
-  .ISR (  ISR   ),
-  .DSR (  DSR   )      
-) i_pid12 (
-   // data
-  .clk_i        (  clk_i          ),  // clock
-  .rstn_i       (  rstn_i         ),  // reset - active low
-  .dat_i        (  dat_b_i        ),  // input data
-  .dat_o        (  pid_12_out     ),  // output data
-
-   // settings
-  .set_sp_i     (  set_12_sp      ),  // set point
-  .set_kp_i     (  set_12_kp      ),  // Kp
-  .set_ki_i     (  set_12_ki      ),  // Ki
-  .set_kd_i     (  set_12_kd      ),  // Kd
-  .int_rst_i    (  set_12_irst    )   // integrator reset
-);
+//   // settings
+//  .set_sp_i     (  set_12_sp      ),  // set point
+//  .set_kp_i     (  set_12_kp      ),  // Kp
+//  .set_ki_i     (  set_12_ki      ),  // Ki
+//  .set_kd_i     (  set_12_kd      ),  // Kd
+//  .int_rst_i    (  set_12_irst    )   // integrator reset
+//);
 
 //---------------------------------------------------------------------------------
 //  PID 22
@@ -322,8 +361,8 @@ reg  [ 14-1: 0] out_1_sat   ;
 wire [ 15-1: 0] out_2_sum   ;
 reg  [ 14-1: 0] out_2_sat   ;
 
-assign out_1_sum = $signed(pid_11_out) + $signed(pid_12_out);
-assign out_2_sum = $signed(pid_22_out) + $signed(pid_21_out);
+assign out_1_sum = $signed(pid_11_out);
+assign out_2_sum = $signed(pid_12_out);
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
@@ -380,6 +419,14 @@ discreteFilter #(
   .denNumSplit     (  numDenSplit      )
 );
 
+reg [totalBits_IO-1:0] dat_lpFiltered_delayed[2:0];
+wire [totalBits_IO-1:0] dat_genFilterOut_opposite = dat_lpFiltered_delayed[2] - dat_genFilterOut;
+always @(posedge clk_i)begin
+    dat_lpFiltered_delayed[0] <= dat_lpFiltered;
+    dat_lpFiltered_delayed[1] <= dat_lpFiltered_delayed[0];
+    dat_lpFiltered_delayed[2] <= dat_lpFiltered_delayed[1];
+end
+
 
 //---------------------------------------------------------------------------------
 //
@@ -423,7 +470,7 @@ always @(posedge clk_i) begin
       if (sys_wen) begin
          if (sys_addr[19:0]==16'h0)    {set_22_irst,set_21_irst,set_12_irst,set_11_irst} <= sys_wdata[ 4-1:0] ;
          
-         if (sys_addr[19:0]==16'h4)    {saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[2+1+10+1+1+1+2-1:0] ;
+         if (sys_addr[19:0]==16'h4)    {removeCommonMode, saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[1+2+1+10+1+1+1+2-1:0] ;
          if (sys_addr[19:0]==16'h8)     filterCoefficient  <= {{16{sys_wdata[32-1]}},sys_wdata[30-1:0]};
          
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
@@ -471,7 +518,7 @@ end else begin
 	casez (sys_addr[19:0])
 		20'h00 : begin sys_rdata <= {{32- 4{1'b0}}, set_22_irst,set_21_irst,set_12_irst,set_11_irst}       ; end 
 
-		20'h04 : begin  sys_rdata <= {{(32-(2+1+10+1+1+1+2)){1'b0}}, saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
+		20'h04 : begin  sys_rdata <= {{(32-(1+2+1+10+1+1+1+2)){1'b0}}, removeCommonMode, saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
 		20'h08 : begin  sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
 
 		20'h10 : begin sys_rdata <= set_11_sp          ; end 
@@ -493,6 +540,9 @@ end else begin
 		20'h44 : begin sys_rdata <= {{32-14{1'b0}}, set_22_kp}        				; end 
 		20'h48 : begin sys_rdata <= {{32-20{1'b0}}, set_22_ki}        				; end 
 		20'h4C : begin sys_rdata <= {{32-14{1'b0}}, set_22_kd}        				; end 
+		
+		20'h50 : begin sys_rdata <= {{32-14{1'b0}}, dat_a_o}        				; end 
+		20'h54 : begin sys_rdata <= {{32-14{1'b0}}, dat_b_o}        				; end 
 								
 		20'h60 : begin sys_rdata <= numDenSplit        								; end
 		20'h64 : begin sys_rdata <= coeffs[0]          								; end

@@ -41,47 +41,36 @@ module ir_filter#(//the parameters for IO should be smaller than the parameters 
     endfunction
     reg [totalBits_IO-1:0] in_reg;
     
-    wire signed [totalBits_coeff-1:0] y_delayed; // Delayed output for feedback
+    reg signed [totalBits_coeff-1:0] y_delayed; // Delayed output for feedback
     reg signed [totalBits_coeff-1:0] a;//set as a register because otherwise the timing analyser 
                     //might complain. It's not a very sensitive line, but still, it's better to protect its value with a register
-    reg signed [totalBits_coeff-1:0] b;
+    wire signed [totalBits_coeff-1:0] b = convertToFixedPoint(1, fracBits_coeff) - a;
 
     wire [totalBits_coeff-1:0] ay_1;
     wire [totalBits_coeff-1:0] bx;
     
     //ay_1 = a * y_delayed;
+    FractionalMultiplier 
+        #(totalBits_coeff,totalBits_coeff,totalBits_coeff,fracBits_coeff,fracBits_coeff,fracBits_coeff) 
+    ay_1_m (.a(a),.b(y_delayed),.result(ay_1));
     
-    
-    clocked_FractionalMultiplier
-        #(totalBits_coeff,totalBits_coeff,totalBits_coeff,fracBits_coeff,fracBits_coeff,fracBits_coeff)
-    ay_1_m                   (.clk(clk), .a(a),.b(y_delayed),.result(ay_1));
-    
-    clocked_FractionalMultiplier
-        #(totalBits_coeff,totalBits_IO,totalBits_coeff,fracBits_coeff,fracBits_IO,fracBits_coeff)
-    bx_m                   (.clk(clk), .a(b),.b(in_reg),.result(bx));
-    
-//    FractionalMultiplier 
-//        #(totalBits_coeff,totalBits_coeff,totalBits_coeff,fracBits_coeff,fracBits_coeff,fracBits_coeff) 
-//    ay_1_m (.a(a),.b(y_delayed),.result(ay_1));
-    
-//    //bx = b * in_reg
-//    FractionalMultiplier 
-//        #(totalBits_coeff,totalBits_IO,totalBits_coeff,fracBits_coeff,fracBits_IO,fracBits_coeff) 
-//    bx_m (.a(b),.b(in_reg),.result(bx));
+    //bx = b * in_reg
+    FractionalMultiplier 
+        #(totalBits_coeff,totalBits_IO,totalBits_coeff,fracBits_coeff,fracBits_IO,fracBits_coeff) 
+    bx_m (.a(b),.b(in_reg),.result(bx));
 
     always @(posedge clk_i) begin
         if(reset)begin
+            y_delayed <= 0;
             in_reg <= 0;
             a <= 0;
-            b <= 0;
         end else begin
+            y_delayed <= ay_1 + bx;
             in_reg = in;
             a <= coefficient;
-            b <= convertToFixedPoint(1, fracBits_coeff) - coefficient;
         end
     end
   
-  assign y_delayed = ay_1 + bx;
   assign out = y_delayed[fracBits_coeff - fracBits_IO + totalBits_IO - 1 : fracBits_coeff - fracBits_IO];
 //  assign out = in;
     
