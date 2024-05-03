@@ -1,3 +1,6 @@
+
+//`define debug
+
 ////////////////////////////////////////////////////////////////////////////////
 // Red Pitaya TOP module. It connects external pins and PS part with
 // other application modules.
@@ -176,13 +179,13 @@ logic                    dac_rst;
 
 logic        [14-1:0] dac_dat_a, dac_dat_b;
 logic        [14-1:0] dac_a    , dac_b    ;
-logic signed [15-1:0] dac_a_sum, dac_b_sum;
+logic signed [16-1:0] dac_a_sum, dac_b_sum;
 
 // ASG
 SBG_T [2-1:0]            asg_dat;
 
 // PID
-SBA_T [2-1:0]            pid_dat;
+logic signed [15-1:0]            pid_dat[2-1:0];
 
 // configuration
 logic                    digital_loop;
@@ -352,13 +355,17 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 
 // Sumation of ASG and PID signal perform saturation before sending to DAC 
-assign dac_a_sum = asg_dat[0] + pid_dat[0];
-assign dac_b_sum = asg_dat[1] + pid_dat[1];
+assign dac_a_sum = {{2{asg_dat[0][13]}}, asg_dat[0]} + {pid_dat[0][14], pid_dat[0][14:0]};
+assign dac_b_sum = {{2{asg_dat[1][13]}}, asg_dat[1]} + {pid_dat[1][14], pid_dat[1][14:0]};
 
-// saturation
-assign dac_a = (^dac_a_sum[15-1:15-2]) ? {dac_a_sum[15-1], {13{~dac_a_sum[15-1]}}} : dac_a_sum[14-1:0];
-assign dac_b = (^dac_b_sum[15-1:15-2]) ? {dac_b_sum[15-1], {13{~dac_b_sum[15-1]}}} : dac_b_sum[14-1:0];
-
+saturator #(.s(16),.n(14)) aOutput (
+  .input_data        (dac_a_sum),
+  .saturated_output  (dac_a)
+);
+saturator #(.s(16),.n(14)) bOutput (
+  .input_data        (dac_b_sum),
+  .saturated_output  (dac_b)
+);
 // output registers + signed to unsigned (also to negative slope)
 always @(posedge dac_clk_1x)
 begin
@@ -415,6 +422,7 @@ red_pitaya_hk i_hk (
 //  DAC arbitrary signal generator
 ////////////////////////////////////////////////////////////////////////////////
 
+`ifndef debug
 red_pitaya_asg i_asg (
    // DAC
   .dac_a_o         (asg_dat[0]  ),  // CH 1
@@ -434,6 +442,27 @@ red_pitaya_asg i_asg (
   .sys_ack         (sys[2].ack  )
 );
 
+`else
+assign asg_dat[0] = 1<<11;//0.125
+red_pitaya_asg i_asg (
+   // DAC
+//  .dac_a_o         (asg_dat[0]  ),  // CH 1
+//  .dac_b_o         (asg_dat[1]  ),  // CH 2
+  .dac_clk_i       (adc_clk     ),  // clock
+  .dac_rstn_i      (adc_rstn    ),  // reset - active low
+  .trig_a_i        (trig_ext    ),
+  .trig_b_i        (trig_ext    ),
+  .trig_out_o      (trig_asg_out),
+  // System bus
+  .sys_addr        (sys[2].addr ),
+  .sys_wdata       (sys[2].wdata),
+  .sys_wen         (sys[2].wen  ),
+  .sys_ren         (sys[2].ren  ),
+  .sys_rdata       (sys[2].rdata),
+  .sys_err         (sys[2].err  ),
+  .sys_ack         (sys[2].ack  )
+);
+`endif
 ////////////////////////////////////////////////////////////////////////////////
 // GPIO
 ////////////////////////////////////////////////////////////////////////////////
@@ -455,6 +484,8 @@ assign gpio.i[3*GDW-1:2*GDW] = exp_n_in[GDW-1:0];
 //  MIMO PID controller
 ////////////////////////////////////////////////////////////////////////////////
 reg [7:0] leds;
+
+`ifndef debug
 red_pitaya_pid i_pid (
    // signals
   .clk_i           (adc_clk   ),  // clock
@@ -473,7 +504,41 @@ red_pitaya_pid i_pid (
   .sys_ack         (sys[3].ack  ),
   .led_o           (leds)  // LED output
 );
+`else
 
+reg clk;
+reg reset;
+initial begin
+    clk = 0;
+    reset = 1;
+    while(1)begin
+        #10;
+        clk = ~clk;
+        #10;
+        clk = ~clk;
+        reset = 0;
+    end
+end
+red_pitaya_pid i_pid (
+   // signals
+  .clk_i           (clk   ),  // clock
+  .rstn_i          (!reset  ),  // reset - active low
+  .dat_a_i         (14'h0800),  // in 1
+  .dat_b_i         (14'h0000),  // in 2
+  .dat_a_o         (pid_dat[0]),  // out 1
+  .dat_b_o         (pid_dat[1]),  // out 2
+  // System bus
+  .sys_addr        (0),
+  .sys_wdata       (0),
+  .sys_wen         (0),
+  .sys_ren         (0),
+  .sys_rdata       (sys[3].rdata),
+  .sys_err         (sys[3].err  ),
+  .sys_ack         (sys[3].ack  ),
+  .led_o           (leds)  // LED output
+);
+
+`endif
 assign led_o = leds;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -599,21 +664,21 @@ red_pitaya_pdm pdm (
 //end
 
 //wire [2:0][7:0] edges = {
-//    8'h60,//6
-//    8'h20,//2
-//    8'h80//-8
+//    8'h80,
+//    8'h80,
+//    8'h81
 //};
 
 //wire [2:0][7:0] qs = {
-//    8'h41,//4.
-//    8'hE2,//-2.
-//    8'h00//0
+//    8'h00,
+//    8'h00,
+//    8'h80
 //};
 
 //wire [2:0][15:0] ms = {
-//    16'h040,//0.25
-//    16'hFF80,//-0.5
-//    16'h100//1
+//    16'h0,
+//    16'h0,
+//    16'h080
 //};
 
 //segmentedFunction#(

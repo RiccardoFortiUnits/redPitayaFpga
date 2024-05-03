@@ -101,7 +101,7 @@ generate
 endgenerate
 
 clocked_FractionalMultiplier #(
-  .A_WIDTH			(totalBits_IO),
+  .A_WIDTH			(totalBits_IO + 1),//stupid sum/difference between integers, which requires one more bit to not overflow... 
   .B_WIDTH			(totalBits_m),
   .OUTPUT_WIDTH		(totalBits_IO),
   .FRAC_BITS_A		(fracBits_IO),
@@ -110,7 +110,7 @@ clocked_FractionalMultiplier #(
   .areSignalsSigned (areSignalsSigned)
 ) mult (
   .clk(clk),
-  .a(in_r[nOfInputDelays-1] - current_Edge),
+  .a({in_r[nOfInputDelays-1][totalBits_IO-1],in_r[nOfInputDelays-1]} - {current_Edge[totalBits_IO-1],current_Edge}),
   .b(current_m),
   .result(mx)
 );

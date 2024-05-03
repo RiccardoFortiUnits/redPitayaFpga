@@ -216,7 +216,14 @@ wire  [workingBits-1: 0] pid_sum_saturated     ; // biggest posible bit-width
 reg   [totalBits_IO-1: 0] pid_out     ;
 
 assign pid_sum = $signed(kp_reg) + $signed(int_shr) + $signed(kd_reg_s) ;
-precisionSaturator#(workingBits,'h1FFE<<fracBits_IO)sat_pid(pid_sum, pid_sum_saturated, outSaturation);
+precisionSaturator#(
+    .s(workingBits), 
+    .maxValue({1'b0,{(totalBits_IO-2){1'b1}},1'b0}))//=MAX_VALUE - 1 (0b0111...1110)
+sat_pid(
+    pid_sum, 
+    pid_sum_saturated, 
+    outSaturation
+ );
 
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin

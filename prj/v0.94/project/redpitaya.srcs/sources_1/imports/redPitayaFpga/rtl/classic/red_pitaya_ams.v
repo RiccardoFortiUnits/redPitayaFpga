@@ -153,6 +153,7 @@ for(gi = 0; gi < 4; gi = gi + 1)begin
         .clk			(clk_i),
         .reset			(!rstn_i),
         .trigger		(ramp_trigger[gi]),
+        .defaultValue   (valuesFromMemory[gi]),
         .startPoint     (ramp_start[gi]),
         .stepIncrease   (ramp_valueIncrementer[gi]),
         .timeStep       (ramp_timeIncremeter[gi]),

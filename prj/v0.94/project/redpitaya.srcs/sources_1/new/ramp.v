@@ -28,12 +28,14 @@ module ramp#(
 	input clk,
 	input reset,
 	input trigger,
+	input signed [data_size-1:0] defaultValue,
 	input signed [data_size-1:0] startPoint,
 	input signed [data_size-1:0] stepIncrease, // = (endPoint - startPoint) / nOfSteps
 	input [time_size-1:0] timeStep, // = rampTime / nOfSteps
 	input [data_size-1:0] nOfSteps,
 	input [1:0] idleConfig,
-	output reg [data_size-1:0] out
+	output reg [data_size-1:0] out,
+	output isBusy
 );
 // generates a ramp. When a trigger is detected, it sets the output to the value of startPoint, and 
 	//it starts a counter. Every time the counter reaches the value of timeStep, the output gets increased
@@ -53,9 +55,10 @@ reg [1:0] idleConfig_r;
 localparam 	s_idle = 0,
 			s_running = 1;
 reg [0:0] state;
+assign isBusy = state != s_idle;
 
 //configuration of idle state: on which value do we stay while the module is waiting for a trigger?
-localparam 	c_zero = 0,		
+localparam 	c_defaultValue = 0,		
 			c_start = 1,
 			c_current = 2,
 			c_inverseRamp = 3;
@@ -111,9 +114,9 @@ always @(posedge clk)begin
                             state <= s_idle;						
                             //set idle output
                             case(idleConfig)
-                                c_zero: begin		out <= 0; 			end
-                                c_start: begin		out <= startPoint_r;end
-                                //c_current: begin	out <= out; 		end
+                                c_defaultValue: begin		out <= defaultValue;end
+                                c_start:        begin		out <= startPoint_r;end
+                                //c_current:    begin	    out <= out; 		end
                                 default: begin end
                             endcase
                         end				
@@ -132,3 +135,50 @@ always @(posedge clk)begin
 end
 
 endmodule
+
+
+
+module ramp_smooth#(
+	parameter data_size = 16,
+	parameter time_size = 16
+)(
+	input clk,
+	input reset,
+	input trigger,
+	input signed [data_size-1:0] startPoint,
+//	input signed [data_size-1:0] stepIncrease, // always = 1
+	input [time_size-1:0] timeStep, // = rampTime / nOfSteps
+	input [data_size-1:0] nOfSteps, // = endPoint - startPoint
+	input [1:0] idleConfig,
+	output [data_size-1:0] out
+);
+
+    ramp#(
+        .data_size(data_size), 
+        .time_size(time_size)
+    )r(
+        .clk(clk),
+        .reset(reset),
+        .trigger(trigger),
+        .startPoint(startPoint),
+        .stepIncrease(1),
+        .timeStep(timeStep),
+        .nOfSteps(nOfSteps),
+        .idleConfig(idleConfig),
+        .out(out)
+    );
+    
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+
+
