@@ -26,11 +26,11 @@ module delay_simulator#(
 )(
     input clk,
     input [dataSize-1:0] in,
-    input [9:0] nOfDelays,// Adjust the range based on your maximum delay
+    input [$clog2(max_nOfCycles)+1:0] nOfDelays,// Adjust the range based on your maximum delay
     output [dataSize-1:0] out
-    );
+);
     reg [dataSize-1:0] delay_buffer [0:max_nOfCycles]; //(max_nOfCycles + 1) registers
-    reg [9:0] nOfDelays_saturated;
+    reg [$clog2(max_nOfCycles)+1:0] nOfDelays_saturated;
     
     always @(*)begin
         nOfDelays_saturated <= (max_nOfCycles < nOfDelays) ? max_nOfCycles : nOfDelays;

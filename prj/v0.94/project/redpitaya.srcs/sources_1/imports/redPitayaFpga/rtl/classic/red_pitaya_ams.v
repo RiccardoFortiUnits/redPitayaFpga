@@ -39,7 +39,8 @@
  */
 
 module red_pitaya_ams#(
-    parameter pwm_size = 8
+    parameter pwm_size = 8,
+    parameter nOfDigitalPinsForTrigger = 16
 ) (
     // ADC
     input                 clk_i           ,  // clock
@@ -52,6 +53,7 @@ module red_pitaya_ams#(
     // external signal inputs
     input      [ 14-1: 0] dat_a_i         ,  //!< input data CHA
     input      [ 14-1: 0] dat_b_i         ,  //!< input data CHB
+    input[nOfDigitalPinsForTrigger-1:0] digitalInputs,
     // system bus
     input      [ 32-1: 0] sys_addr        ,  // bus address
     input      [ 32-1: 0] sys_wdata       ,  // bus write data
@@ -79,7 +81,11 @@ reg [1:0] conf_outputSelect[3:0];
 reg conf_AdcSelect[3:0];
 reg conf_useLinearizer[3:0];
 
+localparam digInpSize = $clog2(nOfDigitalPinsForTrigger-1)+1;
+reg [digInpSize-1:0]conf_digitalInput[3:0];
+
 wire [13:0] selectedADC_input[3:0];
+wire selectedDigital_input[3:0];
 
 //set output from memory
 reg [pwm_size-1:0] valuesFromMemory[3:0];
@@ -88,7 +94,7 @@ reg [pwm_size-1:0] valuesFromMemory[3:0];
 localparam  trigger_none   = 0,
             trigger_now    = 1,
             trigger_adc   = 2,
-            trigger_asg   = 3;
+            trigger_digitalPin = 3;
 localparam  edge_pos    = 0,
             edge_neg    = 1;
 reg [pwm_size-1:0] ramp_start[3:0];
@@ -132,6 +138,8 @@ for(gi = 0; gi < 4; gi = gi + 1)begin
                                   conf_AdcSelect[gi] == 1 ?
                                     dat_b_i :
                                     0;//should never happen
+                                        
+    assign selectedDigital_input[gi] = digitalInputs[conf_digitalInput[gi]];
     
     //ramp
     assign ramp_ADCtrigger[gi] = ramp_ADCtriggerEdge[gi] == edge_pos ?//todo sarebbe da fare un trigger di un solo colpo di clock, oppure aggiungi alla rampa uno stato in cui aspetta che il trigger si abbassi
@@ -142,8 +150,10 @@ for(gi = 0; gi < 4; gi = gi + 1)begin
                                  0 :
                               ramp_triggerSelect[gi] == trigger_now ?
                                  1 :
-                           // ramp_triggerSelect[gi] == trigger_adc
-                                 ramp_ADCtrigger[gi];
+                              ramp_triggerSelect[gi] == trigger_adc ?
+                                 ramp_ADCtrigger[gi] :
+//                            ramp_triggerSelect[gi] == trigger_digitalPin ? 
+                                 selectedDigital_input[gi];
     
     //ramp setup    
     ramp#(
@@ -231,6 +241,7 @@ always @(posedge clk_i) begin
             conf_outputSelect[i] <= use_memory;
             conf_AdcSelect[i] <= 0;
             conf_useLinearizer[i] <= 0;
+            conf_digitalInput[i] <= 0;
         
             ramp_start[i] <= 0;
             ramp_valueIncrementer[i] <= 0;
@@ -260,6 +271,7 @@ always @(posedge clk_i) begin
                     conf_outputSelect[i] <= sys_wdata[1:0];
                     conf_AdcSelect[i] <= sys_wdata[2];
                     conf_useLinearizer[i] <= sys_wdata[3];
+                    conf_digitalInput[i] <= sys_wdata[4+digInpSize-1:4];
                 end
                 if (sys_addr[19:0] == 'h30 + (i << 2))begin//addresses 0x30, 0x34, 0x38, 0x3C
                     adc_minValue[i] <= sys_wdata[13:0];
@@ -311,11 +323,11 @@ always @(posedge clk_i)begin
     end else begin
         sys_err <= 1'b0 ;
         sys_ack <= sys_en;
-        casez (sys_addr[19:0])    
-            20'h20 : begin sys_rdata <= {valuesFromMemory[0], {16-4{1'b0}}, conf_useLinearizer[0], conf_AdcSelect[0], conf_outputSelect[0]}; end
-            20'h24 : begin sys_rdata <= {valuesFromMemory[1], {16-4{1'b0}}, conf_useLinearizer[1], conf_AdcSelect[1], conf_outputSelect[1]}; end
-            20'h28 : begin sys_rdata <= {valuesFromMemory[2], {16-4{1'b0}}, conf_useLinearizer[2], conf_AdcSelect[2], conf_outputSelect[2]}; end
-            20'h2C : begin sys_rdata <= {valuesFromMemory[3], {16-4{1'b0}}, conf_useLinearizer[3], conf_AdcSelect[3], conf_outputSelect[3]}; end
+        casez (sys_addr[19:0])
+            20'h20 : begin sys_rdata <= {valuesFromMemory[0], {(16-4-digInpSize){1'b0}},conf_digitalInput[0], conf_useLinearizer[0], conf_AdcSelect[0], conf_outputSelect[0]}; end
+            20'h24 : begin sys_rdata <= {valuesFromMemory[1], {(16-4-digInpSize){1'b0}},conf_digitalInput[1], conf_useLinearizer[1], conf_AdcSelect[1], conf_outputSelect[1]}; end
+            20'h28 : begin sys_rdata <= {valuesFromMemory[2], {(16-4-digInpSize){1'b0}},conf_digitalInput[2], conf_useLinearizer[2], conf_AdcSelect[2], conf_outputSelect[2]}; end
+            20'h2C : begin sys_rdata <= {valuesFromMemory[3], {(16-4-digInpSize){1'b0}},conf_digitalInput[3], conf_useLinearizer[3], conf_AdcSelect[3], conf_outputSelect[3]}; end
             20'h30 : begin sys_rdata <= {adc_scaler[0], adc_minValue[0]}; end
             20'h34 : begin sys_rdata <= {adc_scaler[1], adc_minValue[1]}; end
             20'h38 : begin sys_rdata <= {adc_scaler[2], adc_minValue[2]}; end

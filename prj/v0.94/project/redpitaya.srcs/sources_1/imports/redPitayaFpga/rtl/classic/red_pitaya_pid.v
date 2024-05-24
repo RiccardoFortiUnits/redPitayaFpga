@@ -1,5 +1,5 @@
 
-`define debug
+//`define debug
 
 /**
  * $Id: red_pitaya_pid.v 961 2014-01-21 11:40:39Z matej.oblak $
@@ -125,6 +125,9 @@ reg removeCommonMode;
 localparam nOfEdges = 8;
 localparam totalBits_m = 32;
 localparam fracBits_m = 24;
+
+localparam     max_nOfCoefficients = 8;//if you want to change it, also change the parameter .coefficients() of the discreteFilter df
+
 reg [totalBits_IO-1:0]    asg_edges   [nOfEdges-1:0];
 reg [totalBits_IO-1:0]    asg_qs      [nOfEdges-1:0];
 reg [totalBits_m-1:0]     asg_ms      [nOfEdges-1:0];
@@ -381,7 +384,6 @@ assign dat_b_o = pid_12_out ;
 //  generic filter
 
 integer i;
-localparam     max_nOfCoefficients = 8;//if you want to change it, also change the parameter .coefficients() of the discreteFilter df
 reg  [totalBits_coeffs-1:0] coeffs[max_nOfCoefficients-1:0];
 reg [7:0] numDenSplit;
 

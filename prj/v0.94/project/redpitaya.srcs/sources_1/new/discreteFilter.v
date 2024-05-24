@@ -91,7 +91,7 @@ generate
     //in/out selectors
     assign valsToMultiply[0] = ins[0];
     for (gi = 1; gi < max_nOfCoefficients; gi = gi + 1) begin
-        assign valsToMultiply[gi] = (gi < denNumSplit) ? ins[gi-1] : outs[gi - denNumSplit];
+        assign valsToMultiply[gi] = (gi < denNumSplit) ? ins[gi] : outs[gi - denNumSplit];
     end
     
 endgenerate

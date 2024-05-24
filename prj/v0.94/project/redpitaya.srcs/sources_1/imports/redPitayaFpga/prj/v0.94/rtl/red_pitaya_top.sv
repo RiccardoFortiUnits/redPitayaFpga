@@ -605,6 +605,7 @@ red_pitaya_ams i_ams (
   // external signal inputs
   .dat_a_i         (adc_dat[0]),
   .dat_b_i         (adc_dat[1]),
+  .digitalInputs   ({exp_n_in[7:0],exp_p_in[7:0]}),
   // System bus
   .sys_addr        (sys[4].addr ),
   .sys_wdata       (sys[4].wdata),
