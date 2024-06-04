@@ -699,6 +699,8 @@ red_pitaya_pdm pdm (
 //	.out			(y)
 //);
 
+//reg clk;
+//reg reset;
 //reg trigger;
 //reg [13:0] in;
 //reg [15:0] counter;
@@ -728,16 +730,19 @@ red_pitaya_pdm pdm (
 
 
 //ramp#(
+//    .nOf_ramps(8),
 //	.data_size(8),
 //	.time_size(16)
 //)rrrrrrrr(
 //	.clk			(clk),
 //	.reset			(reset),
 //	.trigger		(trigger),
-//	.startPoint		('h10),
-//	.timeStep		('h3),
-//	.nOfSteps		(8),
-//	.stepIncrease	('h07),
+//	.usedRamps      (3),
+//	.startPoint		({0,8'h0,8'h50}),
+//	.timeStep		({2,16'h0,16'h4}),
+//	.nOfSteps		({2,8'h0,8'h4}),
+//	.stepIncrease	({1,8'h00,8'h10}),
+//	.useMultipleTriggers(0),
 //	.idleConfig		(conf),
 //	.out			(out)
 //);

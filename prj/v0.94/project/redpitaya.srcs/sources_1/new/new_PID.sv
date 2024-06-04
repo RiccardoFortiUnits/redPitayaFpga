@@ -110,7 +110,7 @@ always @(posedge clk_i) begin
       error <= 0 ;
    end
    else begin
-      error <= $signed(dat_i) - $signed(set_sp_i);
+      error <= $signed(set_sp_i) - $signed(dat_i);
    end
 end
 

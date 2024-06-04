@@ -74,7 +74,7 @@ module red_pitaya_pid (
 );
 
 localparam  PSR = 12         ;
-localparam  ISR = 18         ;
+localparam  ISR = 24         ;
 localparam  DSR = 10         ;
 
 parameter led_feedbackType0         = 0,
