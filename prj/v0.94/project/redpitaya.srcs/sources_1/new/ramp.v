@@ -24,7 +24,8 @@
 module ramp#(
     parameter nOf_ramps = 1,
 	parameter data_size = 16,
-	parameter time_size = 16
+	parameter time_size = 16,
+	parameter hinibitionTimeForTrigger = 125//1e-6s
 )(
 	input clk,
 	input reset,
@@ -74,6 +75,17 @@ reg [data_size-1:0] cycleCounter;
 reg [$clog2(nOf_ramps):0] currentRamp;
 reg [$clog2(nOf_ramps):0] usedRamps_r;
 
+//trigger cleaner
+wire cleanTrigger;
+triggerCleaner#(
+    .nOfHinibitionCycles(hinibitionTimeForTrigger)
+)tc(
+    .clk    (clk),
+    .reset  (reset),
+    .in     (trigger),
+    .out    (cleanTrigger)
+);
+
 integer i;
 reg rampIncreaser;//0: increase currentRamp, 1: decrease currentRamp (used for doing inverse ramp)
 wire isLastRamp = (!rampIncreaser & ($unsigned(currentRamp) >= $unsigned(usedRamps_r - 1))) || (rampIncreaser & (currentRamp == 0));
@@ -96,7 +108,7 @@ always @(posedge clk)begin
     end else begin
         case(state)
             s_idle: begin
-                if(trigger && usedRamps)begin
+                if(cleanTrigger && usedRamps)begin
                     state <= s_running;
 
                     //let's start the counters
@@ -121,33 +133,37 @@ always @(posedge clk)begin
                 end
             end
             s_running: begin
-                if($unsigned(stepCounter) < 2)begin//one cycle finished?
+                if((cleanTrigger && useMultipleTriggers) ||//should we already start the next ramp? 
+                  $unsigned(stepCounter) < 2)begin//one cycle finished?                    
                     //(since we did an extra step during the cycle that transitioned between s_idle and 
                         //s_running (or between the end of a ramp to the start of the following one), 
                         //we should stop when the counter reaches 1 instead of 0. And, to avoid problems 
                         //when the timers are not initialized (default to 0), let's also consider the case in 
                         //which the counter is 0
-                    if($unsigned(cycleCounter) < 2)begin//final cycle finished?
-                        
-                        state = useMultipleTriggers ? s_waitingForIntermediateTrigger : s_running;
-                        
+                    if((cleanTrigger && useMultipleTriggers) ||//should we already start the next ramp? 
+                      $unsigned(cycleCounter) < 2)begin//final cycle finished?
                         if(idleConfig_r == c_inverseRamp)begin//inverse ramp?
                             //reverse the step increaser, so that we'll move backwards
                             stepIncrease_r[currentRamp] <= - stepIncrease_r[currentRamp];
-                            startPoint_r[currentRamp] <= out;
+                            startPoint_r[currentRamp] <= out;//todo when using useMultipleTriggers and a trigger 
+                                        //arrives early, we might not start from the actual end value... maybe we 
+                                        //can reduce the number of steps, so that we'll end at the start value in any case
                         end
+                        
                         if(isLastRamp)begin//final ramp finished?
                             if(idleConfig_r == c_inverseRamp)begin//inverse ramp?
                                 //restart the ramps, but starting from the last one
-                                rampIncreaser = 1;
+                                rampIncreaser <= 1;
                                 
                                 stepCounter <= timeStep_r[currentRamp];//reset the counters
                                 cycleCounter <= nOfSteps_r[currentRamp];
                             
                                 idleConfig_r <= c_current;//remove the inverseRamp configuration, so that we won't repeat it again
+                                
+                                if(useMultipleTriggers && !cleanTrigger)begin
+                                    state <= s_waitingForIntermediateTrigger;
+                                end
                             end else begin
-                        
-                                state <= s_idle;						
                                 //set idle output
                                 case(idleConfig_r)
                                     c_defaultValue: begin		out <= defaultValue;end
@@ -155,17 +171,39 @@ always @(posedge clk)begin
                                     //c_current:    begin	    out <= out; 		end
                                     default: begin end
                                 endcase
+                                //reset the rest                                
+                                state <= s_idle;
+                                stepCounter <= 0;
+                                cycleCounter <= 0;
+                                currentRamp <= 0;
+                                usedRamps_r <= 0;
+                                idleConfig_r <= 0;
+                                defaultValue_r <= 0;
+                                rampIncreaser <= 0;      
+                                for(i = 0; i < nOf_ramps; i = i + 1) begin
+                                    startPoint_r [i]	<= 0;
+                                    timeStep_r [i]		<= 0;
+                                    nOfSteps_r [i]		<= 0;
+                                    stepIncrease_r [i]	<= 0; 
+                                end
                             end
                         end else begin
                             //go to the next ramp
-                            if(!rampIncreaser)
-                                currentRamp = currentRamp + 1;
-                            else
-                                currentRamp = currentRamp - 1;
-                            //notice, currentRamp is already increased/decreased here (I didn't use "<=")
-                            stepCounter = timeStep_r[currentRamp];//reset the counters
-                            cycleCounter = nOfSteps_r[currentRamp];
-                            out = startPoint_r[currentRamp];
+                            if(!rampIncreaser)begin
+                                currentRamp <= currentRamp + 1;
+                                stepCounter <= timeStep_r[currentRamp + 1];//reset the counters
+                                cycleCounter <= nOfSteps_r[currentRamp + 1];
+                                out <= startPoint_r[currentRamp + 1];
+                            end else begin
+                                currentRamp <= currentRamp - 1;
+                                stepCounter <= timeStep_r[currentRamp - 1];//reset the counters
+                                cycleCounter <= nOfSteps_r[currentRamp - 1];
+                                out <= startPoint_r[currentRamp - 1];
+                            end
+                            
+                            if(useMultipleTriggers && !cleanTrigger)begin
+                                state <= s_waitingForIntermediateTrigger;
+                            end
                         end
                     end else begin
                         //reset counters for next cycle
@@ -179,7 +217,7 @@ always @(posedge clk)begin
                 end
             end
             s_waitingForIntermediateTrigger: begin
-                if(trigger)begin
+                if(cleanTrigger)begin
                     state <= s_running;
                 end
             end

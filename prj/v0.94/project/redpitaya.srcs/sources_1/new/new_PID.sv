@@ -93,8 +93,8 @@ module new_PID #(
    
    // warnings
    
-   output       integralSaturation,
-   output       outSaturation
+   output reg   integralSaturation,
+   output reg   outSaturation
 );
 
 
@@ -148,7 +148,9 @@ FractionalMultiplier
 #(workingBits,totalBits_coeffs-1,workingBits,fracBits_IO,fracBits_I, fracBits_IO)fmi
 (error,set_ki_i,ki_mult);
 
-saturator#(workingBits,totalBits_IO)sat_i(int_sum, int_shr, integralSaturation);
+wire integralSaturation_w;//let's add a register in the middle of the integralSaturation signal (or the timing would become too long)
+saturator#(workingBits,totalBits_IO)sat_i(int_sum, int_shr, integralSaturation_w);
+
 always @(posedge clk_i) begin
    if (rstn_i == 1'b0) begin
       int_reg  <= 0;
@@ -162,6 +164,7 @@ always @(posedge clk_i) begin
          int_reg <= int_shr;
          ki_mult_reg <= ki_mult;
        end
+       integralSaturation <= integralSaturation_w;
    end
 end
 
@@ -216,13 +219,14 @@ wire  [workingBits-1: 0] pid_sum_saturated     ; // biggest posible bit-width
 reg   [totalBits_IO-1: 0] pid_out     ;
 
 assign pid_sum = $signed(kp_reg) + $signed(int_shr) + $signed(kd_reg_s) ;
+wire   outSaturation_w;
 precisionSaturator#(
     .s(workingBits), 
     .maxValue({1'b0,{(totalBits_IO-2){1'b1}},1'b0}))//=MAX_VALUE - 1 (0b0111...1110)
 sat_pid(
     pid_sum, 
     pid_sum_saturated, 
-    outSaturation
+    outSaturation_w
  );
 
 always @(posedge clk_i) begin
@@ -231,6 +235,7 @@ always @(posedge clk_i) begin
    end
    else begin
      pid_out <= pid_sum_saturated;
+     outSaturation <= outSaturation_w;
    end
 end
 

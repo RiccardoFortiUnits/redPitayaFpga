@@ -721,7 +721,7 @@ red_pitaya_pdm pdm (
 //        reset = 0;
 //        in = in + 'h10;
 //        counter = counter + 1;
-//        trigger = (counter[3:0] == 2); 
+//        trigger = (counter[3:3] == 1); 
 //        if (counter[5:0] == 0)begin
 //            conf = conf + 1;
 //        end       
@@ -732,17 +732,18 @@ red_pitaya_pdm pdm (
 //ramp#(
 //    .nOf_ramps(8),
 //	.data_size(8),
-//	.time_size(16)
+//	.time_size(16),
+//	.hinibitionTimeForTrigger(5)
 //)rrrrrrrr(
 //	.clk			(clk),
 //	.reset			(reset),
 //	.trigger		(trigger),
 //	.usedRamps      (3),
-//	.startPoint		({0,8'h0,8'h50}),
-//	.timeStep		({2,16'h0,16'h4}),
-//	.nOfSteps		({2,8'h0,8'h4}),
-//	.stepIncrease	({1,8'h00,8'h10}),
-//	.useMultipleTriggers(0),
+//	.startPoint		({0,8'h20,8'h50}),
+//	.timeStep		({2,16'h3,16'h3}),
+//	.nOfSteps		({2,8'h4,8'h8}),
+//	.stepIncrease	({1,8'h08,8'h10}),
+//	.useMultipleTriggers(1),
 //	.idleConfig		(conf),
 //	.out			(out)
 //);
