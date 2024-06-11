@@ -185,8 +185,7 @@ for(gi = 0; gi < 4; gi = gi + 1)begin
         .timeStep       ({ramp_timeIncremeter[gi][7], ramp_timeIncremeter[gi][6], ramp_timeIncremeter[gi][5], ramp_timeIncremeter[gi][4], ramp_timeIncremeter[gi][3], ramp_timeIncremeter[gi][2], ramp_timeIncremeter[gi][1], ramp_timeIncremeter[gi][0]}),
         .nOfSteps       ({ramp_nOfCycles[gi][7], ramp_nOfCycles[gi][6], ramp_nOfCycles[gi][5], ramp_nOfCycles[gi][4], ramp_nOfCycles[gi][3], ramp_nOfCycles[gi][2], ramp_nOfCycles[gi][1], ramp_nOfCycles[gi][0]}),
         .idleConfig     (ramp_idleConfig[gi]),
-        .out            (ramp_Output[gi]),
-        .isBusy         (isRampBusy[gi])
+        .out            (ramp_Output[gi])
     );
     
     //ADC conditioning

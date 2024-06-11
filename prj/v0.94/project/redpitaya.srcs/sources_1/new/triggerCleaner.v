@@ -21,47 +21,30 @@
 
 
 module triggerCleaner#(
-    parameter nOfHinibitionCycles = 125//1e-6s
+    parameter nOfInhibitionCycles = 125//1e-6s
 )(
     input clk,
     input reset,
     input in,
-    input out
+    output out
 );
-//reg in_r;
-reg [$clog2(nOfHinibitionCycles+1)-1:0] hinibitionCounter;
-//reg outToggled;
-//assign out = in_r & outToggled & (!hinibitionCounter);
-//always @(posedge clk)begin
-//    if(reset)begin
-//        hinibitionCounter <= 0;
-//        outToggled <= 1;
-//        in_r <= 0;
-//    end else begin
-//        in_r <= in;
-//        if(in_r & outToggled & (!hinibitionCounter))begin
-//            hinibitionCounter <= nOfHinibitionCycles;
-//            outToggled <= 0;
-//        end else begin
-//            if(hinibitionCounter)begin
-//                hinibitionCounter <= hinibitionCounter - 1;
-//            end
-//            outToggled <= outToggled | !in;
-//        end
-//    end
-//end
+reg [$clog2(nOfInhibitionCycles+1)-1:0] inhibitionCounter;
+
 localparam  s_idle = 0,
             s_active = 1,
             s_inhibit = 2;
-reg [1:0] state;         // State variable (0: idle, 1: active, 2: inhibit)
+reg [1:0] state;
 reg out_r;     // Register for trigger output
+reg prev_out_r;     // Register for trigger output
 
-always @(posedge clk) begin
+always @(negedge clk) begin
     if(reset)begin
-        hinibitionCounter <= 0;
+        inhibitionCounter <= 0;
         state <= s_idle;
         out_r <= 0;
+        prev_out_r <= 0;
     end else begin
+        prev_out_r <= out_r;
         case (state)
             s_idle: begin
                 // Idle state
@@ -74,13 +57,13 @@ always @(posedge clk) begin
                 // Active state
                 out_r <= 1'b0;
                 state <= s_inhibit;      // Transition to inhibit state
-                hinibitionCounter <= nOfHinibitionCycles;
+                inhibitionCounter <= nOfInhibitionCycles;
             end
             s_inhibit: begin
                 // Inhibit state
                 out_r <= 1'b0;
-                if(hinibitionCounter)begin
-                    hinibitionCounter <= hinibitionCounter - 1;
+                if(inhibitionCounter)begin
+                    inhibitionCounter <= inhibitionCounter - 1;
                 end else if (!in)begin
                     state <= s_idle;  // Transition back to idle state
                 end
@@ -88,7 +71,8 @@ always @(posedge clk) begin
         endcase
     end
 end
-assign out = out_r;
-    
-    
+
+assign out = out_r & !prev_out_r;//somehow, there are still times where 2 
+        //consecutive cycles are outputed. Let's just reject them with a second trigger cleaner
+        
 endmodule
