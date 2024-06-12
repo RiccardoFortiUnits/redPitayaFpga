@@ -34,6 +34,7 @@ localparam  s_idle = 0,
             s_active = 1,
             s_inhibit = 2;
 reg [1:0] state;
+reg in_r;
 reg out_r;     // Register for trigger output
 reg prev_out_r;     // Register for trigger output
 
@@ -43,28 +44,27 @@ always @(negedge clk) begin
         state <= s_idle;
         out_r <= 0;
         prev_out_r <= 0;
+        in_r <= 0;
     end else begin
         prev_out_r <= out_r;
+        in_r <= in;
         case (state)
             s_idle: begin
-                // Idle state
-                if (in) begin
+                if (in_r) begin
                     state <= s_active;  // Transition to active state
                     out_r <= 1'b1;
                 end
             end
             s_active: begin
-                // Active state
                 out_r <= 1'b0;
                 state <= s_inhibit;      // Transition to inhibit state
                 inhibitionCounter <= nOfInhibitionCycles;
             end
             s_inhibit: begin
-                // Inhibit state
                 out_r <= 1'b0;
                 if(inhibitionCounter)begin
                     inhibitionCounter <= inhibitionCounter - 1;
-                end else if (!in)begin
+                end else if (!in_r)begin
                     state <= s_idle;  // Transition back to idle state
                 end
             end

@@ -78,7 +78,7 @@ reg [$clog2(nOf_ramps):0] usedRamps_r;
 //trigger cleaner
 wire cleanTrigger;
 triggerCleaner#(
-	.nOfHinibitionCycles(inhibitionTimeForTrigger)
+	.nOfInhibitionCycles(inhibitionTimeForTrigger)
 )tc(
 	.clk	(clk),
 	.reset  (reset),
@@ -136,7 +136,11 @@ always @(posedge clk)begin
 			if(cleanTrigger)begin
 				state <= s_newRamp;
 			end
-		end else if(state == s_newRamp)begin
+		end else if(state == s_newRamp)begin		
+            if(idleConfig_r == c_inverseRamp)begin
+               startPoint_r[currentRamp] <= out + stepIncrease_r[currentRamp];
+               stepIncrease_r[currentRamp] <= - stepIncrease_r[currentRamp];
+            end
 			if(isLastRamp)begin
 				if(idleConfig_r == c_inverseRamp)begin
 					state <= s_inStep;
