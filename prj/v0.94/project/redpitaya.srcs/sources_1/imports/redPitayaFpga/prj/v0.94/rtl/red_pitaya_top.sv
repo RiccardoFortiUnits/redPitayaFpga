@@ -494,6 +494,8 @@ red_pitaya_pid i_pid (
   .dat_b_i         (adc_dat[1]),  // in 2
   .dat_a_o         (pid_dat[0]),  // out 1
   .dat_b_o         (pid_dat[1]),  // out 2
+  
+  .digitalInputs   ({exp_n_in[7:0],exp_p_in[7:0]}),
   // System bus
   .sys_addr        (sys[3].addr ),
   .sys_wdata       (sys[3].wdata),
@@ -740,10 +742,10 @@ red_pitaya_pdm pdm (
 //	.trigger		(trigger),
 //	.usedRamps      (3),
 //	.startPoint		({0,8'h20,8'h50}),
-//	.timeStep		({2,16'h3,16'h3}),
+//	.timeStep		({6,16'h3,16'h5}),
 //	.nOfSteps		({2,8'h4,8'h8}),
 //	.stepIncrease	({1,8'h08,8'h10}),
-//	.useMultipleTriggers(1),
+//	.useMultipleTriggers(0),
 //	.idleConfig		(conf),
 //	.out			(out)
 //);

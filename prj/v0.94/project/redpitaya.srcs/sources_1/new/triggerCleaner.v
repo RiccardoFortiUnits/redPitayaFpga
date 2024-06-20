@@ -76,3 +76,53 @@ assign out = out_r & !prev_out_r;//somehow, there are still times where 2
         //consecutive cycles are outputed. Let's just reject them with a second trigger cleaner
         
 endmodule
+
+module triggerCleaner_hold_n_release#(
+    parameter nOfInhibitionCycles = 125//1e-6s
+)(
+    input clk,
+    input reset,
+    input in,
+    output reg out
+);
+reg [$clog2(nOfInhibitionCycles+1)-1:0] inhibitionCounter;
+
+localparam  s_idle_0 = 0,
+            s_inhibit_1 = 1,
+            s_inhibit_0 = 2,
+            s_idle_1 = 3;
+reg [1:0] state;
+reg in_r;
+
+always @(negedge clk) begin
+    if(reset)begin
+        inhibitionCounter <= 0;
+        state <= s_idle_0;
+        out <= 0;
+        in_r <= 0;
+    end else begin
+        in_r <= in;
+        if(state == s_idle_0)begin
+            if (in_r) begin
+                state <= s_inhibit_1;  // Transition to active state
+                inhibitionCounter <= nOfInhibitionCycles;
+                out <= 1;
+            end
+        end else if(state == s_idle_1)begin
+            if (!in_r) begin
+                state <= s_inhibit_0;  // Transition to inactive state
+                inhibitionCounter <= nOfInhibitionCycles;
+                out <= 0;
+            end
+        end else begin
+            if(inhibitionCounter)begin
+                inhibitionCounter <= inhibitionCounter - 1;
+            end else begin
+                state <= state == s_inhibit_1 ? s_idle_1 : s_idle_0;  // Transition back to idle state
+                state <= state == s_inhibit_1 ? s_idle_1 : s_idle_0;  // Transition back to idle state
+            end
+        end
+    end
+end
+
+endmodule

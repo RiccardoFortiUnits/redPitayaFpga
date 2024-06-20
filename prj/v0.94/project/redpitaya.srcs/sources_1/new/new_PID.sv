@@ -81,6 +81,7 @@ module new_PID #(
    // data
    input                 clk_i                         ,  // clock
    input                 rstn_i                        ,  // reset - active low
+   input                 stopUpdate                    ,  // the output will remain constant and the integral sum will not update
    input      [ totalBits_IO-1: 0] dat_i               ,  // input data
    output     [ totalBits_IO-1: 0] dat_o               ,  // output data
 
@@ -161,8 +162,10 @@ always @(posedge clk_i) begin
          int_reg <= 0; // reset
          ki_mult_reg <= 0;
       end else begin 
-         int_reg <= int_shr;
-         ki_mult_reg <= ki_mult;
+         if(!stopUpdate)begin
+            int_reg <= int_shr;
+            ki_mult_reg <= ki_mult;
+         end
        end
        integralSaturation <= integralSaturation_w;
    end
@@ -234,8 +237,10 @@ always @(posedge clk_i) begin
       pid_out    <= 0 ;
    end
    else begin
-     pid_out <= pid_sum_saturated;
-     outSaturation <= outSaturation_w;
+     if(!stopUpdate)begin
+         pid_out <= pid_sum_saturated;
+         outSaturation <= outSaturation_w;
+     end
    end
 end
 

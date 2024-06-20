@@ -52,7 +52,9 @@
 
 
 
-module red_pitaya_pid (
+module red_pitaya_pid #(
+    parameter nOfDigitalPinsForTrigger = 16
+)(
    // signals
    input                 clk_i           ,  //!< processing clock
    input                 rstn_i          ,  //!< processing reset - active low
@@ -61,6 +63,7 @@ module red_pitaya_pid (
    output     [ 15-1: 0] dat_a_o         ,  //!< output data CHA  //beware, it has one more bit, so the output will be between -2 and 2
    output     [ 15-1: 0] dat_b_o         ,  //!< output data CHB
   
+   input[nOfDigitalPinsForTrigger-1:0] digitalInputs,
    // system bus
    input      [ 32-1: 0] sys_addr        ,  //!< bus address
    input      [ 32-1: 0] sys_wdata       ,  //!< bus write data
@@ -77,7 +80,7 @@ localparam  PSR = 12         ;
 localparam  ISR = 24         ;
 localparam  DSR = 10         ;
 
-parameter led_feedbackType0         = 0,
+localparam led_feedbackType0         = 0,
           led_feedbackType1         = 1,
           led_delay                 = 2,
           led_filter                = 3,
@@ -88,13 +91,13 @@ parameter led_feedbackType0         = 0,
 
 //---------------------------------------------------------------------------------
 //  PID 11
-parameter totalBits_coeffs = 28;
-parameter fracBits_coeffs = 20;
-parameter totalBits_IO = 24;
-parameter wholeBits_IO = 14;
-parameter fracBits_IO = totalBits_IO-wholeBits_IO;
-parameter wholeBitsAfterPID_IO = 15;
-parameter fracBitsAfterPID_IO = totalBits_IO-wholeBitsAfterPID_IO;
+localparam totalBits_coeffs = 28;
+localparam fracBits_coeffs = 20;
+localparam totalBits_IO = 24;
+localparam wholeBits_IO = 14;
+localparam fracBits_IO = totalBits_IO-wholeBits_IO;
+localparam wholeBitsAfterPID_IO = 15;
+localparam fracBitsAfterPID_IO = totalBits_IO-wholeBitsAfterPID_IO;
 wire [ totalBits_IO-1: 0] dat_pidded   ;
 wire [ totalBits_IO-1: 0] dat_pidded_opposite;
 wire [ wholeBitsAfterPID_IO-1: 0] pid_11_out   ;
@@ -143,6 +146,10 @@ wire [totalBits_IO-1:0] dat_genFilterOut;
 wire [totalBits_IO-1:0] dat_genFilterOut_opposite;
 wire [totalBits_IO-1:0] dat_linearizedOut;
 
+reg usePID_disableTrigger;
+reg [$clog2(nOfDigitalPinsForTrigger)-1:0] PID_disableTriggerIdx;
+wire PID_disableTrigger;
+
 assign dat_commonModeRemoved = removeCommonMode ? dat_a_i - dat_b_i : dat_a_i;
 
 assign pid_11_out = dat_linearized[fracBitsAfterPID_IO+wholeBitsAfterPID_IO-1:fracBitsAfterPID_IO];
@@ -156,12 +163,18 @@ feedbackAdder#(totalBits_IO) fba(
     .out(dat_WithFeedback)
     );
     
+triggerCleaner_hold_n_release tc_hnr(
+    .clk		(clk_i),
+    .reset		(!rstn_i),
+    .in			(usePID_disableTrigger & digitalInputs[PID_disableTriggerIdx]),
+    .out		(PID_disableTrigger)
+);
 
 always @(*)begin
-    dat_genFiltered = use_genFilter ? dat_genFilterOut : dat_WithFeedback;
-    dat_genFiltered_opposite = use_genFilter ? dat_genFilterOut_opposite : dat_WithFeedback;
-    dat_linearized = use_linearizer ? dat_linearizedOut : dat_pidded;
-    dat_linearized_opposite = dat_pidded_opposite;
+    dat_genFiltered <= use_genFilter ? dat_genFilterOut : dat_WithFeedback;
+    dat_genFiltered_opposite <= use_genFilter ? dat_genFilterOut_opposite : dat_WithFeedback;
+    dat_linearized <= use_linearizer ? dat_linearizedOut : dat_pidded;
+    dat_linearized_opposite <= dat_pidded_opposite;
 end
 
 wire pidSaturation, pidSaturation1, pidSaturation2;
@@ -199,6 +212,7 @@ new_PID #(
    // data
   .clk_i        (  clk_i          ),  // clock
   .rstn_i       (  pidReset         ),  // reset - active low
+  .stopUpdate   (  PID_disableTrigger),
   .dat_i        (  {dat_genFiltered[totalBits_IO-1], dat_genFiltered[totalBits_IO-1:1]}),  // input data, 
                                          //shifted by one, so that it has the new amount of whole bits for the PID
   .dat_o        (  dat_pidded     ),  // output data
@@ -225,6 +239,7 @@ new_PID #(
    // data
   .clk_i        (  clk_i          ),  // clock
   .rstn_i       (  pidReset         ),  // reset - active low
+  .stopUpdate   (  stopUpdate),
   .dat_i        (  dat_genFiltered_opposite   ),  // input data
   .dat_o        (  dat_pidded_opposite     ),  // output data
 
@@ -387,9 +402,9 @@ integer i;
 reg  [totalBits_coeffs-1:0] coeffs[max_nOfCoefficients-1:0];
 reg [7:0] numDenSplit;
 
-parameter addr_numDenSplit = 'h60;
-parameter addr_coeffs = 'h64;
-parameter addr_linearizerCoeffs = 'hA0;
+localparam addr_numDenSplit = 'h60;
+localparam addr_coeffs = 'h64;
+localparam addr_linearizerCoeffs = 'hA0;
 
 discreteFilter #(
    .totalBits_IO               (totalBits_IO    ),
@@ -455,6 +470,8 @@ always @(posedge clk_i) begin
             asg_qs[i] <= 0;
             asg_ms[i] <= 0;
       end
+      PID_disableTriggerIdx <= 0;
+      usePID_disableTrigger <= 0;
 `else
       saturationConfiguration <= 0;
       use_linearizer <= 0;
@@ -498,7 +515,9 @@ always @(posedge clk_i) begin
             asg_edges[i] <= 0;
             asg_qs[i] <= 0;
             asg_ms[i] <= 0;
-      end      
+      end
+      PID_disableTriggerIdx <= 0;
+      usePID_disableTrigger <= 0;
 `endif
    end
    else begin
@@ -507,6 +526,7 @@ always @(posedge clk_i) begin
          
          if (sys_addr[19:0]==16'h4)    {removeCommonMode, saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback}  <= sys_wdata[1+2+1+10+1+1+1+2-1:0] ;
          if (sys_addr[19:0]==16'h8)     filterCoefficient  <= {{16{sys_wdata[32-1]}},sys_wdata[30-1:0]};
+         if (sys_addr[19:0]==16'hC)     {PID_disableTriggerIdx, usePID_disableTrigger}  <= sys_wdata;
          
          if (sys_addr[19:0]==16'h10)    set_11_sp  <= sys_wdata[totalBits_coeffs-1:0] ;
          if (sys_addr[19:0]==16'h14)    set_11_kp  <= sys_wdata[totalBits_coeffs-1:0] ;
@@ -555,6 +575,7 @@ end else begin
 
 		20'h04 : begin  sys_rdata <= {{(32-(1+2+1+10+1+1+1+2)){1'b0}}, removeCommonMode, saturationConfiguration, use_linearizer, use_genFilter, use_lpFilter, fakeDelay, use_fakeDelay, use_feedback};end
 		20'h08 : begin  sys_rdata <= {{32-30{1'b0}}, filterCoefficient};end
+        20'h0C : begin  sys_rdata <= {PID_disableTriggerIdx, usePID_disableTrigger}; end
 
 		20'h10 : begin sys_rdata <= set_11_sp          ; end 
 		20'h14 : begin sys_rdata <= set_11_kp          ; end 
