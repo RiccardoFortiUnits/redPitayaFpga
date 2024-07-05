@@ -320,7 +320,7 @@ sys_bus_interconnect #(
 
 // silence unused busses
 generate
-for (genvar i=6; i<8; i++) begin: for_sys
+for (genvar i=7; i<8; i++) begin: for_sys
   sys_bus_stub sys_bus_stub_5_7 (sys[i]);
 end: for_sys
 endgenerate
@@ -485,15 +485,12 @@ assign gpio.i[3*GDW-1:2*GDW] = exp_n_in[GDW-1:0];
 ////////////////////////////////////////////////////////////////////////////////
 reg [7:0] leds;
 
-`ifndef debug
-red_pitaya_pid i_pid (
+red_pitaya_pid i_pida (
    // signals
   .clk_i           (adc_clk   ),  // clock
   .rstn_i          (adc_rstn  ),  // reset - active low
   .dat_a_i         (adc_dat[0]),  // in 1
-  .dat_b_i         (adc_dat[1]),  // in 2
   .dat_a_o         (pid_dat[0]),  // out 1
-  .dat_b_o         (pid_dat[1]),  // out 2
   
   .digitalInputs   ({exp_n_in[7:0],exp_p_in[7:0]}),
   // System bus
@@ -504,43 +501,28 @@ red_pitaya_pid i_pid (
   .sys_rdata       (sys[3].rdata),
   .sys_err         (sys[3].err  ),
   .sys_ack         (sys[3].ack  ),
-  .led_o           (leds)  // LED output
+  .led_o           (leds[3:0])  // LED output
 );
-`else
 
-reg clk;
-reg reset;
-initial begin
-    clk = 0;
-    reset = 1;
-    while(1)begin
-        #10;
-        clk = ~clk;
-        #10;
-        clk = ~clk;
-        reset = 0;
-    end
-end
-red_pitaya_pid i_pid (
+red_pitaya_pid i_pidb (
    // signals
-  .clk_i           (clk   ),  // clock
-  .rstn_i          (!reset  ),  // reset - active low
-  .dat_a_i         (14'h0800),  // in 1
-  .dat_b_i         (14'h0000),  // in 2
-  .dat_a_o         (pid_dat[0]),  // out 1
-  .dat_b_o         (pid_dat[1]),  // out 2
+  .clk_i           (adc_clk   ),  // clock
+  .rstn_i          (adc_rstn  ),  // reset - active low
+  .dat_a_i         (adc_dat[1]),  // in 2
+  .dat_a_o         (pid_dat[1]),  // out 2
+  
+  .digitalInputs   ({exp_n_in[7:0],exp_p_in[7:0]}),
   // System bus
-  .sys_addr        (0),
-  .sys_wdata       (0),
-  .sys_wen         (0),
-  .sys_ren         (0),
-  .sys_rdata       (sys[3].rdata),
-  .sys_err         (sys[3].err  ),
-  .sys_ack         (sys[3].ack  ),
-  .led_o           (leds)  // LED output
+  .sys_addr        (sys[6].addr ),
+  .sys_wdata       (sys[6].wdata),
+  .sys_wen         (sys[6].wen  ),
+  .sys_ren         (sys[6].ren  ),
+  .sys_rdata       (sys[6].rdata),
+  .sys_err         (sys[6].err  ),
+  .sys_ack         (sys[6].ack  ),
+  .led_o           (leds[7:4])  // LED output
 );
 
-`endif
 assign led_o = leds;
 
 ////////////////////////////////////////////////////////////////////////////////

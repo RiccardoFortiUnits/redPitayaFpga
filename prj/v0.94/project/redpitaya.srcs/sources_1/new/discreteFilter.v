@@ -35,7 +35,8 @@ module discreteFilter#(
         output signed [totalBits_IO-1:0] out,
         
         input signed [max_nOfCoefficients-1:0][totalBits_coeffs-1:0] coefficients,
-        input  [7:0] denNumSplit//should be higher than 0 (you need at least one coefficient that uses the input)
+        input  [$clog2(max_nOfCoefficients+1)-1:0] denNumSplit//should be higher than 0 (you need at least one coefficient that uses the input)
+
     );
     
     //implementation of a generic filter in the form y[n] = b0x[n]+b1x[n-1]+...bk[n-k] + a1y[n-1]+...ahy[n-h], or 
