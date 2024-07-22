@@ -41,10 +41,10 @@ module red_pitaya_hk #(
   output reg [  3-1:0] daisy_mode_o,
   // Expansion connector
   input      [DWE-1:0] exp_p_dat_i,  // exp. con. input data
-  output reg [DWE-1:0] exp_p_dat_o,  // exp. con. output data
+  output [DWE-1:0] exp_p_dat_o,  // exp. con. output data
   output reg [DWE-1:0] exp_p_dir_o,  // exp. con. 1-output enable
   input      [DWE-1:0] exp_n_dat_i,  //
-  output reg [DWE-1:0] exp_n_dat_o,  //
+  output [DWE-1:0] exp_n_dat_o,  //
   output reg [DWE-1:0] exp_n_dir_o,  //
   input      [ 32-1:0] diag_i     ,
   // System bus
@@ -56,7 +56,28 @@ module red_pitaya_hk #(
   output reg           sys_err    ,  // bus error indicator
   output reg           sys_ack       // bus acknowledge signal
 );
+wire [DWE*2-1:0] allInputPins = {exp_p_dat_i, exp_n_dat_i};
+reg [DWE-1:0] exp_p_dat_o_reg;
+reg [DWE-1:0] exp_n_dat_o_reg;
+reg [DWE-1:0] exp_use_fastSwitch;//if exp_use_fastSwitch[i] is active, exp_n[i] and exp_p[i] will output an opposite switch
+reg[7:0] nOfActivePeriods, nOfInactivePeriods, switchPhase;
+reg[3:0] triggerPin;
+wire fastSwitchOutputs[1:0];
+doubleFastSwitcher_phased#(
+    .maxPeriods(255)
+)fs(
+    .clk(clk_i),
+    .reset(!rstn_i),
+    .trigger(allInputPins[triggerPin]),
+    .nOfPeriodsActive(nOfActivePeriods),
+    .nOfPeriodsInactive(nOfInactivePeriods),
+    .phase(switchPhase),
+    .out1(fastSwitchOutputs[0]),
+    .out2(fastSwitchOutputs[1])
+);
 
+assign exp_p_dat_o = (exp_use_fastSwitch & {DWE{fastSwitchOutputs[0]}}) | ((~exp_use_fastSwitch) & exp_p_dat_o_reg);
+assign exp_n_dat_o = (exp_use_fastSwitch & {DWE{fastSwitchOutputs[1]}}) | ((~exp_use_fastSwitch) & exp_n_dat_o_reg);
 //---------------------------------------------------------------------------------
 //
 //  Read device DNA
@@ -132,19 +153,26 @@ if (rstn_i == 1'b0) begin
   digital_loop <= 1'b0;
   daisy_mode_o <= 3'h0;
   led_o        <= {DWL{1'b0}};
-  exp_p_dat_o  <= {DWE{1'b0}};
+  exp_p_dat_o_reg  <= {DWE{1'b0}};
   exp_p_dir_o  <= {DWE{1'b0}};
-  exp_n_dat_o  <= {DWE{1'b0}};
+  exp_n_dat_o_reg  <= {DWE{1'b0}};
   exp_n_dir_o  <= {DWE{1'b0}};
+  nOfActivePeriods <= 0;
+  nOfInactivePeriods <= 0;
+  exp_use_fastSwitch <= 0;
+  triggerPin <= 0;
+  switchPhase <= 0;
 end else if (sys_wen) begin
   if (sys_addr[19:0]==20'h0c)   digital_loop <= sys_wdata[0];
 
   if (sys_addr[19:0]==20'h10)   exp_p_dir_o  <= sys_wdata[DWE-1:0];
   if (sys_addr[19:0]==20'h14)   exp_n_dir_o  <= sys_wdata[DWE-1:0];
-  if (sys_addr[19:0]==20'h18)   exp_p_dat_o  <= sys_wdata[DWE-1:0];
-  if (sys_addr[19:0]==20'h1C)   exp_n_dat_o  <= sys_wdata[DWE-1:0];
+  if (sys_addr[19:0]==20'h18)   exp_p_dat_o_reg  <= sys_wdata[DWE-1:0];
+  if (sys_addr[19:0]==20'h1C)   exp_n_dat_o_reg  <= sys_wdata[DWE-1:0];
 
-  if (sys_addr[19:0]==20'h30)   led_o        <= sys_wdata[DWL-1:0];
+  if (sys_addr[19:0]==20'h30)   {led_o} <= sys_wdata;
+  if (sys_addr[19:0]==20'h34)   {triggerPin, exp_use_fastSwitch, nOfInactivePeriods, nOfActivePeriods} <= sys_wdata;
+  if (sys_addr[19:0]==20'h38)   {switchPhase} <= sys_wdata;
   if (sys_addr[19:0]==20'h1000) daisy_mode_o <= sys_wdata[  3-1:0];
 end
 
@@ -166,14 +194,15 @@ end else begin
 
     20'h00010: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_p_dir_o}       ; end
     20'h00014: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_n_dir_o}       ; end
-    20'h00018: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_p_dat_o}       ; end
-    20'h0001C: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_n_dat_o}       ; end
+    20'h00018: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_p_dat_o_reg}       ; end
+    20'h0001C: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_n_dat_o_reg}       ; end
     20'h00020: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_p_dat_i}       ; end
     20'h00024: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWE{1'b0}}, exp_n_dat_i}       ; end
     20'h0002C: begin sys_ack <= sys_en;  sys_rdata <= {                diag_i     }       ; end
 
-    20'h00030: begin sys_ack <= sys_en;  sys_rdata <= {{32-DWL{1'b0}}, led_o}             ; end
-
+    20'h00030: begin sys_ack <= sys_en;  sys_rdata <= { led_o}             ; end
+    20'h00034: begin sys_ack <= sys_en;  sys_rdata <= { triggerPin, exp_use_fastSwitch, nOfInactivePeriods, nOfActivePeriods}             ; end
+    20'h00038: begin sys_ack <= sys_en;  sys_rdata <= { switchPhase}             ; end
     20'h00100: begin sys_ack <= sys_en;  sys_rdata <= {{32-  1{1'b0}}, fpga_rdy}          ; end
     20'h01000: begin sys_ack <= sys_en;  sys_rdata <= {{32-  3{1'b0}}, daisy_mode_o}      ; end
     default: begin sys_ack <= sys_en;  sys_rdata <=  32'h0                              ; end
